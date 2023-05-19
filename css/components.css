@@ -1,0 +1,34 @@
+app-taskbar {
+    background: #222;
+    z-index: 9999999999999999;
+}
+
+app-window {
+    --maximized-top: 30px;
+    --titlebar-color: #111;
+    --titlebar-controls-color: #eee;
+    background: #222;
+    left: 20px;
+    top: 50px;
+    width: 50%;
+    height: calc(100% - 80px);
+}
+
+video-preview {
+    background: #111;
+    color: #eee;
+}
+
+app-window iframe {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 30px);
+    border: none;
+    box-sizing: border-box;
+}
+
+body[dragging] app-window iframe {
+    pointer-events: none;
+}

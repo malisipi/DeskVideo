@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeskTube</title>
+    <script src="./js/components/app-taskbar.js"></script>
+    <script src="./js/components/app-window.js"></script>
+    <script src="./js/components/video-preview.js"></script>
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/general.css">
+    <script src="./js/backend-api.js"></script>
+    <script src="./js/desktube.js"></script>
+    <script type="module" src="./js/fluent-components.js"></script>
+</head>
+<body trends>
+	<app-taskbar position="top" start="📺" search="🔍" onstart="dt.toggle.trends" onsearch="dt.toggle.search"></app-taskbar>
+	<div class="dt-trends"><span style="color: white;">Loading...</span></div>
+    <div class="dt-search">
+        <div class="search">
+            <fluent-text-field class="search" appearance="outline" placeholder="Search Videos"></fluent-text-field>
+            <fluent-button appearance="accent" onclick="dt.render.search();">Search</fluent-button>
+        </div>
+        <div class="videos"></div>
+    </div>
+</body>
+</html>
