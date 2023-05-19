@@ -9,6 +9,10 @@ video {
     width: 100%;
     height: calc(100% - 80px);
     background: #000;
+    -webkit-app-region: drag;
+    app-region: drag;
+    z-index: -1;
+
 }
 
 fluent-button img.fi{
@@ -27,6 +31,8 @@ fluent-button img.fi{
     column-gap: 4px;
     padding: 0 14px;
     box-sizing: border-box;
+    -webkit-app-region: no-drag;
+    app-region: no-drag;
 }
 
 .playrate {

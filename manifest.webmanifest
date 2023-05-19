@@ -1,0 +1,30 @@
+{
+    "short_name": "DeskTube",
+    "name": "DeskTube",
+    "icons": [
+      {
+        "src": "./assets/Vector.svg",
+        "type": "image/svg+xml",
+        "sizes": "512x512"
+      },
+      {
+        "src": "./assets/192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "./assets/512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "./?pwa=true",
+    "background_color": "#484b6a",
+    "display": "standalone",
+    "scope": "./",
+    "theme_color": "#484b6a",
+    "shortcuts": [],
+    "description": "DeskTube",
+    "screenshots": [],
+    "display_override": ["window-controls-overlay"]
+}

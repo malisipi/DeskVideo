@@ -65,11 +65,13 @@ class extends HTMLElement {
 
             .windows {
                 width: 100%;
+                -webkit-app-region: drag;
+                app-region: drag;
             }
 
             & button {
                 width: 40px;
-                height: 30px;
+                height: inherit;
                 background: none;
                 border: none;
                 color: var(--color);

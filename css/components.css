@@ -3,6 +3,11 @@ app-taskbar {
     z-index: 9999999999999999;
     --color: #eee;
     --dark-images: 1;
+
+    @media (display-mode: window-controls-overlay) { 
+        width: env(titlebar-area-width, 100%);
+        height: env(titlebar-area-height, 30px);
+    }
 }
 
 app-window {
