@@ -91,6 +91,13 @@ class extends HTMLElement {
         });
     }
 
+    set onminimize(source) {
+    	let titlebar_control = this.shadowRoot.querySelector(".app-titlebar--minimize");
+    	titlebar_control.addEventListener("click", (e, _source=source, _this=this) => {
+    	    _source(_this);
+    	});
+    }
+
     constructor() {
         super();
         this.attachShadow({mode: "open"});

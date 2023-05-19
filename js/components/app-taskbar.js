@@ -7,6 +7,7 @@ class extends HTMLElement {
     #start_button;
     #search_button;
     #windows;
+    #new_id = 0;
 
     #get_event_handler = (function_name) => {
         let func = window;
@@ -15,6 +16,22 @@ class extends HTMLElement {
             func = func[path_list[path_index]];
         }
         return func;
+    }
+
+    new_window = (title, event_handler) => {
+    	let button = document.createElement("button");
+    	let id = this.#new_id;
+    	this.#new_id += 1;
+    	button.addEventListener("click", (e, _id=id, _handler=event_handler) => {
+    		_handler(_id);
+    	});
+    	button.className = "window w"+id;
+    	button.innerText = title;
+    	this.#windows.append(button);
+    }
+
+    remove_window = (id) => {
+    	this.#windows.querySelector(".window.w"+id).remove();
     }
 
     constructor() {
@@ -75,6 +92,14 @@ class extends HTMLElement {
                 background: none;
                 border: none;
                 color: var(--color);
+                overflow: hidden;
+                white-space: nowrap;
+                display: flex;
+                align-items: center;
+
+                &.window {
+                	width: 120px;
+                }
                 
                 &:hover {
                     background: #fff2

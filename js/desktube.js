@@ -65,6 +65,12 @@ var dt = {
 			let iframe = document.createElement("iframe");
 			iframe.src = "./windows/player.html?id="+id+"&embed=true";
 			dt.init.window(video_window);
+			video_window.onminimize = (_window=video_window, _title=title) => {
+				document.querySelector("app-taskbar").new_window(title, (_id, __window=_window) => {
+					__window.removeAttribute("minimized");
+					document.querySelector("app-taskbar").remove_window(_id);
+				});
+			}
 			video_window.append(iframe);
 		}
 	},
