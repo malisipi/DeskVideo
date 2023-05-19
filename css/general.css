@@ -18,13 +18,16 @@ body {
     box-sizing: border-box;
     z-index: 9999999999999999;
     background: inherit;
-}
 
-.dt-search .search {
-    display: flex;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    .search-container {
+        display: flex;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding: 4px;
+        gap: 4px;
+        justify-content: center;
+    }
 }
 
 body[search] .dt-search {
@@ -36,16 +39,16 @@ body[trends] .dt-trends, body[search] .dt-search .videos {
     grid-template-columns: auto;
     justify-items: center;
     grid-gap: 20px;
-}
 
-@media (min-width: 650px) {
-    body[trends] .dt-trends, body[search] .dt-search .videos {
+    @media (min-width: 650px) {
         grid-template-columns: auto auto;
     }
-}
 
-@media (min-width: 1000px) {
-    body[trends] .dt-trends, body[search] .dt-search .videos {
+    @media (min-width: 1000px) {
         grid-template-columns: auto auto auto;
+    }
+
+    @media (min-width: 1350px) {
+        grid-template-columns: auto auto auto auto;
     }
 }

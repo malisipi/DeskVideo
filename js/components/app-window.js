@@ -77,6 +77,20 @@ class extends HTMLElement {
         this.#titlebar_title.innerText = source;
     };
 
+    set extra(source) {
+        let titlebar_control = this.shadowRoot.querySelector(".app-titlebar--extra");
+        titlebar_control.style.maskImage = "url(\""+source+"\")";
+        titlebar_control.style.webkitMaskImage = "url(\""+source+"\")";
+        titlebar_control.style.display = "block";
+    }
+
+    set onextra(source) {
+        let titlebar_control = this.shadowRoot.querySelector(".app-titlebar--extra");
+        titlebar_control.addEventListener("click", (e, _source=source, _this=this) => {
+            _source(_this);
+        });
+    }
+
     constructor() {
         super();
         this.attachShadow({mode: "open"});
@@ -87,7 +101,7 @@ class extends HTMLElement {
 
         this.#titlebar = document.createElement("div");
         this.#titlebar.className = "app-titlebar";
-        this.shadowRoot.append(this.#titlebar);
+        this.#root.append(this.#titlebar);
 
         this.#set_movable(this);
 
@@ -100,7 +114,7 @@ class extends HTMLElement {
         titlebar_controls.className = "app-titlebar--controls"
         this.#titlebar.append(titlebar_controls);
 
-        ["minimize","maximize","restore","close"].forEach(e => {
+        ["extra","minimize","maximize","restore","close"].forEach(e => {
             let titlebar_control = document.createElement("div");
             titlebar_control.className = "app-titlebar--"+e;
             titlebar_control.style.maskImage = "url(\""+this.#icons[e]+"\")";
@@ -178,7 +192,7 @@ class extends HTMLElement {
             align-items: center;
         }
 
-        .app-titlebar--minimize, .app-titlebar--maximize, .app-titlebar--restore, .app-titlebar--close {
+        .app-titlebar--minimize, .app-titlebar--maximize, .app-titlebar--restore, .app-titlebar--close, .app-titlebar--extra {
             background-color: var(--titlebar-controls-color);
             height: 16px;
             width: 50px;
@@ -204,7 +218,7 @@ class extends HTMLElement {
             border-radius: 0px;
         }
 
-        .app-titlebar--restore {
+        .app-titlebar--restore, .app-titlebar--extra {
             display: none;
         }
 

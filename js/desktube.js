@@ -36,6 +36,7 @@ var dt = {
 			document.body.append(video_window);
 			let iframe = document.createElement("iframe");
 			iframe.src = "./windows/player.html?id="+id+"&embed=true";
+			dt.init.window(video_window);
 			video_window.append(iframe);
 		}
 	},
@@ -76,9 +77,28 @@ var dt = {
 				videos.append(vt);
 			});
 		}
+	},
+	init:{
+		taskbar: () => {
+			let button = document.createElement("button");
+			button.addEventListener("click",()=>{console.log('hi');})
+			document.querySelector("app-taskbar").shadowRoot.querySelector(".root").append(button);
+
+			let image = document.createElement("img");
+			image.src = "./node_modules/@fluentui/svg-icons/icons/window_16_regular.svg";
+			button.append(image);
+		},
+		window: (_window) => {
+			_window.extra = "./node_modules/@fluentui/svg-icons/icons/window_16_regular.svg";
+			_window.onextra = (__window) => {
+				window.open(__window.querySelector("iframe").src, "_blank", "popup=yes");
+				__window.remove();
+			};
+		}
 	}
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+	dt.init.taskbar();
 	dt.render.trends();
 });

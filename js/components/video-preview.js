@@ -76,44 +76,44 @@ class extends HTMLElement {
             bottom: 0;
             width: 100%;
             height: 100%;
-        }
 
-        .thumbnail {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-            width: calc(100% - 20px);
-            height: calc(100% - 80px);
-            border-radius: 5px;
-            object-fit: cover;
-        }
-
-        .title {
-            position: absolute;
-            left: 10px;
-            bottom: 40px;
-            width: calc(100% - 20px);
-            height: 20px;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .author {
-            position: absolute;
-            left: 10px;
-            bottom: 20px;
-            width: calc(50% - 10px);
-            height: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            & .thumbnail {
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                width: calc(100% - 20px);
+                height: calc(100% - 80px);
+                border-radius: 5px;
+                object-fit: cover;
+            }
+    
+            & .title {
+                position: absolute;
+                left: 10px;
+                bottom: 40px;
+                width: calc(100% - 20px);
+                height: 20px;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+    
+            & .author {
+                position: absolute;
+                left: 10px;
+                bottom: 20px;
+                width: calc(50% - 10px);
+                height: 20px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
         `;
         

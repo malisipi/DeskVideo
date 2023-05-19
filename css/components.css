@@ -1,6 +1,8 @@
 app-taskbar {
     background: #222;
     z-index: 9999999999999999;
+    --color: #eee;
+    --dark-images: 1;
 }
 
 app-window {

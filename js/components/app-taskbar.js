@@ -6,6 +6,7 @@ class extends HTMLElement {
     #root;
     #start_button;
     #search_button;
+    #windows;
 
     #get_event_handler = (function_name) => {
         let func = window;
@@ -36,7 +37,9 @@ class extends HTMLElement {
         })
         this.#root.append(this.#search_button);
 
-        this.#root.append(document.createElement('slot'));
+        this.#windows = document.createElement("div");
+        this.#windows.className = "windows"
+        this.#root.append(this.#windows);
 
         let style = document.createElement("style");
 
@@ -48,6 +51,8 @@ class extends HTMLElement {
             width: 100%;
             height: 30px;
             background: #cccccc;
+            --color: #222222;
+            --dark-images: 0;
         }
 
         .root {
@@ -56,6 +61,27 @@ class extends HTMLElement {
             bottom: 0;
             width: 100%;
             height: 100%;
+            display: flex;
+
+            .windows {
+                width: 100%;
+            }
+
+            & button {
+                width: 40px;
+                height: 30px;
+                background: none;
+                border: none;
+                color: var(--color);
+                
+                &:hover {
+                    background: #fff2
+                }
+
+                & img {
+                    filter: invert(var(--dark-images));
+                }
+            }
         }
 
         :host([position="top"]){
@@ -65,26 +91,20 @@ class extends HTMLElement {
         :host([position="bottom"]){
         	bottom: 0px;
         }
-
-        button {
-            width: 40px;
-            height: 30px;
-            background: none;
-            border: none;
-        }
-
-        button:hover {
-            background: #fff2
-        }
         `;
         
         this.shadowRoot.append(style);
     }
     
     connectedCallback() {
-    	this.#start_button.innerText = this.getAttribute("start");
+        let start_image = document.createElement("img")
+        start_image.src = this.getAttribute("start");
+    	this.#start_button.append(start_image);
     	this.removeAttribute("start");
-    	this.#search_button.innerText = this.getAttribute("search");
+
+    	let search_image = document.createElement("img")
+        search_image.src = this.getAttribute("search");
+    	this.#search_button.append(search_image);
     	this.removeAttribute("search");
     }
 }
