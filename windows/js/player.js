@@ -48,6 +48,7 @@ var dt = {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    dt.broadcast.channels.clients.onmessage = dt.broadcast.listeners.clients;
     let url_parameters = new URLSearchParams(window.location.search);
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
@@ -58,4 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let controls = document.querySelector(".controls");
     controls.querySelector(".play").addEventListener("click", dt.controls.play);
     controls.querySelector(".pip").addEventListener("click", dt.controls.pip);
+    
+    window.addEventListener("beforeunload", function(e){
+        dt.broadcast.post({type:"close", id:0});
+    }, false);
 });

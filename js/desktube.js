@@ -1,6 +1,33 @@
 "use strict";
 
 var dt = {
+	killed_by_another_host: false,
+	broadcast:{
+		channels: {
+			host: new BroadcastChannel("host"),
+			clients: new BroadcastChannel("clients")
+		},
+		listeners: {
+			host: (e) => {
+				if (location.origin!=e.origin) return;
+
+				if (e.data.type=="close"){
+					console.warn("Close window:"+e.data.id);
+				} else if (e.data.type=="host_search"){
+					dt.broadcast.post({
+						type: "host_shutdown"
+					}, dt.broadcast.channels.host);
+				} else if (e.data.type=="host_shutdown"){
+					dt.killed_by_another_host = true;
+					window.close();
+					location.href = "data:text/html, Another host is already working!";
+				}
+			}
+		},
+		post: (event, target = dt.broadcast.channels.clients) => {
+			target.postMessage(event);
+		}
+	},
 	hide_all: skip => {
 		let list = ["trends", "search"];
 		for(let item_index in list){
@@ -29,10 +56,11 @@ var dt = {
 		}
 	},
 	open: {
-		video: async (id, title="") => {
+		video: async (id, title="", popup=false) => {
 			dt.hide_all();
 			let video_window = document.createElement("app-window");
 			video_window.title = title;
+			video_window.className = "video";
 			document.body.append(video_window);
 			let iframe = document.createElement("iframe");
 			iframe.src = "./windows/player.html?id="+id+"&embed=true";
@@ -99,6 +127,14 @@ var dt = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+	dt.broadcast.channels.host.onmessage = dt.broadcast.listeners.host;
 	dt.init.taskbar();
 	dt.render.trends();
+	dt.broadcast.post({
+		type: "host_search"
+	}, dt.broadcast.channels.host);
+
+    window.addEventListener("beforeunload", function(e){
+        if(!killed_by_another_host) dt.broadcast.post({type:"host_shutdown"});
+    }, false);
 });

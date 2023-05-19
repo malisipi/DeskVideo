@@ -1,12 +1,20 @@
+body {
+    --taskbar-height: 30px;
+
+    @media (display-mode: window-controls-overlay) { 
+        --taskbar-height: env(titlebar-area-height, 30px);
+    }
+}
+
 app-taskbar {
     background: #222;
     z-index: 9999999999999999;
     --color: #eee;
     --dark-images: 1;
+    height: var(--taskbar-height);
 
     @media (display-mode: window-controls-overlay) { 
         width: env(titlebar-area-width, 100%);
-        height: env(titlebar-area-height, 30px);
     }
 }
 
@@ -19,6 +27,17 @@ app-window {
     top: 50px;
     width: 50%;
     height: calc(100% - 80px);
+}
+
+app-window.video {
+    left: 0;
+    top: var(--taskbar-height);
+    width: calc(100% - 300px);
+    height: calc(calc(100% - 300px) - var(--taskbar-height));
+
+    @media (max-width: 850px) {
+        width: 100%;
+    }
 }
 
 video-preview {

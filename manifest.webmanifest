@@ -19,10 +19,10 @@
       }
     ],
     "start_url": "./?pwa=true",
-    "background_color": "#484b6a",
+    "background_color": "#222222",
     "display": "standalone",
     "scope": "./",
-    "theme_color": "#484b6a",
+    "theme_color": "#222222",
     "shortcuts": [],
     "description": "DeskTube",
     "screenshots": [],
