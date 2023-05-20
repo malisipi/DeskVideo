@@ -85,6 +85,11 @@ class extends HTMLElement {
                 -webkit-app-region: drag;
                 app-region: drag;
                 display: flex;
+                overflow-x: scroll;
+
+                &::-webkit-scrollbar {
+                    height: 0;
+                }
             }
 
             & button {
@@ -100,7 +105,9 @@ class extends HTMLElement {
                 justify-content: center;
 
                 &.window {
+                	min-width: 120px;
                 	width: 120px;
+                    justify-content: left;
                     -webkit-app-region: no-drag;
                     app-region: no-drag;
                 }
