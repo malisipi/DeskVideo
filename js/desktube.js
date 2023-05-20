@@ -1,7 +1,7 @@
 "use strict";
 
 var dt = {
-	killed_by_another_host: false,
+	mobile: !!navigator.userAgentData?.mobile,
 	broadcast:{
 		channels: {
 			host: new BroadcastChannel("host"),
@@ -18,7 +18,6 @@ var dt = {
 						type: "host_shutdown"
 					}, dt.broadcast.channels.host);
 				} else if (e.data.type=="host_shutdown"){
-					dt.killed_by_another_host = true;
 					window.close();
 					location.href = "data:text/html, Another host is already working!";
 				}
@@ -123,6 +122,7 @@ var dt = {
 			button.append(image);
 		},
 		window: (_window) => {
+			if(dt.mobile) return;
 			_window.extra = "./node_modules/@fluentui/svg-icons/icons/window_16_regular.svg";
 			_window.onextra = (__window) => {
 				window.open(__window.querySelector("iframe").src, "_blank", "popup=yes");
@@ -139,8 +139,4 @@ document.addEventListener("DOMContentLoaded", () => {
 	dt.broadcast.post({
 		type: "host_search"
 	}, dt.broadcast.channels.host);
-
-    window.addEventListener("beforeunload", function(e){
-        if(!killed_by_another_host) dt.broadcast.post({type:"host_shutdown"});
-    }, false);
 });

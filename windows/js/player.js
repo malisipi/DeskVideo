@@ -44,11 +44,30 @@ var dt = {
             dt.response = await video_backend.get_video(id);
             document.querySelector("video").src = dt.response.sources.reverse()[0].url;
         }
+    },
+    visibility:{
+        listener: () => {
+            if(document.hidden){
+                if(!dt.video.paused){
+                    setTimeout(async () => {
+                        console.log("1");
+                        await dt.video.play();
+                    }, 1000);
+                    dt.controls.time.stop_timer();
+                }
+            } else {
+                dt.controls.time.start_timer();
+            }
+        },
+        register: () => {
+            document.addEventListener("visibilitychange", dt.visibility.listener);
+        }
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     dt.broadcast.channels.clients.onmessage = dt.broadcast.listeners.clients;
+    dt.visibility.register();
     let url_parameters = new URLSearchParams(window.location.search);
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
