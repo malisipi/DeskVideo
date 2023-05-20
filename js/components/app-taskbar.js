@@ -97,9 +97,10 @@ class extends HTMLElement {
                 white-space: nowrap;
                 display: flex;
                 align-items: center;
+                justify-content: center;
 
                 &.window {
-                	    width: 120px;
+                	width: 120px;
                     -webkit-app-region: no-drag;
                     app-region: no-drag;
                 }
