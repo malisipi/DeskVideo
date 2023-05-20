@@ -42,7 +42,7 @@ var dt = {
     render:{
         player: async (id) => {
             dt.response = await video_backend.get_video(id);
-            document.querySelector("video").src = dt.response.sources[1].url;
+            document.querySelector("video").src = dt.response.sources.reverse()[0].url;
         }
     }
 }
