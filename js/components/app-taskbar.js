@@ -84,6 +84,7 @@ class extends HTMLElement {
                 width: 100%;
                 -webkit-app-region: drag;
                 app-region: drag;
+                display: flex;
             }
 
             & button {
@@ -98,7 +99,9 @@ class extends HTMLElement {
                 align-items: center;
 
                 &.window {
-                	width: 120px;
+                	    width: 120px;
+                    -webkit-app-region: no-drag;
+                    app-region: no-drag;
                 }
                 
                 &:hover {
