@@ -1,54 +1,63 @@
 body {
     background: #222;
-}
 
-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 80px);
-    background: #000;
-    -webkit-app-region: drag;
-    app-region: drag;
-    z-index: -1;
+    & video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        -webkit-app-region: drag;
+        app-region: drag;
+        z-index: -1;
+    
+    }
+    
+    & .controls {
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 4px;
+        padding: 0 14px;
+        box-sizing: border-box;
+        -webkit-app-region: no-drag;
+        app-region: no-drag;
+    
+        & .playrate {
+            min-width: 80px;
+        }
+        
+        & .time {
+            flex: 0px;
+        }
+        
+        & fluent-slider {
+            padding: 0 2px;
+            box-sizing: border-box;
+            transform: translate(0, 8px);
+    
+            &.volume {
+                max-width: 100px;
+            }
+        }
+    
+        & fluent-button img.fi{
+            filter: invert(1);
+        }
+    }
 
-}
-
-fluent-button img.fi{
-    filter: invert(1);
-}
-
-.controls {
-    position: fixed;
-    bottom: 90px;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    column-gap: 4px;
-    padding: 0 14px;
-    box-sizing: border-box;
-    -webkit-app-region: no-drag;
-    app-region: no-drag;
-}
-
-.playrate {
-    min-width: 80px;
-}
-
-.time {
-    flex: 0px;
-}
-
-fluent-slider {
-    padding: 0 2px;
-    box-sizing: border-box;
-    transform: translate(0, 8px);
-}
-
-fluent-slider.volume {
-    max-width: 100px;
+    &[embed] {
+        & video {
+            height: calc(100% - 80px);
+        }
+        & .controls {
+            bottom: 90px;
+        }
+    }
 }

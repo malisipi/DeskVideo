@@ -69,6 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
     dt.broadcast.channels.clients.onmessage = dt.broadcast.listeners.clients;
     dt.visibility.register();
     let url_parameters = new URLSearchParams(window.location.search);
+    if(url_parameters.get("embed") == "true") document.body.setAttribute("embed", true);
+
+    // fix fluent-select WindowControlsOverlay bug
+    let styl = document.createElement("style");
+    styl.innerHTML = `.listbox{app-region:no-drag;-webkit-app-region:no-drag;}`;
+    document.querySelector("fluent-select").shadowRoot.append(styl);
+
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
     dt.video.addEventListener("play", dt.controls.time.start_timer);

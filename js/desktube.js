@@ -125,7 +125,7 @@ var dt = {
 			if(dt.mobile) return;
 			_window.extra = "./node_modules/@fluentui/svg-icons/icons/window_new_16_regular.svg";
 			_window.onextra = (__window) => {
-				window.open(__window.querySelector("iframe").src, "_blank", "popup=yes");
+				window.open(__window.querySelector("iframe").src.replace("&embed=true","&embed=false"), "_blank", "popup=yes");
 				__window.remove();
 			};
 		}
