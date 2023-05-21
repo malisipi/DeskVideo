@@ -9,10 +9,10 @@ body {
 
 .dt-trends, .dt-search {
     position: fixed;
-    top: 30px;
+    top: var(--taskbar-height);
     left: 0;
     width: 100%;
-    height: calc(100% - 30px);
+    height: calc(100% - var(--taskbar-height));
     display: none;
     overflow: auto;
     padding: 10px;

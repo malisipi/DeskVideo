@@ -19,7 +19,7 @@ app-taskbar {
 }
 
 app-window {
-    --maximized-top: 30px;
+    --maximized-top: var(--taskbar-height);
     --titlebar-color: #111;
     --titlebar-controls-color: #eee;
     background: #222;
