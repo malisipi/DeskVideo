@@ -78,7 +78,9 @@ var dt = {
             },
             register: () => {
                 if(dt.embed) return;
-                    window.onresize = function(){
+                
+                dt.features.use_video_ratio.old_size = [window.outerWidth, window.outerHeight];
+                window.onresize = () => {
                     clearTimeout(dt.features.use_video_ratio.timer);
                     dt.features.use_video_ratio.timer = setTimeout(dt.features.use_video_ratio.listener, 225);
                 };
