@@ -3,6 +3,7 @@
 var dt = {
     response: {},
     video: null,
+    embed: false,
     controls: {
         play: ()=>{
             if(dt.video.paused){
@@ -62,14 +63,32 @@ var dt = {
         register: () => {
             document.addEventListener("visibilitychange", dt.visibility.listener);
         }
-    }
+    },
+    features: {
+         use_video_ratio: {
+             timer: null,
+             listener: () => {
+             	window.resizeTo(window.outerWidth,window.outerWidth/dt.video.videoWidth*dt.video.videoHeight);
+             },
+             register: () => {
+                 if(dt.embed) return;
+                     window.onresize = function(){
+                     clearTimeout(dt.features.use_video_ratio.timer);
+                     dt.features.use_video_ratio.timer = setTimeout(dt.features.use_video_ratio.listener, 75);
+                 };
+             }
+         }
+     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     dt.broadcast.channels.clients.onmessage = dt.broadcast.listeners.clients;
     dt.visibility.register();
     let url_parameters = new URLSearchParams(window.location.search);
-    if(url_parameters.get("embed") == "true") document.body.setAttribute("embed", true);
+    if(url_parameters.get("embed") == "true"){
+    	dt.embed = true;
+    	document.body.setAttribute("embed", true)
+    };
 
     // fix fluent-select WindowControlsOverlay bug
     let styl = document.createElement("style");
@@ -85,6 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let controls = document.querySelector(".controls");
     controls.querySelector(".play").addEventListener("click", dt.controls.play);
     controls.querySelector(".pip").addEventListener("click", dt.controls.pip);
+
+    dt.features.use_video_ratio.register();
     
     window.addEventListener("beforeunload", function(e){
         dt.broadcast.post({type:"close", id:0});
