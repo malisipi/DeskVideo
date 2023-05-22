@@ -65,20 +65,26 @@ var dt = {
         }
     },
     features: {
-         use_video_ratio: {
-             timer: null,
-             listener: () => {
-             	window.resizeTo(window.outerWidth,window.outerWidth/dt.video.videoWidth*dt.video.videoHeight);
-             },
-             register: () => {
-                 if(dt.embed) return;
-                     window.onresize = function(){
-                     clearTimeout(dt.features.use_video_ratio.timer);
-                     dt.features.use_video_ratio.timer = setTimeout(dt.features.use_video_ratio.listener, 75);
-                 };
-             }
-         }
-     }
+        use_video_ratio: {
+            timer: null,
+            old_size: [0,0],
+            listener: () => {
+                if(dt.features.use_video_ratio.old_size[1] == window.outerHeight){
+                    window.resizeTo(window.outerWidth, window.outerWidth / dt.video.videoWidth * dt.video.videoHeight);
+                } else if (dt.features.use_video_ratio.old_size[0] == window.outerWidth) {
+                    window.resizeTo(window.outerHeight / dt.video.videoHeight * dt.video.videoWidth, window.outerHeight);
+                }
+                dt.features.use_video_ratio.old_size = [window.outerWidth, window.outerHeight];
+            },
+            register: () => {
+                if(dt.embed) return;
+                    window.onresize = function(){
+                    clearTimeout(dt.features.use_video_ratio.timer);
+                    dt.features.use_video_ratio.timer = setTimeout(dt.features.use_video_ratio.listener, 225);
+                };
+            }
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
