@@ -1,3 +1,20 @@
+@supports not ( selector( & ) ) {
+    body::after {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f00;
+        color: #fff;
+        content: "Nested CSS is not supported! This website will not work properly. Please use latest Chromium based browser or technology preview of Safari. There are ne Nested CSS support for Firefox yet 😭.";
+        z-index: 99999999999999999999999999999;
+        display: flex;
+        padding: 10px;
+        box-sizing: border-box;
+        justify-content: center;
+    }
+}
+
 .dt-trends, .dt-search {
     position: fixed;
     top: var(--taskbar-height);
