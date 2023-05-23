@@ -5,10 +5,18 @@
 		<script src="./js/player.js"></script>
 		<script src="./js/broadcast.js"></script>
 		<script type="module" src="../js/fluent-components.js"></script>
+		<script src="../node_modules/idb-keyval/dist/umd.js"></script>
+		<script src="../js/storage.js"></script>
 		<link rel="stylesheet" href="./css/player.css">
+		<link rel="stylesheet" href="../css/general.css">
 	</head>
 	<body>
 		<video autoplay></video>
+		<div class="info">
+			<div class="name"></div>
+			<div class="author"></div>
+			<img draggable="false" class="author" alt="Author">
+		</div>
 		<div class="controls">
 			<fluent-button class="play"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/pause_16_regular.svg"/></fluent-button>
 			<fluent-slider class="time" min="0" max="1" value="0" step="1"></fluent-slider>
@@ -22,6 +30,12 @@
 			</fluent-select>
 			<fluent-button class="pip"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/picture_in_picture_enter_16_regular.svg"/></fluent-button>
 			<fluent-button class="fullscreen"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/full_screen_maximize_16_regular.svg"/></fluent-button>
+		</div>
+		<div class="extended-controls">
+			<fluent-button class="like">
+				<img class="fi false" src="../node_modules/@fluentui/svg-icons/icons/thumb_like_16_regular.svg"/>
+				<img class="fi true" src="../node_modules/@fluentui/svg-icons/icons/thumb_like_16_filled.svg"/>
+			</fluent-button>
 		</div>
 	</body>
 </html>

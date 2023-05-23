@@ -1,0 +1,46 @@
+.dt-trends, .dt-search {
+    position: fixed;
+    top: var(--taskbar-height);
+    left: 0;
+    width: 100%;
+    height: calc(100% - var(--taskbar-height));
+    display: none;
+    overflow: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 9999999999999999;
+    background: inherit;
+
+    .search-container {
+        display: flex;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding: 4px;
+        gap: 4px;
+        justify-content: center;
+    }
+}
+
+body[search] .dt-search {
+    display: block;
+}
+
+body[trends] .dt-trends, body[search] .dt-search .videos {
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+    grid-gap: 20px;
+
+    @media (min-width: 650px) {
+        grid-template-columns: auto auto;
+    }
+
+    @media (min-width: 1000px) {
+        grid-template-columns: auto auto auto;
+    }
+
+    @media (min-width: 1350px) {
+        grid-template-columns: auto auto auto auto;
+    }
+}

@@ -40,10 +40,28 @@ var dt = {
             }
         }
     },
+    extended_controls: {
+        update: {
+            like: async (id) => {
+                let like_button = document.querySelector(".extended-controls .like");
+                if(await app_storage.like.get(id, true)){
+                    like_button.setAttribute("liked", true);
+                } else {
+                    if(like_button.hasAttribute("liked")){
+                        like_button.removeAttribute("liked");
+                    };
+                };
+            }
+        }
+    },
     render:{
         player: async (id) => {
             dt.response = await video_backend.get_video(id);
             document.querySelector("video").src = dt.response.sources.reverse()[0].url;
+            document.querySelector(".info .name").innerText = dt.response.title;
+            document.querySelector(".info div.author").innerText = dt.response.author;
+            document.querySelector(".info img.author").src = dt.response.author_thumbnail;
+            dt.extended_controls.update.like(id);
         }
     },
     visibility:{
@@ -112,6 +130,18 @@ document.addEventListener("DOMContentLoaded", () => {
     let controls = document.querySelector(".controls");
     controls.querySelector(".play").addEventListener("click", dt.controls.play);
     controls.querySelector(".pip").addEventListener("click", dt.controls.pip);
+    document.querySelector(".extended-controls .like").addEventListener("click", async (e) => {
+        if(e.target.hasAttribute("liked")){
+            await app_storage.like.set(dt.response.id, false);
+        } else {
+            await app_storage.like.set(dt.response.id, true, {
+                title: dt.response.title,
+                author: dt.response.author
+            });
+        };
+
+        await dt.extended_controls.update.like(dt.response.id);
+    })
 
     dt.features.use_video_ratio.register();
     
