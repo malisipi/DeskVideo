@@ -6,7 +6,7 @@
         width: 100%;
         background-color: #f00;
         color: #fff;
-        content: "Nested CSS is not supported! This website will not work properly. Please use latest Chromium based browser or technology preview of Safari. There are ne Nested CSS support for Firefox yet 😭.";
+        content: "Nested CSS is not supported! This website will not work properly. Please use latest Chromium based browser or technology preview of Safari. There are no Nested CSS support for Firefox yet 😭.";
         z-index: 99999999999999999999999999999;
         display: flex;
         padding: 10px;
