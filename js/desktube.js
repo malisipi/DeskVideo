@@ -28,7 +28,7 @@ var dt = {
 		}
 	},
 	hide_all: skip => {
-		let list = ["trends", "search"];
+		let list = ["trends", "search", "liked"];
 		for(let item_index in list){
 			let item = list[item_index];
 			if(item==skip) continue;
@@ -38,11 +38,13 @@ var dt = {
 		}
 	},
 	toggle: {
-		it: (item) => {
+		it: (item, cb=()=>{}) => {
 			if(document.body.hasAttribute(item)){
 				document.body.removeAttribute(item);
+				cb(false);
 			} else {
 				document.body.setAttribute(item, true);
+				cb(true);
 			}
 		},
 		trends: () => {
@@ -52,6 +54,10 @@ var dt = {
 		search: () => {
 			dt.hide_all("search");
 			dt.toggle.it("search");
+		},
+		liked: () => {
+			dt.hide_all("liked");
+			dt.toggle.it("liked", dt.render.liked);
 		}
 	},
 	open: {
@@ -117,16 +123,35 @@ var dt = {
 				}
 				videos.append(vt);
 			});
+		},
+		liked: async (render) => {
+			if(!render) return;
+			let videos = document.querySelector(".dt-liked").querySelector(".videos");
+			videos.innerHTML = "";
+			let liked_videos = await app_storage.like.list();
+			for(let video_index in liked_videos){
+				let video_id = liked_videos[video_index];
+				let video = await app_storage.like.get(video_id);
+				let vt = document.createElement("video-preview");
+				vt.thumbnail = "data:image/png;base64,"+video.thumbnail;
+				vt.title = video.title;
+				vt.author = video.author;
+				vt.published = video.liked_time;
+				vt.onvideo = (id = video_id, title = video.title) => {
+					dt.open.video(id, title);
+				}
+				videos.append(vt);
+			}
 		}
 	},
 	init:{
 		taskbar: () => {
 			let button = document.createElement("button");
-			button.addEventListener("click",()=>{console.log('hi');})
+			button.addEventListener("click", dt.toggle.liked);
 			document.querySelector("app-taskbar").shadowRoot.querySelector(".root").append(button);
 
 			let image = document.createElement("img");
-			image.src = "./node_modules/@fluentui/svg-icons/icons/window_16_regular.svg";
+			image.src = "./node_modules/@fluentui/svg-icons/icons/thumb_like_16_regular.svg";
 			button.append(image);
 		},
 		window: (_window) => {

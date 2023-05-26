@@ -32,6 +32,7 @@ body {
         }
 
         & img.author {
+            top: 8px;
             left: 10px;
             width: 30px;
             border-radius: 50%;
@@ -107,7 +108,7 @@ body {
         }
     }
 
-    &:is(:fullscreen) .controls img {
+    &:is(:fullscreen) .controls .fullscreen img {
         &.true {
             display: block;
         }
@@ -140,6 +141,7 @@ body {
             }
 
             & img.author {
+                top: unset;
                 bottom: 40px;
             }
         }

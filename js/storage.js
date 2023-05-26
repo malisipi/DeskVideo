@@ -15,7 +15,7 @@ let app_storage = {
                 return app_storage.like.get(id, false);
             }
         },
-        set: async (id, state, properties = {title: "<Null>", author:"<Author>"}) => {
+        set: async (id, state, properties = {title: "<Null>", author:"<Author>", thumbnail:"", time:0}) => {
             let likes = await idbKeyval.get("dt|likes");
             if(state){
                 likes[id] = properties;

@@ -51,6 +51,8 @@ class extends HTMLElement {
     }
 
     set time(source) {
+        if(source <= 0) return;
+        this.#time.setAttribute("valid",true);
         let hour = Math.round(Math.round(source/60)/60);
         let min = Math.round(source/60)%60;
         let sec = String(source%60).padStart(2,"0");
@@ -185,6 +187,7 @@ class extends HTMLElement {
             }
 
             & .time {
+                display: none;
                 position: absolute;
                 left: 0px;
                 height: 25px;
@@ -192,11 +195,14 @@ class extends HTMLElement {
                 bottom: 80px;
                 background: #222;
                 color: #fff;
-                display: flex;
                 justify-content: center;
                 flex-wrap: wrap;
                 align-content: center;
                 border-radius: 0 5px 5px 0;
+
+                &[valid] {
+                    display: flex;
+                }
             }
 
             & .published {

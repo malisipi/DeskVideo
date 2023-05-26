@@ -15,7 +15,7 @@
     }
 }
 
-.dt-trends, .dt-search {
+.dt-trends, .dt-search, .dt-liked {
     position: fixed;
     top: var(--taskbar-height);
     left: 0;
@@ -39,11 +39,11 @@
     }
 }
 
-body[search] .dt-search {
+body[search] .dt-search, body[liked] .dt-liked {
     display: block;
 }
 
-body[trends] .dt-trends, body[search] .dt-search .videos {
+body[trends] .dt-trends, body[search] .dt-search .videos, body[liked] .dt-liked .videos {
     display: grid;
     grid-template-columns: auto;
     justify-items: center;

@@ -86,7 +86,6 @@ var dt = {
             if(document.hidden){
                 if(!dt.video.paused){
                     setTimeout(async () => {
-                        console.log("1");
                         await dt.video.play();
                     }, 1000);
                     dt.controls.time.stop_timer();
@@ -140,12 +139,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
-    dt.video.addEventListener("play", dt.controls.time.start_timer);
-    dt.video.addEventListener("pause", dt.controls.time.stop_timer);
+    let controls = document.querySelector(".controls");
+    let play = controls.querySelector(".play");
+    play.addEventListener("click", dt.controls.play);
+    dt.video.addEventListener("play", (e, _play=play) => {
+        _play.setAttribute("true", true);
+        dt.controls.time.start_timer();
+    });
+    dt.video.addEventListener("pause", (e, _play=play) => {
+        if(_play.hasAttribute("true")){
+            _play.removeAttribute("true");
+        }
+        dt.controls.time.stop_timer();
+    });
     document.querySelector("fluent-slider.time").addEventListener("change", dt.controls.time.update_current_time);
     dt.render.player(url_parameters.get("id"));
-    let controls = document.querySelector(".controls");
-    controls.querySelector(".play").addEventListener("click", dt.controls.play);
     let pip = controls.querySelector(".pip");
     pip.addEventListener("click", dt.controls.pip);
     dt.video.addEventListener('leavepictureinpicture', (e, _pip=pip) => {
@@ -159,13 +167,15 @@ document.addEventListener("DOMContentLoaded", () => {
     controls.querySelector(".fullscreen").addEventListener("click", dt.controls.fullscreen);
     controls.querySelector(".playrate").addEventListener("change", dt.controls.playrate);
     document.querySelector(".extended-controls .like").addEventListener("click", async (e) => {
-        if(e.target.hasAttribute("liked")){
+        if(Object.keys(dt.response).length == 0) return;
+        if(e.target.hasAttribute("true")){
             await app_storage.like.set(dt.response.id, false);
         } else {
             await app_storage.like.set(dt.response.id, true, {
                 title: dt.response.title,
                 author: dt.response.author,
-                thumbnail: await imageToBase64(dt.response.thumbnail)
+                thumbnail: await imageToBase64(dt.response.thumbnail),
+                liked_time: Date.now()/1000
             }); /* data:image/png;base64,(content) */
         };
 
