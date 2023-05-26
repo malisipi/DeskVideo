@@ -83,6 +83,8 @@ var dt = {
 				vt.thumbnail = video.thumbnail;
 				vt.title = video.title;
 				vt.author = video.author;
+				vt.live = video.live;
+				vt.time = video.length;
 				vt.onvideo = (id = video.id, title = video.title) => {
 					dt.open.video(id, title);
 				}
@@ -101,6 +103,8 @@ var dt = {
 				vt.thumbnail = video.thumbnail;
 				vt.title = video.title;
 				vt.author = video.author;
+				vt.live = video.live;
+				vt.time = video.length;
 				vt.onvideo = (id = video.id, title = video.title) => {
 					dt.open.video(id, title);
 				}

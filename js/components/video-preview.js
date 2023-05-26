@@ -9,11 +9,13 @@ class extends HTMLElement {
     #author;
     #onvideo;
     #onauthor;
+    #live;
+    #time;
   
     set title(source) {
         this.#title.innerText = source;
     };
-  
+
     set thumbnail(source) {
         this.#thumbnail.src = source;
     };
@@ -29,6 +31,23 @@ class extends HTMLElement {
     set onauthor(source) {
         this.#onauthor = source;
     };
+
+    set live(source) {
+        if(source){
+            this.#live.setAttribute("live", true);
+        }
+    }
+
+    set time(source) {
+        let hour = Math.round(Math.round(source/60)/60);
+        let min = Math.round(source/60)%60;
+        let sec = String(source%60).padStart(2,"0");
+        if(hour == 0) {
+            this.#time.innerText = min+":"+sec;
+        } else {
+            this.#time.innerText = hour+":"+String(min).padStart(2,"0")+":"+sec;
+        }
+    }
 
     constructor() {
         super();
@@ -48,6 +67,16 @@ class extends HTMLElement {
         this.#title = document.createElement("div");
         this.#title.className = "title";
         this.#root.append(this.#title);
+
+        this.#live = document.createElement("div");
+        this.#live.className = "live";
+        this.#live.innerText = "Live";
+        this.#root.append(this.#live);
+
+        this.#time = document.createElement("div");
+        this.#time.className = "time";
+        this.#time.innerText = "0:00";
+        this.#root.append(this.#time);
 
         this.#author = document.createElement("div");
         this.#author.className = "author";
@@ -113,6 +142,40 @@ class extends HTMLElement {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+            }
+
+            & .live {
+                display: none;
+
+                &[live] {
+                    position: absolute;
+                    right: 0px;
+                    height: 25px;
+                    width: 50px;
+                    bottom: 80px;
+                    background: #b22;
+                    color: #fff;
+                    display: flex;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    align-content: center;
+                    border-radius: 5px 0 0 5px;
+                }
+            }
+
+            & .time {
+                position: absolute;
+                left: 0px;
+                height: 25px;
+                width: 60px;
+                bottom: 80px;
+                background: #222;
+                color: #fff;
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                align-content: center;
+                border-radius: 0 5px 5px 0;
             }
         }
         `;
