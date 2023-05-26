@@ -26,6 +26,12 @@ body {
             font-size: 16px;
         }
 
+        & .name, & div.author {
+            overflow: hidden;
+            white-space: nowrap;
+            width: calc(100% - 60px);
+        }
+
         & div.author {
             top: 28px;
             font-size: 10px;
@@ -143,6 +149,10 @@ body {
             & img.author {
                 top: unset;
                 bottom: 40px;
+            }
+
+            & .name, & div.author {
+                width: calc(100% - 235px);
             }
         }
 

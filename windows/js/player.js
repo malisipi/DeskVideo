@@ -22,8 +22,10 @@ var dt = {
         fullscreen: () => {
             if(document.fullscreenElement){
                 document.exitFullscreen();
+                screen.orientation.unlock();
             } else {
                 document.body.requestFullscreen();
+                screen.orientation.lock('landscape');
             }
         },
         playrate: (e) => {
