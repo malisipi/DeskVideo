@@ -11,6 +11,7 @@ class extends HTMLElement {
     #onauthor;
     #live;
     #time;
+    #published;
   
     set title(source) {
         this.#title.innerText = source;
@@ -36,6 +37,17 @@ class extends HTMLElement {
         if(source){
             this.#live.setAttribute("live", true);
         }
+    }
+
+    set author_verified(source) {
+        if(source){
+            this.#author.setAttribute("verified", true);
+        }
+    }
+
+    set published(source){
+        let publish_date = new Date(source * 1000);
+        this.#published.innerText = publish_date.toDateString();
     }
 
     set time(source) {
@@ -77,6 +89,10 @@ class extends HTMLElement {
         this.#time.className = "time";
         this.#time.innerText = "0:00";
         this.#root.append(this.#time);
+
+        this.#published = document.createElement("div");
+        this.#published.className = "published";
+        this.#root.append(this.#published);
 
         this.#author = document.createElement("div");
         this.#author.className = "author";
@@ -142,6 +158,11 @@ class extends HTMLElement {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+
+                &[verified]::after {
+                    content: "✅";
+                    transform: translate(4px, 0);
+                }
             }
 
             & .live {
@@ -176,6 +197,13 @@ class extends HTMLElement {
                 flex-wrap: wrap;
                 align-content: center;
                 border-radius: 0 5px 5px 0;
+            }
+
+            & .published {
+                position: absolute;
+                right: 10px;
+                bottom: 5px;
+                font-size: 12px;
             }
         }
         `;

@@ -5,6 +5,7 @@
 		<script src="./js/player.js"></script>
 		<script src="./js/broadcast.js"></script>
 		<script type="module" src="../js/fluent-components.js"></script>
+		<script src="../node_modules/image-to-base64/browser.js"></script>
 		<script src="../node_modules/idb-keyval/dist/umd.js"></script>
 		<script src="../js/storage.js"></script>
 		<link rel="stylesheet" href="./css/player.css">
@@ -23,19 +24,30 @@
 			<fluent-button class="volume"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/speaker_2_16_regular.svg"/></fluent-button>
 			<fluent-slider class="volume" min="0" max="100" value="100" step="1"></fluent-slider>
 			<fluent-select class="playrate" value="1">
+				<fluent-option value="0.25">0.25</fluent-option>
 				<fluent-option value="0.5">0.5</fluent-option>
 				<fluent-option value="1">1</fluent-option>
+				<fluent-option value="1.5">1.5</fluent-option>
 				<fluent-option value="2">2</fluent-option>
 				<fluent-option value="3">3</fluent-option>
 			</fluent-select>
-			<fluent-button class="pip"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/picture_in_picture_enter_16_regular.svg"/></fluent-button>
-			<fluent-button class="fullscreen"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/full_screen_maximize_16_regular.svg"/></fluent-button>
+			<fluent-button class="pip">
+				<img class="fi false" src="../node_modules/@fluentui/svg-icons/icons/picture_in_picture_enter_16_regular.svg"/>
+				<img class="fi true" src="../node_modules/@fluentui/svg-icons/icons/picture_in_picture_exit_16_regular.svg"/>
+			</fluent-button>
+			<fluent-button class="fullscreen">
+				<img class="fi false" src="../node_modules/@fluentui/svg-icons/icons/full_screen_maximize_16_regular.svg"/>
+				<img class="fi true" src="../node_modules/@fluentui/svg-icons/icons/full_screen_minimize_16_regular.svg"/>
+			</fluent-button>
 		</div>
 		<div class="extended-controls">
 			<fluent-button class="like">
 				<img class="fi false" src="../node_modules/@fluentui/svg-icons/icons/thumb_like_16_regular.svg"/>
 				<img class="fi true" src="../node_modules/@fluentui/svg-icons/icons/thumb_like_16_filled.svg"/>
 			</fluent-button>
+			<fluent-button class="list"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/list_16_regular.svg"/></fluent-button>
+			<fluent-button class="comment"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/comment_16_regular.svg"/></fluent-button>
+			<fluent-button class="share"><img class="fi" src="../node_modules/@fluentui/svg-icons/icons/share_16_regular.svg"/></fluent-button>
 		</div>
 	</body>
 </html>

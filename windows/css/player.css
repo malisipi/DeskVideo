@@ -82,8 +82,11 @@ body {
         justify-content: center;
         -webkit-app-region: no-drag;
         app-region: no-drag;
+        gap: 5px;
+    }
 
-        & .like {
+    & .controls, & .extended-controls {
+        & > * {
             & img.true {
                 display: none;
             }
@@ -92,15 +95,25 @@ body {
                 display: block;
             }
 
-            &[liked]{
-                & img.true {
+            &[true] img{
+                &.true {
                     display: block;
                 }
 
-                & img.false {
+                &.false {
                     display: none;
                 }
             }
+        }
+    }
+
+    &:is(:fullscreen) .controls img {
+        &.true {
+            display: block;
+        }
+
+        &.false {
+            display: none;
         }
     }
 
@@ -108,7 +121,7 @@ body {
         filter: invert(1);
     }
 
-    &[embed] {
+    &[embed]:not(:fullscreen) {
         & video {
             height: calc(100% - 80px);
         }

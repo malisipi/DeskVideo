@@ -17,13 +17,13 @@ var video_backend = {
                     author_verified: video.authorVerified,
                     description: video.description,
                     length: video.lengthSeconds,
-                    live: video.liveNow,
+                    live: video.liveNow || (video.lengthSeconds == 0),
                     title: video.title,
                     id: video.videoId,
                     published: video.published,
                     upcoming: video.isUpcoming,
                     views: video.viewCount,
-                    thumbnail: video.videoThumbnails[0].url
+                    thumbnail: video.videoThumbnails.reverse()[0].url
                 });
             }
         } else {
@@ -36,6 +36,7 @@ var video_backend = {
         let video = {error:"#000"};
         if(tp_resource.status == 200){
             let tp_video = await tp_resource.json();
+            //window.vi = tp_video;
             video = {
                 author: tp_video.author,
                 author_id: tp_video.authorId,
@@ -61,30 +62,35 @@ var video_backend = {
                 captions: [],
                 keywords: tp_video.keywords,
                 sources: [],
-                views: tp_video.viewCount
+                views: tp_video.viewCount,
+                thumbnail: tp_video.videoThumbnails.reverse()[0].url
             };
+            
             let srcs = tp_video.formatStreams;
-            for(let src_index in srcs){
+            
+            for (let src_index in srcs){
             	let src = srcs[src_index];
+
             	video.sources.push({
             		url: src.url,
             		quality: src.qualityLabel
             	});
+            }
 
             let next_videos = tp_video.recommendedVideos;
             for(let next_video_index in next_videos){
-            	let next_video = next_videos[next_video_index];
-            	video.next_videos.push({
-            		author: next_video.author,
-            		author_id: next_video.authorId,
-            		length: next_video.lengthSeconds,
-            		title: next_video.title,
-            		id: next_video.videoId,
-            		views: next_video.viewCount,
-            		thumbnail: next_video.videoThumbnails[0].url
-            	});
+                let next_video = next_videos[next_video_index];
+                video.next_videos.push({
+                    author: next_video.author,
+                    author_id: next_video.authorId,
+                    length: next_video.lengthSeconds,
+                    title: next_video.title,
+                    id: next_video.videoId,
+                    views: next_video.viewCount,
+                    thumbnail: next_video.videoThumbnails.reverse()[0].url
+                });
             }
-        } } else {
+        } else {
             console.error(tp_resource.status);
         }
         return video;
@@ -136,13 +142,13 @@ var video_backend = {
                     author_id: video.authorId,
                     author_verified: video.authorVerified,
                     length: video.lengthSeconds,
-                    live: video.liveNow,
+                    live: video.liveNow || (video.lengthSeconds == 0),
                     title: video.title,
                     id: video.videoId,
                     published: video.published,
                     upcoming: video.isUpcoming,
                     views: video.viewCount,
-                    thumbnail: video.videoThumbnails[0].url
+                    thumbnail: video.videoThumbnails.reverse()[0].url
                 });
             }
         } else {
