@@ -29,7 +29,7 @@ class extends HTMLElement {
         close: () => {
             this.remove();
         }
-    }
+    };
 
     #set_movable = (__host) => {
         this.#titlebar.onmousedown = function(e, _host = __host) {
@@ -73,6 +73,10 @@ class extends HTMLElement {
         };
     }
 
+    #increase_zindex = () => {
+        this.style.zIndex = ++window.__app_window_last_zindex;
+    };
+
     set title(source) {
         this.#titlebar_title.innerText = source;
     };
@@ -102,12 +106,18 @@ class extends HTMLElement {
         super();
         this.attachShadow({mode: "open"});
 
+        if(!window.__app_window_last_zindex){
+            window.__app_window_last_zindex = 999;
+        }
+        
         this.#root = document.createElement("div");
         this.#root.className = "root";
         this.shadowRoot.append(this.#root);
 
         this.#titlebar = document.createElement("div");
         this.#titlebar.className = "app-titlebar";
+        this.#titlebar.addEventListener("mousedown", this.#increase_zindex);
+        this.#titlebar.addEventListener("touchstart", this.#increase_zindex);
         this.#root.append(this.#titlebar);
 
         this.#set_movable(this);
@@ -160,6 +170,7 @@ class extends HTMLElement {
             --maximized-right: 0px;
             --maximized-bottom: 0px;
             --maximized-top: 0px;
+            z-index: attr(zindex);
         }
 
         .root {
@@ -248,6 +259,8 @@ class extends HTMLElement {
     connectedCallback() {
         if(this.hasAttribute("title"))
             this.#titlebar_title.innerText = this.getAttribute("title");
+        
+        this.#increase_zindex();
     }
 }
 
