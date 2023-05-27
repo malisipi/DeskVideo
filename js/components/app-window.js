@@ -214,6 +214,10 @@ class extends HTMLElement {
             background-color: var(--titlebar-controls-color);
             height: 16px;
             width: 50px;
+
+            :host([titlebar-style="linux"]) &{
+                width: 30px;
+            }
         }
 
         .app-content {
