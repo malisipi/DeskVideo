@@ -155,7 +155,9 @@ var dt = {
 			button.append(image);
 		},
 		window: (_window) => {
-			_window.setAttribute("titlebar-style", "linux");
+			if(!navigator.platform?.includes("Win")){
+				_window.setAttribute("titlebar-style", "linux");
+			}
 
 			if(dt.mobile) return;
 			_window.extra = "./node_modules/@fluentui/svg-icons/icons/window_new_16_regular.svg";
