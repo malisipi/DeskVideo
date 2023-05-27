@@ -90,6 +90,10 @@ body {
         -webkit-app-region: no-drag;
         app-region: no-drag;
         gap: 5px;
+
+        &[disabled] {
+            display: none;
+        }
     }
 
     & .controls, & .extended-controls {

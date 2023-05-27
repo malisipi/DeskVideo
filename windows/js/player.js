@@ -4,6 +4,7 @@ var dt = {
     response: {},
     video: null,
     embed: false,
+    external_file: false,
     controls: {
         play: ()=>{
             if(dt.video.paused){
@@ -72,15 +73,29 @@ var dt = {
     },
     render:{
         player: async (id) => {
-            dt.response = await video_backend.get_video(id);
-            if(dt.response.live){ 
-                console.warn("Live Videos is not supported atm!");
-            };
-            document.querySelector("video").src = dt.response.sources.reverse()[0].url;
-            document.querySelector(".info .name").innerText = dt.response.title;
-            document.querySelector(".info div.author").innerText = dt.response.author;
-            document.querySelector(".info img.author").src = dt.response.author_thumbnail;
-            dt.extended_controls.update.like(id);
+            if(typeof(id)=="string"){
+                dt.response = await video_backend.get_video(id);
+                if(dt.response.live){ 
+                    console.warn("Live Videos is not supported atm!");
+                };
+                document.querySelector("video").src = dt.response.sources.reverse()[0].url;
+                document.querySelector(".info .name").innerText = dt.response.title;
+                document.querySelector(".info div.author").innerText = dt.response.author;
+                document.querySelector(".info img.author").src = dt.response.author_thumbnail;
+                dt.extended_controls.update.like(id);
+            } else {
+
+                // Create blob URL
+                let file=await id.getFile()
+                let file_arraybuffer = await file.arrayBuffer()
+                let file_blob = new Blob([file_arraybuffer], { type: 'application/octet-stream' });
+                let file_url = URL.createObjectURL(file_blob);
+
+                document.querySelector("video").src = file_url; // blob
+                document.querySelector(".info .name").innerText = id.name;
+                document.querySelector(".info div.author").innerText = "malisipi";
+                document.querySelector(".info img.author").src = "../assets/144.png";
+            }
         }
     },
     visibility:{
@@ -133,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     	dt.embed = true;
     	document.body.setAttribute("embed", true)
     };
+    dt.external_file = url_parameters.get("external_file") == "true"
 
     // fix fluent-select WindowControlsOverlay bug
     let styl = document.createElement("style");
@@ -142,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
     let controls = document.querySelector(".controls");
+    let extended_controls = document.querySelector(".extended-controls");
     let play = controls.querySelector(".play");
     play.addEventListener("click", dt.controls.play);
     dt.video.addEventListener("play", (e, _play=play) => {
@@ -155,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
         dt.controls.time.stop_timer();
     });
     document.querySelector("fluent-slider.time").addEventListener("change", dt.controls.time.update_current_time);
-    dt.render.player(url_parameters.get("id"));
     let pip = controls.querySelector(".pip");
     pip.addEventListener("click", dt.controls.pip);
     dt.video.addEventListener('leavepictureinpicture', (e, _pip=pip) => {
@@ -168,25 +184,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     controls.querySelector(".fullscreen").addEventListener("click", dt.controls.fullscreen);
     controls.querySelector(".playrate").addEventListener("change", dt.controls.playrate);
-    document.querySelector(".extended-controls .like").addEventListener("click", async (e) => {
-        if(Object.keys(dt.response).length == 0) return;
-        if(e.target.hasAttribute("true")){
-            await app_storage.like.set(dt.response.id, false);
-        } else {
-            await app_storage.like.set(dt.response.id, true, {
-                title: dt.response.title,
-                author: dt.response.author,
-                thumbnail: await imageToBase64(dt.response.thumbnail),
-                liked_time: Date.now()/1000
-            }); /* data:image/png;base64,(content) */
-        };
-
-        await dt.extended_controls.update.like(dt.response.id);
-    })
-
-    dt.features.use_video_ratio.register();
     
-    window.addEventListener("beforeunload", function(e){
-        dt.broadcast.post({type:"close", id:0});
-    }, false);
+    if(!dt.external_file) {
+        extended_controls.querySelector(".like").addEventListener("click", async (e) => {
+            if(Object.keys(dt.response).length == 0) return;
+            if(e.target.hasAttribute("true")){
+                await app_storage.like.set(dt.response.id, false);
+            } else {
+                await app_storage.like.set(dt.response.id, true, {
+                    title: dt.response.title,
+                    author: dt.response.author,
+                    thumbnail: await imageToBase64(dt.response.thumbnail),
+                    liked_time: Date.now()/1000
+                }); /* data:image/png;base64,(content) */
+            };
+
+            await dt.extended_controls.update.like(dt.response.id);
+        })
+        
+        dt.features.use_video_ratio.register();
+
+        dt.render.player(url_parameters.get("id"));
+    } else {
+        extended_controls.setAttribute("disabled", true);
+        if("launchQueue" in window){
+            window.launchQueue.setConsumer(
+                async (handler)=>{
+                    dt.render.player(handler.files[0]);
+                }
+            );
+        }
+    }
 });

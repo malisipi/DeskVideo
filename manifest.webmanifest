@@ -26,5 +26,15 @@
     "shortcuts": [],
     "description": "DeskTube",
     "screenshots": [],
-    "display_override": ["window-controls-overlay"]
+    "display_override": ["window-controls-overlay"],
+    "file_handlers": [
+      {
+        "action": "./windows/player.html?embed=false&external_file=true",
+        "name": "Video",
+        "accept": {
+          "video/mp4": [".mp4"]
+        },
+        "launch_type": "multiple-clients"
+      }
+    ]
 }
