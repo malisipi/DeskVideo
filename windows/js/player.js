@@ -92,9 +92,10 @@ var dt = {
                 let file_url = URL.createObjectURL(file_blob);
 
                 document.querySelector("video").src = file_url; // blob
-                document.querySelector(".info .name").innerText = id.name;
-                document.querySelector(".info div.author").innerText = "malisipi";
-                document.querySelector(".info img.author").src = "../assets/144.png";
+                document.querySelector(".info .name").innerText = id.name.split(".")[0];
+                document.querySelector(".info div.author").innerText = "Unknown";
+                document.querySelector(".info img.author").src = "../node_modules/@fluentui/svg-icons/icons/person_16_regular.svg";
+                document.querySelector(".info img.author").style.filter="invert(1)";
             }
         }
     },
