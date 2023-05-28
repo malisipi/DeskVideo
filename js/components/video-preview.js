@@ -70,8 +70,14 @@ class extends HTMLElement {
 
         this.#root = document.createElement("div");
         this.#root.className = "root";
+        this.#root.tabIndex = 0;
         this.#root.addEventListener("click", () => {
             this.#onvideo();
+        });
+        this.#root.addEventListener("keydown", e => {
+            if(e.key == " " || e.key == "Enter"){
+                this.#onvideo();
+            }
         });
         this.shadowRoot.append(this.#root);
 
@@ -99,9 +105,17 @@ class extends HTMLElement {
 
         this.#author = document.createElement("div");
         this.#author.className = "author";
+        this.#author.tabIndex = 0;
         this.#author.addEventListener("click", e => {
-            this.#onauthor();
             e.stopPropagation();
+            this.#onauthor();
+        });
+
+        this.#author.addEventListener("keydown", e => {
+            e.stopPropagation();
+            if(e.key == " " || e.key == "Enter"){
+                this.#onauthor();
+            }
         });
         this.#root.append(this.#author);
 
@@ -153,7 +167,7 @@ class extends HTMLElement {
                 position: absolute;
                 left: 10px;
                 bottom: 20px;
-                width: calc(50% - 10px);
+                width: calc(100% - 20px);
                 height: 20px;
                 font-size: 12px;
                 display: flex;

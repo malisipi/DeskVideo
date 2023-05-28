@@ -190,4 +190,18 @@ document.addEventListener("DOMContentLoaded", () => {
 	dt.broadcast.post({
 		type: "host_search"
 	}, dt.broadcast.channels.host);
+
+	let dt_search = document.querySelector(".dt-search");
+	let dt_search_search = dt_search.querySelector("fluent-text-field.search");
+	dt_search_search.shadowRoot.querySelector("input").enterKeyHint = "search";
+	dt_search_search.addEventListener("change", dt.render.search);
+	dt_search.querySelector("fluent-button").addEventListener("click", dt.render.search);
+
+	dt_search.querySelector("fluent-text-field.search").shadowRoot.querySelector("input").enterKeyHint = "search";
+
+	let dt_liked = document.querySelector(".dt-liked");
+	let dt_liked_search = dt_liked.querySelector("fluent-text-field.search");
+	dt_liked_search.shadowRoot.querySelector("input").enterKeyHint = "search";
+	dt_liked_search.addEventListener("keypress", dt.render.liked_filter);
+	dt_liked.querySelector("fluent-button").addEventListener("click", dt.render.liked_filter);
 });

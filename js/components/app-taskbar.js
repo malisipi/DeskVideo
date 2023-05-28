@@ -103,6 +103,7 @@ class extends HTMLElement {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                border-radius: 4px;
 
                 &.window {
                 	min-width: 120px;
