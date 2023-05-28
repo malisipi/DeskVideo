@@ -27,36 +27,40 @@ app-window {
     top: 50px;
     width: 50%;
     height: calc(100% - 80px);
-}
 
-app-window.video {
-    left: 0;
-    top: var(--taskbar-height);
-    width: calc(100% - 300px);
-    height: calc(calc(100% - 300px) - var(--taskbar-height));
-
-    @media (max-width: 850px) {
+    & iframe {
+        position: relative;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: calc(100% - 30px);
+        border: none;
+        box-sizing: border-box;
     }
 
-    @media (max-height: 750px) {
-        height: calc(100% - var(--taskbar-height));
+    &.video {
+        left: 0;
+        top: var(--taskbar-height);
+        width: calc(100% - 300px);
+        height: calc(calc(100% - 300px) - var(--taskbar-height));
+    
+        @media (max-width: 850px) {
+            width: 100%;
+        }
+    
+        @media (max-height: 750px) {
+            height: calc(100% - var(--taskbar-height));
+        }
     }
 }
 
 video-preview {
     background: #111;
     color: #eee;
-}
 
-app-window iframe {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 30px);
-    border: none;
-    box-sizing: border-box;
+    &[hide] {
+        display: none;
+    }
 }
 
 body[dragging] app-window iframe {

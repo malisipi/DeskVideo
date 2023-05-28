@@ -15,6 +15,7 @@ class extends HTMLElement {
   
     set title(source) {
         this.#title.innerText = source;
+        this.setAttribute("title", source);
     };
 
     set thumbnail(source) {

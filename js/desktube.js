@@ -142,6 +142,20 @@ var dt = {
 				}
 				videos.append(vt);
 			}
+		},
+		liked_filter: async () => {
+			let dt_liked = document.querySelector(".dt-liked");
+			let search = dt_liked.querySelector(".search");
+			let videos = dt_liked.querySelector(".videos");
+			videos.childNodes.forEach((element, index, list, search_value=search.value.toLocaleLowerCase().toLowerCase()) => {
+				if(!element.getAttribute("title").toLocaleLowerCase().toLowerCase().includes(search_value)){
+					element.setAttribute("hide", true);
+				} else {
+					if(element.hasAttribute("hide")) {
+						element.removeAttribute("hide");
+					}
+				}
+			});
 		}
 	},
 	init:{
