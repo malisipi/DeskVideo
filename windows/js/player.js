@@ -75,7 +75,11 @@ var dt = {
         },
         share: async () => {
             let share_url = location.href.replace("embed=true","embed=false");
-            await navigator.clipboard.writeText(share_url);
+            if("share" in navigator){
+                await navigator.share({title:document.title, url:share_url})
+            } else {
+                await navigator.clipboard.writeText(share_url);
+            }
         },
         like: async (e) => {
             if(Object.keys(dt.response).length == 0) return;
