@@ -1,10 +1,13 @@
 "use strict";
 
 var dt = {
+    type: "player",
     response: {},
     video: null,
     embed: false,
     external_file: false,
+    window_id: -1,
+    trigger_close: true,
     controls: {
         play: ()=>{
             if(dt.video.paused){
@@ -97,11 +100,14 @@ var dt = {
                 if(dt.response.live){ 
                     console.warn("Live Videos is not supported atm!");
                 };
+                document.title = dt.response.title;
                 document.querySelector("video").src = dt.response.sources.reverse()[0].url;
                 document.querySelector(".info .name").innerText = dt.response.title;
                 document.querySelector(".info div.author").innerText = dt.response.author;
                 document.querySelector(".info img.author").src = dt.response.author_thumbnail;
                 dt.extended_controls.update.like(id);
+
+                dt.render.list();
             } else {
 
                 // Create blob URL
@@ -111,11 +117,20 @@ var dt = {
                 let file_url = URL.createObjectURL(file_blob);
 
                 document.querySelector("video").src = file_url; // blob
-                document.querySelector(".info .name").innerText = id.name.split(".")[0];
+                let file_title = id.name.split(".")[0];
+                document.title = file_title;
+                document.querySelector(".info .name").innerText = file_title;
                 document.querySelector(".info div.author").innerText = "Unknown";
                 document.querySelector(".info img.author").src = "../node_modules/@fluentui/svg-icons/icons/person_16_regular.svg";
                 document.querySelector(".info img.author").style.filter="invert(1)";
             }
+        },
+        list: () => {
+            dt.broadcast.post({
+                type: "list_update",
+                wid: dt.window_id,
+                list: dt.response.next_videos
+            });
         }
     },
     visibility:{
@@ -163,12 +178,23 @@ var dt = {
 document.addEventListener("DOMContentLoaded", () => {
     let url_parameters = new URLSearchParams(window.location.search);
     dt.external_file = url_parameters.get("external_file") == "true"
+    dt.window_id = url_parameters.get("wid");
+    if(!!dt.window_id){
+        dt.window_id = Date.now();
+    }
+    let window_title = url_parameters.get("title");
+    if(!!window_title) {
+        document.title = window_title;
+    } else {
+        document.title = "Unknown";
+    }
+
     if(url_parameters.get("embed") == "true"){
     	dt.embed = true;
     	document.body.setAttribute("embed", true);
     };
 
-    dt.broadcast.channels.clients.onmessage = dt.broadcast.listeners.clients;
+    dt.broadcast.init();
     dt.visibility.register();
 
     // fix fluent-select WindowControlsOverlay bug
@@ -212,6 +238,15 @@ document.addEventListener("DOMContentLoaded", () => {
     controls.querySelector(".playrate").addEventListener("change", dt.controls.playrate);
     
     dt.features.use_video_ratio.register();
+
+    window.addEventListener("unload", () => {
+        if(dt.trigger_close){
+            dt.broadcast.post({
+                type: "player_close",
+                wid: dt.window_id
+            });
+        }
+    })
     
     // Video loading (from backend or local)
     
@@ -220,6 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(!dt.external_file) {
         extended_controls.querySelector(".like").addEventListener("click", dt.extended_controls.like);
         extended_controls.querySelector(".share").addEventListener("click", dt.extended_controls.share);
+        extended_controls.querySelector(".list").addEventListener("click", () => { dt.open.list(); });
         
         dt.render.player(url_parameters.get("id"));
     } else {

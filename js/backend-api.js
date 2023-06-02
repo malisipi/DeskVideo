@@ -2,29 +2,38 @@
 
 var video_backend = {
     host: "https://iv.ggtyler.dev",
-    get_trending_videos: async () => { // https://docs.invidious.io/api/#get-apiv1trending
+    get_trending_videos: async (network_saver = false) => { // https://docs.invidious.io/api/#get-apiv1trending
         let tp_resource = await fetch(video_backend.host+"/api/v1/trending", { cache: "force-cache" });
         let video_list = [];
         if(tp_resource.status == 200){
             let tp_video_list = await tp_resource.json();
             for(let video_index in tp_video_list){
-                let video = tp_video_list[video_index];
-                if(video.type != "video") continue;
-                if(video.premium) continue;
-                video_list.push({
-                    author: video.author,
-                    author_id: video.authorId,
-                    author_verified: video.authorVerified,
-                    description: video.description,
-                    length: video.lengthSeconds,
-                    live: video.liveNow || (video.lengthSeconds == 0),
-                    title: video.title,
-                    id: video.videoId,
-                    published: video.published,
-                    upcoming: video.isUpcoming,
-                    views: video.viewCount,
-                    thumbnail: video.videoThumbnails.reverse()[0].url
-                });
+                let tp_video = tp_video_list[video_index];
+                if(tp_video.type != "video") continue;
+                if(tp_video.premium) continue;
+
+                let video = {
+                    author: tp_video.author,
+                    author_id: tp_video.authorId,
+                    author_verified: tp_video.authorVerified,
+                    description: tp_video.description,
+                    length: tp_video.lengthSeconds,
+                    live: tp_video.liveNow || (tp_video.lengthSeconds == 0),
+                    title: tp_video.title,
+                    id: tp_video.videoId,
+                    published: tp_video.published,
+                    upcoming: tp_video.isUpcoming,
+                    views: tp_video.viewCount,
+                    thumbnail: tp_video.videoThumbnails.filter((e, i, _network_saver = network_saver) => {
+                            if(_network_saver) {
+                                return e.quality=="end"
+                            } else {
+                                return e.quality=="medium"
+                            }
+                        }
+                    )[0].url
+                };
+                video_list.push(video);
             }
         } else {
             console.error(tp_resource.status);

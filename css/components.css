@@ -52,6 +52,13 @@ app-window {
             height: calc(100% - var(--taskbar-height));
         }
     }
+
+    &.list {
+        left: calc(100% - 300px);
+        width: 300px;
+        top: var(--taskbar-height);
+        height: calc(100% - var(--taskbar-height));
+    }
 }
 
 video-preview {

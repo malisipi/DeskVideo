@@ -1,32 +1,7 @@
 "use strict";
 
 var dt = {
-	mobile: !!navigator.userAgentData?.mobile,
-	broadcast:{
-		channels: {
-			host: new BroadcastChannel("host"),
-			clients: new BroadcastChannel("clients")
-		},
-		listeners: {
-			host: (e) => {
-				if (location.origin!=e.origin) return;
-
-				if (e.data.type=="close"){
-					console.warn("Close window:"+e.data.id);
-				} else if (e.data.type=="host_search"){
-					dt.broadcast.post({
-						type: "host_shutdown"
-					}, dt.broadcast.channels.host);
-				} else if (e.data.type=="host_shutdown"){
-					window.close();
-					location.href = "data:text/html, Another host is already working!";
-				}
-			}
-		},
-		post: (event, target = dt.broadcast.channels.clients) => {
-			target.postMessage(event);
-		}
-	},
+	type: "main",
 	hide_all: skip => {
 		let list = ["trends", "search", "liked"];
 		for(let item_index in list){
@@ -60,29 +35,10 @@ var dt = {
 			dt.toggle.it("liked", dt.render.liked);
 		}
 	},
-	open: {
-		video: async (id, title="", popup=false) => {
-			dt.hide_all();
-			let video_window = document.createElement("app-window");
-			video_window.title = title;
-			video_window.className = "video";
-			document.body.append(video_window);
-			let iframe = document.createElement("iframe");
-			iframe.src = "./windows/player.html?id="+id+"&embed=true";
-			dt.init.window(video_window);
-			video_window.onminimize = (_window=video_window, _title=title) => {
-				document.querySelector("app-taskbar").new_window(title, (_id, __window=_window) => {
-					__window.removeAttribute("minimized");
-					document.querySelector("app-taskbar").remove_window(_id);
-				});
-			}
-			video_window.append(iframe);
-		}
-	},
 	render: {
 		trends: async () => {
 			let trends = document.querySelector(".dt-trends");
-			let api = await video_backend.get_trending_videos();
+			let api = await video_backend.get_trending_videos(dt.network_saving);
 			trends.innerHTML = "";
 			api.forEach(video => {
 				let vt = document.createElement("video-preview");
@@ -104,7 +60,7 @@ var dt = {
 		},
 		search: async () => {
 			let videos = document.querySelector(".dt-search").querySelector(".videos");
-			let api = await video_backend.search_videos(document.querySelector("fluent-text-field.search").value);
+			let api = await video_backend.search_videos(document.querySelector("fluent-text-field.search").value, dt.network_saving);
 			videos.innerHTML = "";
 			api.forEach(video => {
 				let vt = document.createElement("video-preview");
@@ -176,6 +132,9 @@ var dt = {
 			if(dt.mobile) return;
 			_window.extra = "./node_modules/@fluentui/svg-icons/icons/window_new_16_regular.svg";
 			_window.onextra = (__window) => {
+				if(__window.querySelector("iframe").contentWindow.dt.trigger_close){
+					__window.querySelector("iframe").contentWindow.dt.trigger_close = false;
+				}
 				window.open(__window.querySelector("iframe").src.replace("&embed=true","&embed=false"), "_blank", "popup=yes");
 				__window.remove();
 			};
@@ -184,12 +143,9 @@ var dt = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-	dt.broadcast.channels.host.onmessage = dt.broadcast.listeners.host;
+	dt.broadcast.init();
 	dt.init.taskbar();
 	dt.render.trends();
-	dt.broadcast.post({
-		type: "host_search"
-	}, dt.broadcast.channels.host);
 
 	let dt_search = document.querySelector(".dt-search");
 	let dt_search_search = dt_search.querySelector("fluent-text-field.search");

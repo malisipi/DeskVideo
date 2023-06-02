@@ -82,6 +82,7 @@ class extends HTMLElement {
         this.shadowRoot.append(this.#root);
 
         this.#thumbnail = document.createElement("img");
+        this.#thumbnail.setAttribute("loading", "lazy");
         this.#thumbnail.className = "thumbnail";
         this.#root.append(this.#thumbnail);
 
