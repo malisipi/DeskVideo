@@ -69,6 +69,25 @@ var dt = {
                     };
                 };
             }
+        },
+        share: async () => {
+            let share_url = location.href.replace("embed=true","embed=false");
+            await navigator.clipboard.writeText(share_url);
+        },
+        like: async (e) => {
+            if(Object.keys(dt.response).length == 0) return;
+            if(e.target.hasAttribute("true")){
+                await app_storage.like.set(dt.response.id, false);
+            } else {
+                await app_storage.like.set(dt.response.id, true, {
+                    title: dt.response.title,
+                    author: dt.response.author,
+                    thumbnail: await imageToBase64(dt.response.thumbnail),
+                    liked_time: Date.now()/1000
+                }); /* data:image/png;base64,(content) */
+            };
+
+            await dt.extended_controls.update.like(dt.response.id);
         }
     },
     render:{
@@ -142,24 +161,27 @@ var dt = {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    dt.broadcast.channels.clients.onmessage = dt.broadcast.listeners.clients;
-    dt.visibility.register();
     let url_parameters = new URLSearchParams(window.location.search);
+    dt.external_file = url_parameters.get("external_file") == "true"
     if(url_parameters.get("embed") == "true"){
     	dt.embed = true;
-    	document.body.setAttribute("embed", true)
+    	document.body.setAttribute("embed", true);
     };
-    dt.external_file = url_parameters.get("external_file") == "true"
+
+    dt.broadcast.channels.clients.onmessage = dt.broadcast.listeners.clients;
+    dt.visibility.register();
 
     // fix fluent-select WindowControlsOverlay bug
-    let styl = document.createElement("style");
-    styl.innerHTML = `.listbox{app-region:no-drag;-webkit-app-region:no-drag;}`;
-    document.querySelector("fluent-select").shadowRoot.append(styl);
+    let fix_style = document.createElement("style");
+    fix_style.innerHTML = `.listbox{app-region:no-drag;-webkit-app-region:no-drag;}`;
+    document.querySelector("fluent-select").shadowRoot.append(fix_style);
 
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
+
     let controls = document.querySelector(".controls");
-    let extended_controls = document.querySelector(".extended-controls");
+    
+    // Play/Pause Button
     let play = controls.querySelector(".play");
     play.addEventListener("click", dt.controls.play);
     dt.video.addEventListener("play", (e, _play=play) => {
@@ -172,7 +194,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         dt.controls.time.stop_timer();
     });
-    document.querySelector("fluent-slider.time").addEventListener("change", dt.controls.time.update_current_time);
+    
+    // PiP button
     let pip = controls.querySelector(".pip");
     pip.addEventListener("click", dt.controls.pip);
     dt.video.addEventListener('leavepictureinpicture', (e, _pip=pip) => {
@@ -183,28 +206,21 @@ document.addEventListener("DOMContentLoaded", () => {
     dt.video.addEventListener('enterpictureinpicture', (e, _pip=pip) => {
         _pip.setAttribute("true", true);
     });
+    
+    document.querySelector("fluent-slider.time").addEventListener("change", dt.controls.time.update_current_time);
     controls.querySelector(".fullscreen").addEventListener("click", dt.controls.fullscreen);
     controls.querySelector(".playrate").addEventListener("change", dt.controls.playrate);
     
+    dt.features.use_video_ratio.register();
+    
+    // Video loading (from backend or local)
+    
+    let extended_controls = document.querySelector(".extended-controls");
+    
     if(!dt.external_file) {
-        extended_controls.querySelector(".like").addEventListener("click", async (e) => {
-            if(Object.keys(dt.response).length == 0) return;
-            if(e.target.hasAttribute("true")){
-                await app_storage.like.set(dt.response.id, false);
-            } else {
-                await app_storage.like.set(dt.response.id, true, {
-                    title: dt.response.title,
-                    author: dt.response.author,
-                    thumbnail: await imageToBase64(dt.response.thumbnail),
-                    liked_time: Date.now()/1000
-                }); /* data:image/png;base64,(content) */
-            };
-
-            await dt.extended_controls.update.like(dt.response.id);
-        })
+        extended_controls.querySelector(".like").addEventListener("click", dt.extended_controls.like);
+        extended_controls.querySelector(".share").addEventListener("click", dt.extended_controls.share);
         
-        dt.features.use_video_ratio.register();
-
         dt.render.player(url_parameters.get("id"));
     } else {
         extended_controls.setAttribute("disabled", true);
