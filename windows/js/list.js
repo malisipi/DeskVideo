@@ -34,7 +34,7 @@ let dt = {
 document.addEventListener("DOMContentLoaded", () => {
     let url_parameters = new URLSearchParams(window.location.search);
     dt.window_id = url_parameters.get("wid");
-    if(!!dt.window_id){
+    if(!dt.window_id){
         window.close();
     };
 

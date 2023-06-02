@@ -77,11 +77,11 @@ dt.broadcast = {
                 break;
             }
             case "list_update": {
-                if(dt.type == "list"){
-                    console.warn("Update list from #:"+e.data.wid);
-                    console.warn(e.data.list);
-                    dt.render.list(e.data.list);
-                    break;
+                if(dt.window_id == e.data.wid){
+                    if(dt.type == "list"){
+                        dt.render.list(e.data.list);
+                        break;
+                    }
                 }
             }
             case "list_init": {

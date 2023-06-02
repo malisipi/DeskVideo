@@ -132,7 +132,7 @@ var dt = {
 			if(dt.mobile) return;
 			_window.extra = "./node_modules/@fluentui/svg-icons/icons/window_new_16_regular.svg";
 			_window.onextra = (__window) => {
-				if(__window.querySelector("iframe").contentWindow.dt.trigger_close){
+				if(__window.classList[0] == "video"){
 					__window.querySelector("iframe").contentWindow.dt.trigger_close = false;
 				}
 				window.open(__window.querySelector("iframe").src.replace("&embed=true","&embed=false"), "_blank", "popup=yes");

@@ -58,6 +58,10 @@ app-window {
         width: 300px;
         top: var(--taskbar-height);
         height: calc(100% - var(--taskbar-height));
+
+        @media (max-width: 300px) {
+            width: 100%;
+        }
     }
 }
 
