@@ -2,6 +2,7 @@
 
 var dt = {
 	type: "main",
+	force_window: false,
 	hide_all: skip => {
 		let list = ["trends", "search", "liked"];
 		for(let item_index in list){

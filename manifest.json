@@ -1,0 +1,17 @@
+{
+    "name": "DeskTube",
+    "version": "1.0.0",
+    "description": "DeskTube",
+    "manifest_version": 3,
+    "author": "malisipi",
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "DeskTube"
+    },
+    "side_panel": {
+        "default_path": "index.html"
+    },
+    "permissions": [
+        "sidePanel"
+    ]
+}

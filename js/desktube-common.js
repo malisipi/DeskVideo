@@ -7,7 +7,7 @@ dt.open = {
         let window_id = Date.now();
         let window_url = "./windows/player.html?wid="+window_id+"&id="+id+"&title="+encodeURIComponent(title);
 
-        if(!popup){
+        if(!popup && !dt.force_window){
             dt.hide_all();
             let video_window = document.createElement("app-window");
             video_window.title = title;
