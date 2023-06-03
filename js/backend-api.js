@@ -1,9 +1,17 @@
 "use strict";
 
 var video_backend = {
-    host: "https://iv.ggtyler.dev",
-    get_trending_videos: async (network_saver = false) => { // https://docs.invidious.io/api/#get-apiv1trending
-        let tp_resource = await fetch(video_backend.host+"/api/v1/trending", { cache: "force-cache" });
+    __host: "https://iv.ggtyler.dev",
+    __get_fetch_policy: (reload) => {
+        if(reload){
+            return "reload";
+        }
+        return "force-cache";
+    },
+    network_saving: false,
+    get_trending_videos: async (reload = false) => { // https://docs.invidious.io/api/#get-apiv1trending
+        let tp_resource = await fetch(video_backend.__host+"/api/v1/trending", { cache: video_backend.__get_fetch_policy(reload) });
+        console.log(tp_resource);
         let video_list = [];
         if(tp_resource.status == 200){
             let tp_video_list = await tp_resource.json();
@@ -24,8 +32,8 @@ var video_backend = {
                     published: tp_video.published,
                     upcoming: tp_video.isUpcoming,
                     views: tp_video.viewCount,
-                    thumbnail: tp_video.videoThumbnails.filter((e, i, _network_saver = network_saver) => {
-                            if(_network_saver) {
+                    thumbnail: tp_video.videoThumbnails.filter((e) => {
+                            if(video_backend.network_saving) {
                                 return e.quality=="end"
                             } else {
                                 return e.quality=="medium"
@@ -40,13 +48,14 @@ var video_backend = {
         }
         return video_list;
     },
-    get_video: async (id) => { // https://docs.invidious.io/api/#get-apiv1videosid
-        let tp_resource = await fetch(video_backend.host+"/api/v1/videos/"+id, { cache: "force-cache" });
+    get_video: async (id, reload = false) => { // https://docs.invidious.io/api/#get-apiv1videosid
+        let tp_resource = await fetch(video_backend.__host+"/api/v1/videos/"+id, { cache: video_backend.__get_fetch_policy(reload) });
         let video = {error:"#000"};
         if(tp_resource.status == 200){
             let tp_video = await tp_resource.json();
             //window.vi = tp_video;
             video = {
+                lastest: reload,
                 author: tp_video.author,
                 author_id: tp_video.authorId,
                 author_thumbnail: tp_video.authorThumbnails[0].url,
@@ -105,7 +114,7 @@ var video_backend = {
         return video;
     },
     get_video_comments: async (id, continuation=null) => { // https://docs.invidious.io/api/#get-apiv1commentsid
-    	let tp_resource = await fetch(video_backend.host+"/api/v1/comments/"+id, { cache: "force-cache" });
+    	let tp_resource = await fetch(video_backend.__host+"/api/v1/comments/"+id, { cache: "force-cache" });
     	let comments = {};
     	if(tp_resource.status == 200){
     		let tp_comments = await tp_resource.json();
@@ -138,7 +147,7 @@ var video_backend = {
     	return comments;
     },
     search_videos: async (query) => { // https://docs.invidious.io/api/#get-apiv1search
-    	let tp_resource = await fetch(video_backend.host+"/api/v1/search/?q="+query, { cache: "force-cache" });
+    	let tp_resource = await fetch(video_backend.__host+"/api/v1/search/?q="+query, { cache: "force-cache" });
  	    let video_list = [];
  	    if(tp_resource.status == 200){
  	        let tp_video_list = await tp_resource.json();

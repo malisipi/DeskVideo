@@ -38,7 +38,7 @@ var dt = {
 	render: {
 		trends: async () => {
 			let trends = document.querySelector(".dt-trends");
-			let api = await video_backend.get_trending_videos(dt.network_saving);
+			let api = await video_backend.get_trending_videos();
 			trends.innerHTML = "";
 			api.forEach(video => {
 				let vt = document.createElement("video-preview");
@@ -143,6 +143,8 @@ var dt = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+	video_backend.network_saving = dt.network_saving;
+	
 	dt.broadcast.init();
 	dt.init.taskbar();
 	dt.render.trends();

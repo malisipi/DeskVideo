@@ -98,9 +98,9 @@ var dt = {
         }
     },
     render:{
-        player: async (id) => {
+        player: async (id, reload=false) => {
             if(typeof(id)=="string"){
-                dt.response = await video_backend.get_video(id);
+                dt.response = await video_backend.get_video(id, reload);
                 if(dt.response.live){ 
                     console.warn("Live Videos is not supported atm!");
                 };
@@ -208,6 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
+    dt.video.addEventListener('error', function() { 
+        if(!dt.response.latest){
+            dt.render.player(dt.response.id, true);
+        }
+    });
 
     let controls = document.querySelector(".controls");
     
