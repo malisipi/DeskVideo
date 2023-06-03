@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.close();
     };
     dt.embed = url_parameters.get("embed")=="true";
+    if(!dt.embed) document.body.setAttribute("seperate", true);
 
     dt.videos = document.querySelector(".videos");
 

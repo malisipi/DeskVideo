@@ -13,10 +13,12 @@
     align-items: center;
     padding: 0 4px;
     
-    @media (display-mode: window-controls-overlay) { 
-        display: flex;
-        height: env(titlebar-area-height, 0);
-        width: env(titlebar-area-width, 100%);
+    [seperate] > & {
+        @media (display-mode: window-controls-overlay) { 
+            display: flex;
+            height: env(titlebar-area-height, 0);
+            width: env(titlebar-area-width, 100%);
+        }
     }
 }
 
