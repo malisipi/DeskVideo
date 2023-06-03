@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // fix fluent-select WindowControlsOverlay bug
     let fix_style = document.createElement("style");
-    fix_style.innerHTML = `.listbox{app-region:no-drag;-webkit-app-region:no-drag;}`;
+    fix_style.innerHTML = `.listbox{app-region:no-drag;}`;
     document.querySelector("fluent-select").shadowRoot.append(fix_style);
 
     dt.video = document.querySelector("video");

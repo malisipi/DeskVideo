@@ -82,7 +82,6 @@ class extends HTMLElement {
 
             .windows {
                 width: 100%;
-                -webkit-app-region: drag;
                 app-region: drag;
                 display: flex;
                 overflow-x: scroll;
@@ -109,7 +108,6 @@ class extends HTMLElement {
                 	min-width: 120px;
                 	width: 120px;
                     justify-content: left;
-                    -webkit-app-region: no-drag;
                     app-region: no-drag;
                 }
                 

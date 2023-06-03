@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(!dt.window_id){
         window.close();
     };
+    dt.embed = url_parameters.get("embed")=="true";
 
     dt.videos = document.querySelector(".videos");
 
@@ -46,4 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
         type: "list_init",
         wid: dt.window_id
     });
+
+    if(!dt.embed){
+        window.resizeTo(350, window.outerHeight);
+    }
 });

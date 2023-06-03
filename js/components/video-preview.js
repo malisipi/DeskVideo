@@ -108,11 +108,15 @@ class extends HTMLElement {
         this.#author.className = "author";
         this.#author.tabIndex = 0;
         this.#author.addEventListener("click", e => {
+            if(this.#onauthor == undefined) return;
+            
             e.stopPropagation();
             this.#onauthor();
         });
 
         this.#author.addEventListener("keydown", e => {
+            if(this.#onauthor == undefined) return;
+
             e.stopPropagation();
             if(e.key == " " || e.key == "Enter"){
                 this.#onauthor();
