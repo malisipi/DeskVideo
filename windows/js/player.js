@@ -175,6 +175,18 @@ var dt = {
                     dt.features.use_video_ratio.timer = setTimeout(dt.features.use_video_ratio.listener, 225);
                 };
             }
+        },
+        next_video: () => {
+            setTimeout(() => {
+                if(dt.video.ended){
+                    let next_video_id = dt.response.next_videos[
+                        Math.round(
+                            Math.random() * (Math.min(3, dt.response.next_videos.length)-1)
+                        )
+                    ].id;
+                    dt.render.player(next_video_id);
+                }
+            }, 3000);
         }
     }
 }
@@ -208,6 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
+    dt.video.addEventListener("ended", dt.features.next_video);
     dt.video.addEventListener('error', function() { 
         if(!dt.response.latest){
             dt.render.player(dt.response.id, true);
