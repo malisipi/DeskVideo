@@ -25,8 +25,9 @@ Desktop styled video-stream platform front-end
 | [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)                                                      | 42   | 14 | 29  | 10.1 | 40    |
 | [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API)                                              | 89   | 81 | x   | 12.1 | x     |
 | [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)                                              | 66   | 79 | 53  | 13.1 | 63    |
-| Browser Extension                                                                                                            | 104  | ?  | ?   | ?    | ?     |
-| \\- [(Chrome) Side Panel](https://developer.chrome.com/docs/extensions/reference/sidePanel/)                                 | 104  | x  | x   | x    | x     |
+| Browser Extension                                                                                                            |      |    |     |      |       |
+| \\- [Chrome Side Panel](https://developer.chrome.com/docs/extensions/reference/sidePanel/)                                   | 104  | x  | x   | x    | x     |
+| \\- [Opera Side Panel](https://dev.opera.com/extensions/sidebar-action-manual/)                                              | x    | x  | ?   | x    | x     |
 
 ## License
 

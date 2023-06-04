@@ -11,6 +11,11 @@
     "side_panel": {
         "default_path": "index.html"
     },
+    "sidebar_action": {
+        "default_icon": "assets/144.png",
+        "default_title": "DeskTube",
+        "default_panel": "index.html"
+    },
     "permissions": [
         "sidePanel"
     ]
