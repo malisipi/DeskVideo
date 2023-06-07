@@ -1,5 +1,6 @@
 body {
     --taskbar-height: 30px;
+    --accent-color: #0058b7;
 
     @media (display-mode: window-controls-overlay) { 
         --taskbar-height: env(titlebar-area-height, 30px);
@@ -12,9 +13,12 @@ app-taskbar {
     --color: #eee;
     --dark-images: 1;
     height: var(--taskbar-height);
+    left: 0;
+    top: 0;
 
     @media (display-mode: window-controls-overlay) { 
         width: env(titlebar-area-width, 100%);
+        left: env(titlebar-area-x, 0);
     }
 }
 
@@ -66,7 +70,7 @@ app-window {
 }
 
 video-preview {
-    background: #111;
+    background: #222;
     color: #eee;
 
     &[hide] {
@@ -87,15 +91,22 @@ input, button, select {
 	border: none;
 	color: #fff;
 	background: #222;
-	padding: 4px;
+	padding: 8px;
 	box-sizing: border-box;
 	border-radius: 4px;
+	transition: 75ms;
+	accent-color: var(--accent-color);
 	
-	&:is(input):not([type]) {
+	&:is(input):not([type]) { /* if text */
 		width: 200px;
+		outline: none;
 
-		&:hover{
-			border: 2px blue solid;
+		&:focus{
+			border-bottom: 2px var(--accent-color) solid;
 		}
+	}
+
+	&:is([appearance="accent"]) {
+		background: var(--accent-color);
 	}
 }
