@@ -77,3 +77,25 @@ video-preview {
 body[dragging] app-window iframe {
     pointer-events: none;
 }
+
+input, button, select {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 30px;
+	min-width: 40px;
+	border: none;
+	color: #fff;
+	background: #222;
+	padding: 4px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	
+	&:is(input):not([type]) {
+		width: 200px;
+
+		&:hover{
+			border: 2px blue solid;
+		}
+	}
+}

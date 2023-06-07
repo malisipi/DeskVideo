@@ -16,29 +16,28 @@
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/index.css">
     <script src="./js/backend-api.js"></script>
-    <script src="./node_modules/image-to-base64/browser.js"></script>
+    <script src="./js/thirdparty/image-to-base64.js"></script>
     <script src="./js/desktube.js"></script>
     <script src="./js/desktube-common.js"></script>
-    <script src="./node_modules/idb-keyval/dist/umd.js"></script>
+    <script src="./js/thirdparty/idb-keyval.js"></script>
     <script src="./js/storage.js"></script>
-    <script type="module" src="./js/fluent-components.js"></script>
     <link rel="stylesheet" href="./css/extension.css">
     <script src="./js/extension.js"></script>
 </head>
 <body trends>
-	<app-taskbar position="top" start="./node_modules/@fluentui/svg-icons/icons/video_16_regular.svg" search="./node_modules/@fluentui/svg-icons/icons/search_16_regular.svg" onstart="dt.toggle.trends" onsearch="dt.toggle.search"></app-taskbar>
+	<app-taskbar position="top" start="./assets/fluent-icons/video_16_regular.svg" search="./assets/fluent-icons/search_16_regular.svg" onstart="dt.toggle.trends" onsearch="dt.toggle.search"></app-taskbar>
 	<div class="dt-trends"><span style="color: white;">Loading...</span></div>
     <div class="dt-search">
         <div class="search-container">
-            <fluent-text-field class="search" appearance="outline" placeholder="Search Videos"></fluent-text-field>
-            <fluent-button appearance="accent">Search</fluent-button>
+            <input class="search" placeholder="Search Videos"/>
+            <button appearance="accent">Search</button>
         </div>
         <div class="videos"></div>
     </div>
     <div class="dt-liked">
         <div class="search-container">
-            <fluent-text-field class="search" appearance="outline" placeholder="Filter Videos"></fluent-text-field>
-            <fluent-button appearance="accent">Filter</fluent-button>
+            <input class="search" placeholder="Filter Videos"/>
+            <button appearance="accent">Filter</button>
         </div>
         <div class="videos"></div>
     </div>

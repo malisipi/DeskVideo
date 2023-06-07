@@ -61,7 +61,7 @@ var dt = {
 		},
 		search: async () => {
 			let videos = document.querySelector(".dt-search").querySelector(".videos");
-			let api = await video_backend.search_videos(document.querySelector("fluent-text-field.search").value, dt.network_saving);
+			let api = await video_backend.search_videos(document.querySelector("input.search").value, dt.network_saving);
 			videos.innerHTML = "";
 			api.forEach(video => {
 				let vt = document.createElement("video-preview");
@@ -122,7 +122,7 @@ var dt = {
 			document.querySelector("app-taskbar").shadowRoot.querySelector(".root").append(button);
 
 			let image = document.createElement("img");
-			image.src = "./node_modules/@fluentui/svg-icons/icons/thumb_like_16_regular.svg";
+			image.src = "./assets/fluent-icons/thumb_like_16_regular.svg";
 			button.append(image);
 		},
 		window: (_window) => {
@@ -131,7 +131,7 @@ var dt = {
 			}
 
 			if(dt.mobile) return;
-			_window.extra = "./node_modules/@fluentui/svg-icons/icons/window_new_16_regular.svg";
+			_window.extra = "./assets/fluent-icons/window_new_16_regular.svg";
 			_window.onextra = (__window) => {
 				if(__window.classList[0] == "video"){
 					__window.querySelector("iframe").contentWindow.dt.trigger_close = false;
@@ -151,16 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	dt.render.trends();
 
 	let dt_search = document.querySelector(".dt-search");
-	let dt_search_search = dt_search.querySelector("fluent-text-field.search");
-	dt_search_search.shadowRoot.querySelector("input").enterKeyHint = "search";
+	let dt_search_search = dt_search.querySelector("input.search");
 	dt_search_search.addEventListener("change", dt.render.search);
-	dt_search.querySelector("fluent-button").addEventListener("click", dt.render.search);
-
-	dt_search.querySelector("fluent-text-field.search").shadowRoot.querySelector("input").enterKeyHint = "search";
+	dt_search.querySelector("button").addEventListener("click", dt.render.search);
 
 	let dt_liked = document.querySelector(".dt-liked");
-	let dt_liked_search = dt_liked.querySelector("fluent-text-field.search");
-	dt_liked_search.shadowRoot.querySelector("input").enterKeyHint = "search";
+	let dt_liked_search = dt_liked.querySelector("input.search");
 	dt_liked_search.addEventListener("keypress", dt.render.liked_filter);
-	dt_liked.querySelector("fluent-button").addEventListener("click", dt.render.liked_filter);
+	dt_liked.querySelector("button").addEventListener("click", dt.render.liked_filter);
 });

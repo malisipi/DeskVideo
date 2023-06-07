@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@fluentui/svg-icons": "^1.1.198",
-    "@fluentui/web-components": "^2.5.14",
-    "idb-keyval": "^6.2.1",
-    "image-to-base64": "^2.2.0"
-  }
-}

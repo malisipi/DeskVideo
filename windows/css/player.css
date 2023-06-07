@@ -125,7 +125,7 @@ body {
         }
     }
 
-    & fluent-button img.fi{
+    & button img.fi{
         filter: invert(1);
     }
 

@@ -40,10 +40,10 @@ var dt = {
             ignore_change_event: false,
             update: () => {
                 dt.controls.time.ignore_change_event = true;
-                document.querySelector("fluent-slider.time").value = dt.video.currentTime;
+                document.querySelector("input.time").value = dt.video.currentTime;
             },
             update_duration: () => {
-                document.querySelector("fluent-slider.time").max = dt.video.duration;
+                document.querySelector("input.time").max = dt.video.duration;
             },
             update_current_time: (e) => {
                 if(!dt.controls.time.ignore_change_event){
@@ -213,11 +213,6 @@ document.addEventListener("DOMContentLoaded", () => {
     dt.broadcast.init();
     dt.visibility.register();
 
-    // fix fluent-select WindowControlsOverlay bug
-    let fix_style = document.createElement("style");
-    fix_style.innerHTML = `.listbox{app-region:no-drag;}`;
-    document.querySelector("fluent-select").shadowRoot.append(fix_style);
-
     dt.video = document.querySelector("video");
     dt.video.addEventListener("loadedmetadata", dt.controls.time.update_duration);
     dt.video.addEventListener("ended", dt.features.next_video);
@@ -255,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
         _pip.setAttribute("true", true);
     });
     
-    document.querySelector("fluent-slider.time").addEventListener("change", dt.controls.time.update_current_time);
+    document.querySelector("input.time").addEventListener("input", dt.controls.time.update_current_time);
     controls.querySelector(".fullscreen").addEventListener("click", dt.controls.fullscreen);
     controls.querySelector(".playrate").addEventListener("change", dt.controls.playrate);
     
