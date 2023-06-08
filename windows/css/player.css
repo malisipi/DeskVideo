@@ -14,9 +14,17 @@ body {
     }
     
     & .info {
+        --overlay-x: 0px;
+
+        [seperate] > & {
+            @media (display-mode: window-controls-overlay) { 
+                --overlay-x: env(titlebar-area-x, 0px);
+            }
+        }
+
         & > * {
             position: fixed;
-            left: 50px;
+            left: calc(50px + var(--overlay-x));
             color: #ffffff;
         }
 
@@ -38,7 +46,7 @@ body {
 
         & img.author {
             top: 8px;
-            left: 10px;
+            left: calc(10px + var(--overlay-x));
             width: 30px;
             border-radius: 50%;
         }

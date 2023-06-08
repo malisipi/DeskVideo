@@ -263,7 +263,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 wid: dt.window_id
             });
         }
-    })
+    });
+
+    if(!dt.embed) document.body.setAttribute("seperate", true);
     
     // Video loading (from backend or local)
     
