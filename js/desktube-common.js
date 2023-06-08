@@ -50,7 +50,8 @@ dt.open = {
             if ('documentPictureInPicture' in window) {
                 const pip_window = await documentPictureInPicture.requestWindow({width: 300, height: 800});
                 pip_window.document.write((await (await fetch("list.html")).text()));
-                pip_window.document.write("<script>dt.window_id="+window_id+";dt.init();</script>");
+                pip_window.document.write("<window_id>" + window_id + "</window-id>");
+                pip_window.document.write("<script src=\"./js/wpip-init.js\"></script>");
             } else {
                 window.open(window_url.replace("./windows/", "") + "&embed=false", "_blank", "popup=yes");
             }
