@@ -10,7 +10,7 @@
     	"144":"assets/144.png",
        	"192":"assets/192.png",
     	"512":"assets/512.png"
-    }
+    },
     "author": "malisipi",
     "action": {
         "default_popup": "index.html",
