@@ -1,6 +1,6 @@
 body {
     --taskbar-height: 30px;
-    --accent-color: #0058b7;
+    --accent-color: #d02727;
 
     @media (display-mode: window-controls-overlay) { 
         --taskbar-height: env(titlebar-area-height, 30px);
