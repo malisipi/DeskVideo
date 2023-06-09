@@ -1,6 +1,6 @@
 {
-    "short_name": "DeskTube",
-    "name": "DeskTube",
+    "short_name": "DeskVideo",
+    "name": "DeskVideo",
     "icons": [
       {
         "src": "./assets/Vector.svg",
@@ -24,7 +24,7 @@
     "scope": "./",
     "theme_color": "#222222",
     "shortcuts": [],
-    "description": "DeskTube",
+    "description": "DeskVideo",
     "screenshots": [],
     "display_override": ["window-controls-overlay"],
     "file_handlers": [

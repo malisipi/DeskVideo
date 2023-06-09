@@ -1,6 +1,6 @@
 "use strict";
 
-var dt = {
+var dv = {
 	type: "main",
 	force_window: false,
 	hide_all: skip => {
@@ -24,16 +24,16 @@ var dt = {
 			}
 		},
 		trends: () => {
-			dt.hide_all("trends");
-			dt.toggle.it("trends");
+			dv.hide_all("trends");
+			dv.toggle.it("trends");
 		},
 		search: () => {
-			dt.hide_all("search");
-			dt.toggle.it("search");
+			dv.hide_all("search");
+			dv.toggle.it("search");
 		},
 		liked: () => {
-			dt.hide_all("liked");
-			dt.toggle.it("liked", dt.render.liked);
+			dv.hide_all("liked");
+			dv.toggle.it("liked", dv.render.liked);
 		}
 	},
 	render: {
@@ -51,17 +51,17 @@ var dt = {
 				vt.author_verified = video.author_verified;
 				vt.published = video.published;
 				vt.onvideo = (id = video.id, title = video.title) => {
-					dt.open.video(id, title);
+					dv.open.video(id, title);
 				}
 				vt.onauthor = (id = video.author_id) => {
-					dt.open.channel(id);
+					dv.open.channel(id);
 				}
 				trends.append(vt);
 			});
 		},
 		search: async () => {
 			let videos = document.querySelector(".dt-search").querySelector(".videos");
-			let api = await video_backend.search_videos(document.querySelector("input.search").value, dt.network_saving);
+			let api = await video_backend.search_videos(document.querySelector("input.search").value, dv.network_saving);
 			videos.innerHTML = "";
 			api.forEach(video => {
 				let vt = document.createElement("video-preview");
@@ -73,10 +73,10 @@ var dt = {
 				vt.author_verified = video.author_verified;
 				vt.published = video.published;
 				vt.onvideo = (id = video.id, title = video.title) => {
-					dt.open.video(id, title);
+					dv.open.video(id, title);
 				}
 				vt.onauthor = (id = video.author_id) => {
-					dt.open.channel(id);
+					dv.open.channel(id);
 				}
 				videos.append(vt);
 			});
@@ -95,7 +95,7 @@ var dt = {
 				vt.author = video.author;
 				vt.published = video.liked_time;
 				vt.onvideo = (id = video_id, title = video.title) => {
-					dt.open.video(id, title);
+					dv.open.video(id, title);
 				}
 				videos.append(vt);
 			}
@@ -118,7 +118,7 @@ var dt = {
 	init:{
 		taskbar: () => {
 			let button = document.createElement("button");
-			button.addEventListener("click", dt.toggle.liked);
+			button.addEventListener("click", dv.toggle.liked);
 			document.querySelector("app-taskbar").shadowRoot.querySelector(".root").append(button);
 
 			let image = document.createElement("img");
@@ -130,11 +130,11 @@ var dt = {
 				_window.setAttribute("titlebar-style", "linux");
 			}
 
-			if(dt.mobile) return;
+			if(dv.mobile) return;
 			_window.extra = "./assets/fluent-icons/window_new_16_regular.svg";
 			_window.onextra = (__window) => {
 				if(__window.classList[0] == "video"){
-					__window.querySelector("iframe").contentWindow.dt.trigger_close = false;
+					__window.querySelector("iframe").contentWindow.dv.trigger_close = false;
 				}
 				window.open(__window.querySelector("iframe").src.replace("&embed=true","&embed=false"), "_blank", "popup=yes");
 				__window.remove();
@@ -144,19 +144,19 @@ var dt = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-	video_backend.network_saving = dt.network_saving;
+	video_backend.network_saving = dv.network_saving;
 	
-	dt.broadcast.init();
-	dt.init.taskbar();
-	dt.render.trends();
+	dv.broadcast.init();
+	dv.init.taskbar();
+	dv.render.trends();
 
 	let dt_search = document.querySelector(".dt-search");
 	let dt_search_search = dt_search.querySelector("input.search");
-	dt_search_search.addEventListener("change", dt.render.search);
-	dt_search.querySelector("button").addEventListener("click", dt.render.search);
+	dt_search_search.addEventListener("change", dv.render.search);
+	dt_search.querySelector("button").addEventListener("click", dv.render.search);
 
 	let dt_liked = document.querySelector(".dt-liked");
 	let dt_liked_search = dt_liked.querySelector("input.search");
-	dt_liked_search.addEventListener("keypress", dt.render.liked_filter);
-	dt_liked.querySelector("button").addEventListener("click", dt.render.liked_filter);
+	dt_liked_search.addEventListener("keypress", dv.render.liked_filter);
+	dt_liked.querySelector("button").addEventListener("click", dv.render.liked_filter);
 });

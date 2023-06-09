@@ -2,7 +2,7 @@
 
 > Status: Bleeding Edge (Before Alpha)
 
-# DeskTube
+# DeskVideo
 
 Desktop styled video-stream platform front-end
 
@@ -37,4 +37,4 @@ Desktop styled video-stream platform front-end
 
 ## License
 
-The DeskTube icon is based Twemoji and licensed by CC-BY-SA 4.0. (https://github.com/twitter/twemoji/blob/master/assets/svg/1f4fa.svg)
+The DeskVideo icon is based Twemoji and licensed by CC-BY-SA 4.0. (https://github.com/twitter/twemoji/blob/master/assets/svg/1f4fa.svg)

@@ -5,7 +5,7 @@ if(!!window.chrome?.permissions){
         } else {
             // if popup
             document.body.setAttribute("extension", true);
-            dt.force_window = true;
+            dv.force_window = true;
         }
     });
 }

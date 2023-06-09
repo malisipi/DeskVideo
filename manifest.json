@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "DeskTube",
+    "name": "DeskVideo",
     "version": "1.0.0",
-    "description": "DeskTube",
+    "description": "DeskVideo",
     "icons": {
     	"16":"assets/16.png",
     	"32":"assets/32.png",
@@ -14,14 +14,14 @@
     "author": "malisipi",
     "action": {
         "default_popup": "index.html",
-        "default_title": "DeskTube"
+        "default_title": "DeskVideo"
     },
     "side_panel": {
         "default_path": "index.html"
     },
     "sidebar_action": {
         "default_icon": "assets/144.png",
-        "default_title": "DeskTube",
+        "default_title": "DeskVideo",
         "default_panel": "index.html"
     },
     "permissions": [
