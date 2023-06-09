@@ -1,7 +1,7 @@
 [
 	{
 		"type": "text",
-		"default": "http://",
+		"default": "https://iv.ggtyler.dev",
 		"conf": "video-host",
 		"title": "Host url",
 		"description": "The host url is required by Video Backend"
