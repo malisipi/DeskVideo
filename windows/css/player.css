@@ -1,7 +1,5 @@
 body {
-    background: #222;
-
-    & video {
+    & video, &[audio_only] img.thumbnail {
         position: fixed;
         top: 0;
         left: 0;
@@ -10,7 +8,12 @@ body {
         background: #000;
         app-region: drag;
         z-index: -1;
-    
+        display: block;
+        object-fit: contain;
+    }
+
+    & img.thumbnail{
+        display: none;
     }
     
     & .info {
@@ -74,6 +77,10 @@ body {
         & .time {
             flex: 0px;
         }
+
+        [audio_only] & :is(.pip, .fullscreen) {
+            display: none;
+        }
         
         & fluent-slider {
             padding: 0 2px;
@@ -124,12 +131,18 @@ body {
         }
     }
 
-    &:is(:fullscreen) .controls .fullscreen img {
-        &.true {
-            display: block;
+    &:is(:fullscreen) .controls {
+        & .fullscreen img {
+            &.true {
+                display: block;
+            }
+
+            &.false {
+                display: none;
+            }
         }
 
-        &.false {
+        & .audio-only {
             display: none;
         }
     }
@@ -139,7 +152,7 @@ body {
     }
 
     &[embed]:not(:fullscreen) {
-        & video {
+        & video, img.thumbnail {
             height: calc(100% - 80px);
         }
 

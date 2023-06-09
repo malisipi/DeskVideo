@@ -1,10 +1,13 @@
-# THIS WEBSITE IS NOT STABLE. MOST FEATURES IS NOT IMPLEMENTED YET.
-
-> Status: Bleeding Edge (Before Alpha)
+> This project is not stable atm. Please do not forget somethings is broken or behaves wrongly. If you find a bug, please report it.
 
 # DeskVideo
 
 Desktop styled video-stream platform front-end
+
+## Thirdparty APIs
+
+- [Piped](https://piped.video/) is the privacy-centered video provider backend.
+- [Unsplash](https://unsplash.com) is the image sharing platform. The api __*will*__ be used to use random wallpapers for DeskVideo.
 
 ## Web APIs
 

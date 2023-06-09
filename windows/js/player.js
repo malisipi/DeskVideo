@@ -5,6 +5,7 @@ var dv = {
     response: {},
     video: null,
     audio: null,
+    audio_only: false,
     embed: false,
     external_file: false,
     window_id: -1,
@@ -37,6 +38,7 @@ var dv = {
         },
         playrate: (e) => {
             dv.video.playbackRate = Number(e.target.value);
+            dv.audio.playbackRate = Number(e.target.value);
         },
         time: {
             timer: null,
@@ -44,7 +46,7 @@ var dv = {
             update: () => {
                 dv.controls.time.ignore_change_event = true;
                 document.querySelector("input.time").value = dv.video.currentTime;
-                if(Math.abs(dv.audio.currentTime-dv.video.currentTime) > 0.2){
+                if(!dv.audio_only && Math.abs(dv.audio.currentTime-dv.video.currentTime) > 0.2){
                     dv.audio.currentTime = dv.video.currentTime;
                 }
             },
@@ -66,6 +68,18 @@ var dv = {
             stop_timer: () => {
                 clearInterval(dv.controls.time.timer);
             }
+        },
+        audio_only: async () => {
+            let the_time = dv.video.currentTime;
+            dv.audio_only = !dv.audio_only;
+            if(dv.audio_only){
+                document.querySelector(".audio-only").setAttribute("true", true);
+            } else {
+                if(document.querySelector(".audio-only").hasAttribute("true"))
+                    document.querySelector(".audio-only").removeAttribute("true");
+            }
+            await dv.render.player(dv.response.id);
+            dv.video.currentTime = the_time;
         }
     },
     extended_controls: {
@@ -113,8 +127,21 @@ var dv = {
                     console.warn("Live Videos is not supported atm!");
                 };
                 document.title = dv.response.title;
-                dv.video.src = dv.response.sources.video.reverse()[0].url;
-                dv.audio.src = dv.response.sources.audio.reverse()[0].url;
+                dv.video.src = "";
+                dv.audio.src = "";
+                document.querySelector("img.thumbnail").src = dv.response.thumbnail;
+                if(!dv.audio_only) {
+                    dv.video.volume = 0;
+                    dv.video.src = dv.response.sources.video.reverse()[0].url;
+                    dv.audio.src = dv.response.sources.audio.reverse()[0].url;
+                    if(document.body.hasAttribute("audio_only"))
+                        document.body.removeAttribute("audio_only");
+                } else {
+                    dv.video.volume = 1;
+                    dv.video.src = dv.response.sources.audio.reverse()[0].url;
+                    if(!document.body.hasAttribute("audio_only"))
+                        document.body.setAttribute("audio_only", true);
+                }
                 document.querySelector(".info .name").innerText = dv.response.title;
                 document.querySelector(".info div.author").innerText = dv.response.author;
                 document.querySelector(".info img.author").src = dv.response.author_thumbnail;
@@ -224,7 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dv.audio = document.querySelector("audio");
     dv.video = document.querySelector("video");
-    dv.video.volume = 0;
     dv.video.addEventListener("loadedmetadata", dv.controls.time.update_duration);
     dv.video.addEventListener("ended", dv.features.next_video);
     dv.video.addEventListener('error', function() { 
@@ -264,7 +290,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("input.time").addEventListener("input", dv.controls.time.update_current_time);
     controls.querySelector(".fullscreen").addEventListener("click", dv.controls.fullscreen);
     controls.querySelector(".playrate").addEventListener("change", dv.controls.playrate);
-    
+    controls.querySelector(".audio-only").addEventListener("click", dv.controls.audio_only);
+
     dv.features.use_video_ratio.register();
 
     window.addEventListener("unload", () => {
