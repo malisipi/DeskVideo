@@ -4,6 +4,7 @@ var dv = {
     type: "player",
     response: {},
     video: null,
+    audio: null,
     embed: false,
     external_file: false,
     window_id: -1,
@@ -12,8 +13,10 @@ var dv = {
         play: ()=>{
             if(dv.video.paused){
                 dv.video.play();
+                dv.audio.play();
             } else {
                 dv.video.pause();
+                dv.audio.pause();
             }
         },
         pip: (e) => {
@@ -41,13 +44,18 @@ var dv = {
             update: () => {
                 dv.controls.time.ignore_change_event = true;
                 document.querySelector("input.time").value = dv.video.currentTime;
+                if(Math.abs(dv.audio.currentTime-dv.video.currentTime) > 0.2){
+                    dv.audio.currentTime = dv.video.currentTime;
+                }
             },
             update_duration: () => {
                 document.querySelector("input.time").max = dv.video.duration;
             },
             update_current_time: (e) => {
                 if(!dv.controls.time.ignore_change_event){
-                    dv.video.currentTime = document.querySelector("fluent-slider.time").value;
+                    let new_time = document.querySelector("input.time").value;
+                    dv.video.currentTime = new_time;
+                    dv.audio.currentTime = new_time;
                 } else {
                     dv.controls.time.ignore_change_event = false;
                 }
@@ -105,7 +113,8 @@ var dv = {
                     console.warn("Live Videos is not supported atm!");
                 };
                 document.title = dv.response.title;
-                document.querySelector("video").src = dv.response.sources.reverse()[0].url;
+                dv.video.src = dv.response.sources.video.reverse()[0].url;
+                dv.audio.src = dv.response.sources.audio.reverse()[0].url;
                 document.querySelector(".info .name").innerText = dv.response.title;
                 document.querySelector(".info div.author").innerText = dv.response.author;
                 document.querySelector(".info img.author").src = dv.response.author_thumbnail;
@@ -120,7 +129,7 @@ var dv = {
                 let file_blob = new Blob([file_arraybuffer], { type: 'application/octet-stream' });
                 let file_url = URL.createObjectURL(file_blob);
 
-                document.querySelector("video").src = file_url; // blob
+                dv.video.src = file_url; // blob
                 let file_title = id.name.split(".")[0];
                 document.title = file_title;
                 document.querySelector(".info .name").innerText = file_title;
@@ -213,7 +222,9 @@ document.addEventListener("DOMContentLoaded", () => {
     dv.broadcast.init();
     dv.visibility.register();
 
+    dv.audio = document.querySelector("audio");
     dv.video = document.querySelector("video");
+    dv.video.volume = 0;
     dv.video.addEventListener("loadedmetadata", dv.controls.time.update_duration);
     dv.video.addEventListener("ended", dv.features.next_video);
     dv.video.addEventListener('error', function() { 

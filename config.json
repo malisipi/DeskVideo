@@ -1,7 +1,7 @@
 [
 	{
 		"type": "text",
-		"default": "https://iv.ggtyler.dev",
+		"default": "https://pipedapi.kavin.rocks",
 		"conf": "video-host",
 		"title": "Host url",
 		"description": "The host url is required by Video Backend"
@@ -38,13 +38,6 @@
 	{
 		"type": "bool",
 		"default": -1,
-		"conf": "return-youtube-dislike",
-		"title": "Allow Return Youtube Dislike API",
-		"description": "The setting is required to get like/dislike count"
-	},
-	{
-		"type": "bool",
-		"default": -1,
 		"conf": "floating-list",
 		"title": "Floating Playlist",
 		"description": "Always keep Playlist window on top while Player window is separate"
@@ -54,7 +47,7 @@
 		"default": 1,
 		"conf": "use-video-ratio",
 		"title": "Use Video Ratio on Player",
-		"description": "Use video ratio on Player Window while the window is separate",
+		"description": "Use video ratio on Player Window while the window is separate"
 	},
 	{
 		"type": "bool",

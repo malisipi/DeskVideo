@@ -1,45 +1,38 @@
 "use strict";
 
 var video_backend = {
-    __host: "https://iv.ggtyler.dev",
+    __host: "https://pipedapi.kavin.rocks",
     __get_fetch_policy: (reload) => {
         if(reload){
             return "reload";
         }
         return "force-cache";
     },
+    __get_region: () => {
+        return navigator.languages.filter(e => {
+            return e.length==2
+        })[0].toUpperCase()
+    },
     network_saving: false,
-    get_trending_videos: async (reload = false) => { // https://docs.invidious.io/api/#get-apiv1trending
-        let tp_resource = await fetch(video_backend.__host+"/api/v1/trending", { cache: video_backend.__get_fetch_policy(reload) });
+    get_trending_videos: async (reload = false) => {
+        let tp_resource = await fetch(video_backend.__host+"/trending?region="+video_backend.__get_region(), { cache: video_backend.__get_fetch_policy(reload) });
         console.log(tp_resource);
         let video_list = [];
         if(tp_resource.status == 200){
             let tp_video_list = await tp_resource.json();
             for(let video_index in tp_video_list){
                 let tp_video = tp_video_list[video_index];
-                if(tp_video.type != "video") continue;
-                if(tp_video.premium) continue;
-
                 let video = {
-                    author: tp_video.author,
-                    author_id: tp_video.authorId,
-                    author_verified: tp_video.authorVerified,
-                    description: tp_video.description,
-                    length: tp_video.lengthSeconds,
-                    live: tp_video.liveNow || (tp_video.lengthSeconds == 0),
+                    author: tp_video.uploaderName,
+                    author_verified: tp_video.uploaderVerified,
+                    description: tp_video.shortDescription,
+                    length: tp_video.duration,
+                    live: tp_video.duration == 0,
                     title: tp_video.title,
-                    id: tp_video.videoId,
-                    published: tp_video.published,
-                    upcoming: tp_video.isUpcoming,
-                    views: tp_video.viewCount,
-                    thumbnail: tp_video.videoThumbnails.filter((e) => {
-                            if(video_backend.network_saving) {
-                                return e.quality=="end"
-                            } else {
-                                return e.quality=="medium"
-                            }
-                        }
-                    )[0].url
+                    id: tp_video.url.replace("/watch?v=", ""),
+                    published: tp_video.uploaded / 1000,
+                    views: tp_video.views,
+                    thumbnail: tp_video.thumbnail
                 };
                 video_list.push(video);
             }
@@ -48,64 +41,73 @@ var video_backend = {
         }
         return video_list;
     },
-    get_video: async (id, reload = false) => { // https://docs.invidious.io/api/#get-apiv1videosid
-        let tp_resource = await fetch(video_backend.__host+"/api/v1/videos/"+id, { cache: video_backend.__get_fetch_policy(reload) });
+    get_video: async (id, reload = false) => {
+        let tp_resource = await fetch(video_backend.__host+"/streams/"+id, { cache: video_backend.__get_fetch_policy(reload) });
         let video = {error:"#000"};
         if(tp_resource.status == 200){
             let tp_video = await tp_resource.json();
-            //window.vi = tp_video;
             video = {
                 lastest: reload,
-                author: tp_video.author,
-                author_id: tp_video.authorId,
-                author_thumbnail: tp_video.authorThumbnails[0].url,
+                author: tp_video.uploader,
+                author_id: tp_video.uploaderUrl.replace("/channel/",""),
+                author_thumbnail: tp_video.uploaderAvatar,
                 rating: {
-                    allowed: tp_video.allowRatings,
-                    likes: tp_video.likeCount,
-                    dislikes: tp_video.dislikeCount
+                    allowed: true,
+                    likes: tp_video.likes,
+                    dislikes: tp_video.dislikes
                 },
-                length: tp_video.length,
+                length: tp_video.duration,
                 description: tp_video.description,
-                live: tp_video.liveNow,
-                published: tp_video.published,
-                upcoming: tp_video.isUpcoming,
-                listed: tp_video.isListed,
+                live: false,
+                published: tp_video.uploadDate,
+                upcoming: false,
+                listed: true,
                 description: tp_video.description,
-                family_friendly: tp_video.isFamilyFriendly,
-                premium: tp_video.premium,
-                paid: tp_video.paid,
                 title: tp_video.title,
                 next_videos: [],
                 id: id,
                 captions: [],
-                keywords: tp_video.keywords,
-                sources: [],
-                views: tp_video.viewCount,
-                thumbnail: tp_video.videoThumbnails.reverse()[0].url
+                sources: {
+                    video: [],
+                    audio: []
+                },
+                views: tp_video.views,
+                thumbnail: tp_video.thumbnailUrl
             };
             
-            let srcs = tp_video.formatStreams;
+            let asrcs = tp_video.audioStreams;
+            let vsrcs = tp_video.videoStreams;
             
-            for (let src_index in srcs){
-            	let src = srcs[src_index];
+            for (let src_index in asrcs){
+            	let src = asrcs[src_index];
 
-            	video.sources.push({
+            	video.sources.audio.push({
             		url: src.url,
-            		quality: src.qualityLabel
+            		quality: src.quality
             	});
             }
 
-            let next_videos = tp_video.recommendedVideos;
+            for (let src_index in vsrcs){
+            	let src = vsrcs[src_index];
+
+            	video.sources.video.push({
+            		url: src.url,
+            		quality: src.quality
+            	});
+            }
+            
+            let next_videos = tp_video.relatedStreams;
             for(let next_video_index in next_videos){
                 let next_video = next_videos[next_video_index];
+                if(next_video.type != "stream") continue;
                 video.next_videos.push({
-                    author: next_video.author,
-                    author_id: next_video.authorId,
-                    length: next_video.lengthSeconds,
+                    author: next_video.uploaderName,
+                    author_id: next_video.uploaderUrl.replace("/channel/", ""),
+                    length: next_video.duration,
                     title: next_video.title,
-                    id: next_video.videoId,
-                    views: next_video.viewCount,
-                    thumbnail: next_video.videoThumbnails.reverse()[0].url
+                    id: next_video.url.replace("/watch?v=", ""),
+                    views: next_video.views,
+                    thumbnail: next_video.thumbnail
                 });
             }
         } else {
@@ -113,7 +115,8 @@ var video_backend = {
         }
         return video;
     },
-    get_video_comments: async (id, continuation=null) => { // https://docs.invidious.io/api/#get-apiv1commentsid
+    get_video_comments: async (id, continuation=null) => {
+        /*
     	let tp_resource = await fetch(video_backend.__host+"/api/v1/comments/"+id, { cache: "force-cache" });
     	let comments = {};
     	if(tp_resource.status == 200){
@@ -145,28 +148,29 @@ var video_backend = {
     		console.error(tp_resource.status);
     	}
     	return comments;
+        */
     },
-    search_videos: async (query) => { // https://docs.invidious.io/api/#get-apiv1search
-    	let tp_resource = await fetch(video_backend.__host+"/api/v1/search/?q="+query, { cache: "force-cache" });
+    search_videos: async (query) => {
+    	let tp_resource = await fetch(video_backend.__host+"/search?q="+encodeURIComponent(query)+"&filter=videos", { cache: "force-cache" });
  	    let video_list = [];
  	    if(tp_resource.status == 200){
- 	        let tp_video_list = await tp_resource.json();
+ 	        let tp_video_list = (await tp_resource.json()).items;
  	        for(let video_index=0; video_index < tp_video_list.length; video_index+=1){
                 let video = tp_video_list[video_index];
-                if(video.type != "video") continue;
+                if(video.type != "stream") continue;
                 if(video.premium) continue;
                 video_list.push({
-                    author: video.author,
-                    author_id: video.authorId,
-                    author_verified: video.authorVerified,
-                    length: video.lengthSeconds,
-                    live: video.liveNow || (video.lengthSeconds == 0),
+                    author: video.uploaderName,
+                    author_id: video.uploaderUrl.replace("/channel/", ""),
+                    author_verified: video.uploaderVerified,
+                    length: video.duration,
+                    live: video.duration == 0,
                     title: video.title,
-                    id: video.videoId,
-                    published: video.published,
-                    upcoming: video.isUpcoming,
-                    views: video.viewCount,
-                    thumbnail: video.videoThumbnails.reverse()[0].url
+                    id: video.url.replace("/watch?v=", ""),
+                    published: video.uploaded / 1000,
+                    upcoming: false,
+                    views: video.views,
+                    thumbnail: video.thumbnail
                 });
             }
         } else {
