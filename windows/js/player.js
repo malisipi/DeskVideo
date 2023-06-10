@@ -124,24 +124,36 @@ var dv = {
         player: async (id, reload=false) => {
             if(typeof(id)=="string"){
                 dv.response = await video_backend.get_video(id, reload);
-                if(dv.response.live){ 
-                    console.warn("Live Videos is not supported atm!");
-                };
+
                 document.title = dv.response.title;
                 dv.video.src = "";
                 dv.audio.src = "";
                 document.querySelector("img.thumbnail").src = dv.response.thumbnail;
-                if(!dv.audio_only) {
-                    dv.video.volume = 0;
-                    dv.video.src = dv.response.sources.video.reverse()[0].url;
-                    dv.audio.src = dv.response.sources.audio.reverse()[0].url;
-                    if(document.body.hasAttribute("audio_only"))
-                        document.body.removeAttribute("audio_only");
-                } else {
+
+                if(dv.response.live){
                     dv.video.volume = 1;
-                    dv.video.src = dv.response.sources.audio.reverse()[0].url;
-                    if(!document.body.hasAttribute("audio_only"))
-                        document.body.setAttribute("audio_only", true);
+                    if(Hls.isSupported()) {
+                        let hls = new Hls();
+                        hls.loadSource(dv.response.hls);
+                        hls.attachMedia(dv.video);
+                        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                            console.log("@Live");
+                            video.play();
+                        });
+                    }
+                } else {
+                    if(!dv.audio_only) {
+                        dv.video.volume = 0;
+                        dv.video.src = dv.response.sources.video.reverse()[0].url;
+                        dv.audio.src = dv.response.sources.audio.reverse()[0].url;
+                        if(document.body.hasAttribute("audio_only"))
+                            document.body.removeAttribute("audio_only");
+                    } else {
+                        dv.video.volume = 1;
+                        dv.video.src = dv.response.sources.audio.reverse()[0].url;
+                        if(!document.body.hasAttribute("audio_only"))
+                            document.body.setAttribute("audio_only", true);
+                    }
                 }
                 document.querySelector(".info .name").innerText = dv.response.title;
                 document.querySelector(".info div.author").innerText = dv.response.author;
