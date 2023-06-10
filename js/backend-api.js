@@ -9,17 +9,7 @@ var video_backend = {
         return "force-cache";
     },
     __get_region: () => {
-        return navigator.language.toUpperCase();
-        /*
-        try {
-            return navigator.languages.filter(e => {
-                return e.length==5
-            })[0].match(/\-../)[0].replace("-","").toUpperCase();
-        } catch {
-            return navigator.languages.filter(e => {
-                return e.length==2
-            })[0].toUpperCase();
-        }*/
+        return navigator.language.slice(-2).toUpperCase();
     },
     network_saving: false,
     get_trending_videos: async (reload = false) => {
