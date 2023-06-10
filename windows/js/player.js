@@ -63,6 +63,7 @@ var dv = {
                 }
             },
             start_timer : () => {
+                dv.controls.time.stop_timer();
                 dv.controls.time.timer = setInterval(dv.controls.time.update, 750);
             },
             stop_timer: () => {
@@ -100,7 +101,7 @@ var dv = {
             if("share" in navigator){
                 await navigator.share({title:document.title, url:share_url})
             } else {
-                await navigator.clipboard.writeText(share_url);
+                await navigator.clipboard?.writeText(share_url);
             }
         },
         like: async (e) => {
@@ -175,14 +176,15 @@ var dv = {
     },
     visibility:{
         listener: () => {
+            if(dv.audio_only) return;
             if(document.hidden){
-                if(!dv.video.paused){
-                    setTimeout(async () => {
-                        await dv.video.play();
-                    }, 1000);
-                    dv.controls.time.stop_timer();
-                }
+                console.log("STATE: HIDDEN");
+                dv.video.pause();
+                dv.controls.time.stop_timer();
             } else {
+                console.log("STATE: SHOW");
+                dv.video.currentTime = dv.audio.currentTime;
+                dv.video.play();
                 dv.controls.time.start_timer();
             }
         },
