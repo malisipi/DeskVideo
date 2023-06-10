@@ -87,6 +87,10 @@ body {
         [audio_only] & :is(.pip, .fullscreen) {
             display: none;
         }
+
+        [no_subtitles] & .subtitles {
+            display: none;
+        }
         
         & fluent-slider {
             padding: 0 2px;

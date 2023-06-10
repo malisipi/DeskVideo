@@ -163,13 +163,15 @@ var dv = {
                         dv.video.volume = 0;
                         dv.video.src = dv.response.sources.video.reverse()[0].url;
                         dv.audio.src = dv.response.sources.audio.reverse()[0].url;
-                        if(document.body.hasAttribute("audio_only"))
-                        document.body.removeAttribute("audio_only");
+                        if(document.body.hasAttribute("audio_only")){
+                            document.body.removeAttribute("audio_only");
+                        }
                     } else {
                         dv.video.volume = 1;
                         dv.video.src = dv.response.sources.audio.reverse()[0].url;
-                        if(!document.body.hasAttribute("audio_only"))
-                        document.body.setAttribute("audio_only", true);
+                        if(!document.body.hasAttribute("audio_only")){
+                            document.body.setAttribute("audio_only", true);
+                        }
                     }
                 }
                 document.querySelector(".info .name").innerText = dv.response.title;
@@ -178,6 +180,13 @@ var dv = {
                 dv.extended_controls.update.like(id);
                 dv.features.media_session.metadata.title = dv.response.title;
                 dv.features.media_session.metadata.artist = dv.response.author;
+                if(dv.response.subtitles.length > 0) {
+                    if(document.body.hasAttribute("no_subtitles")){
+                        document.body.removeAttribute("no_subtitles");
+                    } else {
+                        document.body.setAttribute("no_subtitles", true);
+                    }
+                }
 
                 dv.render.list();
             } else { // if local
@@ -293,7 +302,6 @@ var dv = {
 
                 let texts = subtitles.querySelectorAll("*[begin][end]");
                 let track = dv.video.addTextTrack("captions");
-                window.tt = track;
                 track.mode = "showing";
 
                 for(let text_index = 0; text_index < texts.length; text_index++){
