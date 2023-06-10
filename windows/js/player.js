@@ -137,6 +137,8 @@ var dv = {
     },
     render:{
         player: async (id, reload=false) => {
+            dv.subtitles.close();
+
             if(typeof(id)=="string"){ // if video backend
                 dv.response = await video_backend.get_video(id, reload);
                 
@@ -278,6 +280,40 @@ var dv = {
                 }, 50);
             }
         }
+    },
+    subtitles: {
+        load: {
+            ttml: async (url = dv.response.subtitles[0].url) => {
+                await dv.subtitles.close();
+                let subtitles = (new DOMParser()).parseFromString(
+                    await (
+                        await fetch(url, {cache:"force-cache"})
+                        ).text(),
+                    "application/xml");
+
+                let texts = subtitles.querySelectorAll("*[begin][end]");
+                let track = dv.video.addTextTrack("captions");
+                window.tt = track;
+                track.mode = "showing";
+
+                for(let text_index = 0; text_index < texts.length; text_index++){
+                    let text = texts[text_index];
+                    let cue = new VTTCue(
+                        dv.__parse_time(text.getAttribute("begin")),
+                        dv.__parse_time(text.getAttribute("end")),
+                        text.innerHTML
+                    );
+                    cue.line = -3;
+                    track.addCue(cue);
+                };
+
+            },
+        },
+        close: async () => {
+            if (dv.video.textTracks.length > 0) {
+                dv.video.textTracks[dv.video.textTracks.length-1].mode = "disabled";
+            }
+        }
     }
 }
 
@@ -348,6 +384,9 @@ document.addEventListener("DOMContentLoaded", () => {
     controls.querySelector(".fullscreen").addEventListener("click", dv.controls.fullscreen);
     controls.querySelector(".playrate").addEventListener("change", dv.controls.playrate);
     controls.querySelector(".audio-only").addEventListener("click", dv.controls.audio_only);
+    controls.querySelector(".subtitles").addEventListener("click", () => {
+        dv.subtitles.load.ttml();
+    });
 
     dv.features.use_video_ratio.register();
 

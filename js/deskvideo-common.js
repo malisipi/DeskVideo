@@ -2,6 +2,14 @@
 
 dv.mobile = !!navigator.userAgentData?.mobile;
 dv.network_saving = navigator.connection?.type == "cellular";
+dv.__parse_time = (the_time) => {
+    let splited_time = the_time.split(":");
+    let parsed_time = Number(splited_time[0]) * 60;
+    parsed_time = (parsed_time + Number(splited_time[1])) * 60;
+    let [seconds, mseconds] = splited_time[2].split(".");
+    parsed_time += Number(seconds) + (Number(mseconds) / 1000);
+    return parsed_time;
+};
 dv.open = {
     video: async (id, title = "", popup = false) => {
         let window_id = Date.now();

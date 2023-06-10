@@ -10,6 +10,12 @@ body {
         z-index: -1;
         display: block;
         object-fit: contain;
+
+        &::cue {
+            background: var(--accent-color);
+            opacity: 0.8;
+            color: #ffffff;
+        }
     }
 
     & img.thumbnail{

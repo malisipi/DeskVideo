@@ -20,10 +20,11 @@ Desktop styled video-stream platform front-end
 | [Launch Queue](https://developer.mozilla.org/en-US/docs/Web/API/LaunchQueue)                                                 | 102  |102 | 88  | x    | x      |
 | [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)                                            | 53   | 79 | 40  | 10   | 63     |
 | [Broadcast Channel API](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API)                              | 54   | 79 | 41  | 15.4 | 38     |
-| [Picture-in-Picture API](https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API)                            | 69   | 79 | 56  | 13.1 | x      |
 | [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)                                              | 24   | 79 | 15  | 10   | 16     |
-| [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API)                                            | 71   | 79 | 58  | 16.4 | 64     |
+| [Picture-in-Picture API](https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API)                            | 69   | 79 | 56  | 13.1 | x      |
+| [TextTrack](https://developer.mozilla.org/en-US/docs/Web/API/TextTrack)                                                      | 23   | 12 | 12.1| 6    | 31     |
 | [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API)                                  | 33   | 12 | 20  | 7    | 18     |
+| [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API)                                            | 71   | 79 | 58  | 16.4 | 64     |
 | [Screen Orientation API](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Orientation_API)                            | 38   | 79 | 25  | 16.4 | 43     |
 | [URL API](https://developer.mozilla.org/en-US/docs/Web/API/URL_API)                                                          | 32   | 12 | 19  | 7    | 19     |
 | [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)                                                      | 42   | 14 | 29  | 10.1 | 40     |
