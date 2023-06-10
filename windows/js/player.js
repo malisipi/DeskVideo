@@ -183,9 +183,9 @@ var dv = {
                 if(dv.response.subtitles.length > 0) {
                     if(document.body.hasAttribute("no_subtitles")){
                         document.body.removeAttribute("no_subtitles");
-                    } else {
-                        document.body.setAttribute("no_subtitles", true);
                     }
+                } else {
+                    document.body.setAttribute("no_subtitles", true);
                 }
 
                 dv.render.list();
