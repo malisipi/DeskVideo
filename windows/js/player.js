@@ -201,7 +201,8 @@ var dv = {
             }
         },
         register: () => {
-            document.addEventListener("visibilitychange", dv.visibility.listener);
+            if(dv.mobile)
+                document.addEventListener("visibilitychange", dv.visibility.listener);
         }
     },
     features: {
