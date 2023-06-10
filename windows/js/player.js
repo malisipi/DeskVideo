@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
         extended_controls.setAttribute("disabled", true);
         if("launchQueue" in window){
             window.launchQueue.setConsumer(
-                async (handler)=>{
+                async (handler) => {
                     dv.render.player(handler.files[0]);
                 }
             );

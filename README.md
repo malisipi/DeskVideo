@@ -16,6 +16,7 @@ Desktop styled video-stream platform front-end
 | [Document Picture-in-Picture API](https://developer.chrome.com/docs/web-platform/document-picture-in-picture/)               |111<sup>1</sup>|x|x|x   | x      |
 | [Nested CSS](https://developer.chrome.com/articles/css-nesting/)                                                           |112|112|98|16.5|Nightly<sup>2</sup>|
 | [Window Controls Overlay](https://developer.mozilla.org/en-US/docs/Web/API/Window_Controls_Overlay_API)                      | 105  |105 | 91  | x    | x      |
+| [MediaSession](https://developer.mozilla.org/en-US/docs/Web/API/MediaSession)                                                | 73   | 79 | 60  | 15   | 82     |
 | [Launch Queue](https://developer.mozilla.org/en-US/docs/Web/API/LaunchQueue)                                                 | 102  |102 | 88  | x    | x      |
 | [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)                                            | 53   | 79 | 40  | 10   | 63     |
 | [Broadcast Channel API](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API)                              | 54   | 79 | 41  | 15.4 | 38     |

@@ -1,88 +1,108 @@
-[
-	{
-		"type": "text",
-		"default": "https://pipedapi.kavin.rocks",
-		"conf": "video-host",
-		"title": "Host url",
-		"description": "The host url is required by Video Backend"
-	},
-	{
-		"type": "color",
-		"default": "#d02727",
-		"conf": "accent-color",
-		"title": "Accent color",
-		"description": "The accent color will be used by controls",
-		"alternatives": [
-			{
-				"title": "Red",
-				"value": "#d02727"
-			},
-			{
-				"title": "Blue",
-				"value": "#0058b7"
-			},
-			{
-				"title": "Green",
-				"value": "#1bb700"
-			},
-			{
-				"title": "Turquoise",
-				"value": "#00b7b6"
-			},
-			{
-				"title": "Purple",
-				"value": "#b7006d"
-			}
-		]
-	},
-	{
-		"type": "bool",
-		"default": -1,
-		"conf": "floating-list",
-		"title": "Floating Playlist",
-		"description": "Always keep Playlist window on top while Player window is separate"
-	},
-	{
-		"type": "bool",
-		"default": 1,
-		"conf": "use-video-ratio",
-		"title": "Use Video Ratio on Player",
-		"description": "Use video ratio on Player Window while the window is separate"
-	},
-	{
-		"type": "bool",
-		"default": 0,
-		"conf": "left-win-controls",
-		"title": "Left Window Controls",
-		"description": "Use left window controls (like MacOS layout)",
-		"indeterminable": true
-	},
-	{
-		"type": "bool",
-		"default": false,
-		"conf": "custom-background",
-		"title": "Custom Background",
-		"description": "Use custom background for DeskVideo background"
-	},
-	{
-		"type": "text",
-		"default": "",
-		"conf": "custom-background-data",
-		"title": "Custom Background Data",
-		"description": "Use custom background from URL or Unsplash. If you want to get random Unsplash Images, just write keyword(s). Use comma to write multiple keyword",
-		"alternatives": [
-			{
-				"value": "Nature"
-			},
-			{
-				"value": "Wild Life"
-			},
-			{
-				"value": "Landscape"
-			},
-			{
-				"value": "Cars"
-			}
-		]
-	}
-]
+{
+	"backend": [
+		{
+			"type": "text",
+			"default": "https://pipedapi.kavin.rocks",
+			"conf": "video-host",
+			"title": "Host url",
+			"description": "The host url is required by Video Backend"
+		}
+	],
+	"playing": [
+		{
+			"type": "bool",
+			"default": -1,
+			"conf": "force-using-hsl",
+			"title": "Always use HSL",
+			"description": "Use HSL if it is available in streams"
+		},
+		{
+			"type": "bool",
+			"default": -1,
+			"conf": "volume-boost-300",
+			"title": "Volume Boost (300%)",
+			"description": "Allow to boosting volume up to 300%. (It can be harm your ears and speakers)"
+		}
+	],
+	"appearance": [
+		{
+			"type": "color",
+			"default": "#d02727",
+			"conf": "accent-color",
+			"title": "Accent color",
+			"description": "The accent color will be used by controls",
+			"alternatives": [
+				{
+					"title": "Red",
+					"value": "#d02727"
+				},
+				{
+					"title": "Blue",
+					"value": "#0058b7"
+				},
+				{
+					"title": "Green",
+					"value": "#1bb700"
+				},
+				{
+					"title": "Turquoise",
+					"value": "#00b7b6"
+				},
+				{
+					"title": "Purple",
+					"value": "#b7006d"
+				}
+			]
+		},
+		{
+			"type": "bool",
+			"default": -1,
+			"conf": "floating-list",
+			"title": "Floating Playlist",
+			"description": "Always keep Playlist window on top while Player window is separate"
+		},
+		{
+			"type": "bool",
+			"default": 1,
+			"conf": "use-video-ratio",
+			"title": "Use Video Ratio on Player",
+			"description": "Use video ratio on Player Window while the window is separate"
+		},
+		{
+			"type": "bool",
+			"default": 0,
+			"conf": "left-win-controls",
+			"title": "Left Window Controls",
+			"description": "Use left window controls (like MacOS layout)",
+			"indeterminable": true
+		},
+		{
+			"type": "bool",
+			"default": false,
+			"conf": "custom-background",
+			"title": "Custom Background",
+			"description": "Use custom background for DeskVideo background"
+		},
+		{
+			"type": "text",
+			"default": "",
+			"conf": "custom-background-data",
+			"title": "Custom Background Data",
+			"description": "Use custom background from URL or Unsplash. If you want to get random Unsplash Images, just write keyword(s). Use comma to write multiple keyword",
+			"alternatives": [
+				{
+					"value": "Nature"
+				},
+				{
+					"value": "Wild Life"
+				},
+				{
+					"value": "Landscape"
+				},
+				{
+					"value": "Cars"
+				}
+			]
+		}
+	]
+}
