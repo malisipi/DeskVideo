@@ -66,7 +66,11 @@ var dv = {
                 dv.controls.time.ignore_change_event = true;
                 document.querySelector("input.time").value = dv.video.currentTime;
                 if(!dv.audio_only && dv.audio.getAttribute("src") != "" && Math.abs(dv.audio.currentTime-dv.video.currentTime) > 0.2){
-                    dv.video.currentTime = dv.audio.currentTime;
+                    if(navigator.userAgent.includes("Firefox")){
+                        dv.video.currentTime = dv.audio.currentTime;
+                    } else {
+                        dv.audio.currentTime = dv.video.currentTime;
+                    }
                 }
             },
             update_duration: () => {
