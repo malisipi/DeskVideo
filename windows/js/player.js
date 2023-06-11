@@ -14,14 +14,18 @@ var dv = {
         play: () => {
             if(dv.video.paused){
                 dv.video.play();
-                dv.audio.play();
+                if(dv.audio.getAttribute("src") != ""){
+                    dv.audio.play();
+                }
                 dv.features.media_session.update();
                 if ("mediaSession" in navigator) {
                     navigator.mediaSession.playbackState = 'playing';
                 }
             } else {
                 dv.video.pause();
-                dv.audio.pause();
+                if(dv.audio.getAttribute("src") != ""){
+                    dv.audio.pause();
+                }
                 if ("mediaSession" in navigator) {
                     navigator.mediaSession.playbackState = 'paused';
                 }
@@ -61,8 +65,8 @@ var dv = {
             update: () => {
                 dv.controls.time.ignore_change_event = true;
                 document.querySelector("input.time").value = dv.video.currentTime;
-                if(!dv.audio_only && Math.abs(dv.audio.currentTime-dv.video.currentTime) > 0.2){
-                    dv.audio.currentTime = dv.video.currentTime;
+                if(!dv.audio_only && dv.audio.getAttribute("src") != "" && Math.abs(dv.audio.currentTime-dv.video.currentTime) > 0.2){
+                    dv.video.currentTime = dv.audio.currentTime;
                 }
             },
             update_duration: () => {
@@ -389,6 +393,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     document.querySelector("input.time").addEventListener("input", dv.controls.time.update_current_time);
+    document.querySelector("input.time").addEventListener("mousedown", dv.controls.time.update_current_time);
+    document.querySelector("input.time").addEventListener("touchstart", dv.controls.time.update_current_time);
     controls.querySelector(".fullscreen").addEventListener("click", dv.controls.fullscreen);
     controls.querySelector(".playrate").addEventListener("change", dv.controls.playrate);
     controls.querySelector(".audio-only").addEventListener("click", dv.controls.audio_only);

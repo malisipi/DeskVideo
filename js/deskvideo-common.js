@@ -1,6 +1,6 @@
 "use strict";
 
-dv.mobile = !!navigator.userAgentData?.mobile;
+dv.mobile = !!navigator.userAgentData?.mobile || navigator.userAgent.includes("Mobile");
 dv.network_saving = navigator.connection?.type == "cellular";
 dv.__parse_time = (the_time) => {
     let splited_time = the_time.split(":");
