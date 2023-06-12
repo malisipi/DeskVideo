@@ -15,6 +15,12 @@ dv.controller = {
     init: () => {
         dv.controller.titlebar = parent.document.querySelector("iframe[src*=\""+dv.window_id+"\"]")?.parentElement?.shadowRoot?.querySelector(".app-titlebar");
     },
+    title: (title) => {
+        if (!!dv.controller.titlebar) {
+            dv.controller.titlebar.querySelector(".app-titlebar--title").innerText = title;
+        }
+        document.title = title;
+    },
     close: () => {
         if (!!dv.controller.titlebar) {
             dv.controller.titlebar.querySelector(".app-titlebar--close").click();

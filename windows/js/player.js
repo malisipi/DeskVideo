@@ -150,7 +150,7 @@ var dv = {
             if(typeof(id)=="string"){ // if video backend
                 dv.response = await dv.backend.get_video(id, reload);
                 
-                document.title = dv.response.title;
+                dv.controller.title(dv.response.title);
                 dv.video.src = "";
                 dv.audio.src = "";
                 document.querySelector("img.thumbnail").src = dv.response.thumbnail;
@@ -207,7 +207,7 @@ var dv = {
 
                 dv.video.src = file_url; // blob
                 let file_title = id.name.split(".")[0];
-                document.title = file_title;
+                dv.controller.title(file_title);
                 document.querySelector(".info .name").innerText = file_title;
                 document.querySelector(".info div.author").innerText = "Unknown";
                 document.querySelector(".info img.author").src = "../node_modules/@fluentui/svg-icons/icons/person_16_regular.svg";
@@ -343,11 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     dv.controller.init();
     let window_title = url_parameters.get("title");
-    if(!!window_title) {
-        document.title = window_title;
-    } else {
-        document.title = "Unknown";
-    }
+    dv.controller.title(!!window_title ? window_title : "Unknown");
 
     if(url_parameters.get("embed") == "true"){
     	dv.embed = true;
