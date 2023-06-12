@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let url_parameters = new URLSearchParams(window.location.search);
     dv.external_file = url_parameters.get("external_file") == "true"
     dv.window_id = url_parameters.get("wid");
-    if(!!dv.window_id){
+    if(dv.window_id < 0){
         dv.window_id = Date.now();
     }
     dv.controller.init();
