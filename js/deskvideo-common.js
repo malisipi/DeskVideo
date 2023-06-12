@@ -13,7 +13,7 @@ dv.__parse_time = (the_time) => {
 dv.controller = {
     titlebar: null,
     init: () => {
-        dv.controller.titlebar = parent.document.querySelector("iframe[src*=\""+dv.window_id+"\"]")?.parentElement?.shadowRoot?.querySelector(".app-titlebar");
+        dv.controller.titlebar = parent.document.querySelector("iframe[src*=\""+document.location.pathname?.split("/")?.at(-1)+"\"][src*=\""+dv.window_id+"\"]")?.parentElement?.shadowRoot?.querySelector(".app-titlebar");
     },
     title: (title) => {
         if (!!dv.controller.titlebar) {
