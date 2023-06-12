@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(dv.window_id == -1){
         window.close();
     };
+    dv.controller.init();
     dv.embed = url_parameters.get("embed")=="true";
     dv.init();
 });

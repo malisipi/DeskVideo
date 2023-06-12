@@ -181,7 +181,7 @@ class extends HTMLElement {
             height: 100%;
         }
 
-        .app-titlebar{
+        .app-titlebar {
             width: 100%;
             height: 30px;
             background: var(--titlebar-color);
@@ -194,6 +194,11 @@ class extends HTMLElement {
             position: absolute;
             user-select: none;
             color: var(--titlebar-controls-color);
+
+            :host([titlebar-style="macos"]) &{
+                padding: 0 8px 0 0;
+                flex-direction: row-reverse;
+            }
         }
 
         .app-titlebar--title {
@@ -208,6 +213,10 @@ class extends HTMLElement {
         .app-titlebar--controls {
             display: flex;
             align-items: center;
+
+            :host([titlebar-style="macos"]) &{
+                flex-direction: row-reverse;
+            }
         }
 
         .app-titlebar--minimize, .app-titlebar--maximize, .app-titlebar--restore, .app-titlebar--close, .app-titlebar--extra {
@@ -218,6 +227,18 @@ class extends HTMLElement {
             :host([titlebar-style="linux"]) &{
                 width: 30px;
             }
+
+            :host([titlebar-style="macos"]) &{
+                width: 30px;
+            }
+        }
+        
+        :host([titlebar-style="macos"]) .app-titlebar--close {
+            order: 2;
+        }
+
+        :host([titlebar-style="macos"]) .app-titlebar--minimize {
+            order: 1;
         }
 
         .app-content {

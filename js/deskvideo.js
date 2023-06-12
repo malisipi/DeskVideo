@@ -39,7 +39,7 @@ var dv = {
 	render: {
 		trends: async () => {
 			let trends = document.querySelector(".dt-trends");
-			let api = await video_backend.get_trending_videos();
+			let api = await dv.backend.get_trending_videos();
 			trends.innerHTML = "";
 			api.forEach(video => {
 				let vt = document.createElement("video-preview");
@@ -61,7 +61,7 @@ var dv = {
 		},
 		search: async () => {
 			let videos = document.querySelector(".dt-search").querySelector(".videos");
-			let api = await video_backend.search_videos(document.querySelector("input.search").value, dv.network_saving);
+			let api = await dv.backend.search_videos(document.querySelector("input.search").value, dv.network_saving);
 			videos.innerHTML = "";
 			api.forEach(video => {
 				let vt = document.createElement("video-preview");
@@ -85,10 +85,10 @@ var dv = {
 			if(!render) return;
 			let videos = document.querySelector(".dt-liked").querySelector(".videos");
 			videos.innerHTML = "";
-			let liked_videos = await app_storage.like.list();
+			let liked_videos = await dv.storage.like.list();
 			for(let video_index in liked_videos){
 				let video_id = liked_videos[video_index];
-				let video = await app_storage.like.get(video_id);
+				let video = await dv.storage.like.get(video_id);
 				let vt = document.createElement("video-preview");
 				vt.thumbnail = "data:image/png;base64,"+video.thumbnail;
 				vt.title = video.title;
@@ -126,25 +126,28 @@ var dv = {
 			button.append(image);
 		},
 		window: (_window) => {
-			if(!navigator.platform?.includes("Win")){
+			if (navigator.userAgentData?.platform == "macOS" || navigator.userAgent.includes("Mac") || navigator?.windowControlsOverlay?.getTitlebarAreaRect()?.x > 0){
+				_window.setAttribute("titlebar-style", "macos");
+			} else if(navigator.userAgentData?.platform == "Linux" || navigator.userAgent.includes("Linux")){
 				_window.setAttribute("titlebar-style", "linux");
-			}
-
-			if(dv.mobile) return;
-			_window.extra = "./assets/fluent-icons/window_new_16_regular.svg";
-			_window.onextra = (__window) => {
-				if(__window.classList[0] == "video"){
-					__window.querySelector("iframe").contentWindow.dv.trigger_close = false;
-				}
-				window.open(__window.querySelector("iframe").src.replace("&embed=true","&embed=false"), "_blank", "popup=yes");
-				__window.remove();
 			};
+
+			if(!dv.mobile) {
+				_window.extra = "./assets/fluent-icons/window_new_16_regular.svg";
+				_window.onextra = (__window) => {
+					if(__window.classList[0] == "video"){
+						__window.querySelector("iframe").contentWindow.dv.trigger_close = false;
+					}
+					window.open(__window.querySelector("iframe").src.replace("&embed=true","&embed=false"), "_blank", "popup=yes");
+					__window.remove();
+				};
+			}
 		}
 	}
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-	video_backend.network_saving = dv.network_saving;
+	dv.backend.network_saving = dv.network_saving;
 	
 	dv.broadcast.init();
 	dv.init.taskbar();

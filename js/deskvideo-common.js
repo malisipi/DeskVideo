@@ -10,6 +10,18 @@ dv.__parse_time = (the_time) => {
     parsed_time += Number(seconds) + (Number(mseconds) / 1000);
     return parsed_time;
 };
+dv.controller = {
+    titlebar: null,
+    init: () => {
+        dv.controller.titlebar = parent.document.querySelector("iframe[src*=\""+dv.window_id+"\"]")?.parentElement?.shadowRoot?.querySelector(".app-titlebar");
+    },
+    close: () => {
+        if (!!dv.controller.titlebar) {
+            dv.controller.titlebar.querySelector(".app-titlebar--close").click();
+        }
+        window.close();
+    }
+};
 dv.open = {
     video: async (id, title = "", popup = false) => {
         let window_id = Date.now();
@@ -53,7 +65,7 @@ dv.open = {
                     document.querySelector("app-taskbar").remove_window(_id);
                 });
             }
-            list_window.append(iframe);
+            list_window.append(iframe);            
         } else {
             if ('documentPictureInPicture' in window) {
                 const pip_window = await documentPictureInPicture.requestWindow({width: 300, height: 800});
@@ -77,8 +89,7 @@ dv.broadcast = {
             case "player_close": {
                 if(dv.window_id == e.data.wid){
                     if(dv.type == "list") {
-                        window.close();
-                        location.href = "data:text/html,Die!"
+                        dv.controller.close();
                     }
                 }
                 break;
@@ -102,8 +113,7 @@ dv.broadcast = {
             case "list_init": {
                 if(dv.window_id == e.data.wid){
                     if(dv.type == "list") {
-                        window.close();
-                        location.href = "data:text/html,Die!"
+                        dv.controller.close();
                     } else if (dv.type == "player"){
                         dv.render.list();
                     };

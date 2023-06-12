@@ -1,6 +1,6 @@
 "use strict";
 
-var video_backend = {
+dv.backend = {
     __host: "https://pipedapi.kavin.rocks",
     __get_fetch_policy: (reload) => {
         if(reload){
@@ -13,7 +13,7 @@ var video_backend = {
     },
     network_saving: false,
     get_trending_videos: async (reload = false) => {
-        let tp_resource = await fetch(video_backend.__host+"/trending?region="+video_backend.__get_region(), { cache: video_backend.__get_fetch_policy(reload) });
+        let tp_resource = await fetch(dv.backend.__host+"/trending?region="+dv.backend.__get_region(), { cache: dv.backend.__get_fetch_policy(reload) });
         console.log(tp_resource);
         let video_list = [];
         if(tp_resource.status == 200){
@@ -40,7 +40,7 @@ var video_backend = {
         return video_list;
     },
     get_video: async (id, reload = false) => {
-        let tp_resource = await fetch(video_backend.__host+"/streams/"+id, { cache: video_backend.__get_fetch_policy(reload) });
+        let tp_resource = await fetch(dv.backend.__host+"/streams/"+id, { cache: dv.backend.__get_fetch_policy(reload) });
         let video = {error:"#000"};
         if(tp_resource.status == 200){
             let tp_video = await tp_resource.json();
@@ -129,7 +129,7 @@ var video_backend = {
     },
     get_video_comments: async (id, continuation=null) => {
         /*
-    	let tp_resource = await fetch(video_backend.__host+"/api/v1/comments/"+id, { cache: "force-cache" });
+    	let tp_resource = await fetch(dv.backend.__host+"/api/v1/comments/"+id, { cache: "force-cache" });
     	let comments = {};
     	if(tp_resource.status == 200){
     		let tp_comments = await tp_resource.json();
@@ -163,7 +163,7 @@ var video_backend = {
         */
     },
     search_videos: async (query) => {
-    	let tp_resource = await fetch(video_backend.__host+"/search?q="+encodeURIComponent(query)+"&filter=videos", { cache: "force-cache" });
+    	let tp_resource = await fetch(dv.backend.__host+"/search?q="+encodeURIComponent(query)+"&filter=videos", { cache: "force-cache" });
  	    let video_list = [];
  	    if(tp_resource.status == 200){
  	        let tp_video_list = (await tp_resource.json()).items;

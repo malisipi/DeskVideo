@@ -110,7 +110,7 @@ var dv = {
         update: {
             like: async (id) => {
                 let like_button = document.querySelector(".extended-controls .like");
-                if(await app_storage.like.get(id, true)){
+                if(await dv.storage.like.get(id, true)){
                     like_button.setAttribute("true", true);
                 } else {
                     if(like_button.hasAttribute("true")){
@@ -130,9 +130,9 @@ var dv = {
         like: async (e) => {
             if(Object.keys(dv.response).length == 0) return;
             if(e.target.hasAttribute("true")){
-                await app_storage.like.set(dv.response.id, false);
+                await dv.storage.like.set(dv.response.id, false);
             } else {
-                await app_storage.like.set(dv.response.id, true, {
+                await dv.storage.like.set(dv.response.id, true, {
                     title: dv.response.title,
                     author: dv.response.author,
                     thumbnail: await imageToBase64(dv.response.thumbnail),
@@ -148,7 +148,7 @@ var dv = {
             dv.subtitles.close();
 
             if(typeof(id)=="string"){ // if video backend
-                dv.response = await video_backend.get_video(id, reload);
+                dv.response = await dv.backend.get_video(id, reload);
                 
                 document.title = dv.response.title;
                 dv.video.src = "";
@@ -334,12 +334,14 @@ var dv = {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    
     let url_parameters = new URLSearchParams(window.location.search);
     dv.external_file = url_parameters.get("external_file") == "true"
     dv.window_id = url_parameters.get("wid");
     if(!!dv.window_id){
         dv.window_id = Date.now();
     }
+    dv.controller.init();
     let window_title = url_parameters.get("title");
     if(!!window_title) {
         document.title = window_title;
