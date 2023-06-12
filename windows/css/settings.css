@@ -1,0 +1,14 @@
+* {
+	color: #fff;
+}
+
+.title {
+	font-size: 50px;
+	font-variant: petite-caps;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
