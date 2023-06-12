@@ -12,6 +12,7 @@ dv.__parse_time = (the_time) => {
 };
 dv.controller = {
     titlebar: null,
+    taskbar_id: NaN,
     init: () => {
         dv.controller.titlebar = parent.document.querySelector("iframe[src*=\""+document.location.pathname?.split("/")?.at(-1)+"\"][src*=\""+dv.window_id+"\"]")?.parentElement?.shadowRoot?.querySelector(".app-titlebar");
     },
@@ -24,6 +25,9 @@ dv.controller = {
     close: () => {
         if (!!dv.controller.titlebar) {
             dv.controller.titlebar.querySelector(".app-titlebar--close").click();
+        }
+        if(!!dv.controller.taskbar_id >= 0){
+            window.top.document.querySelector("app-taskbar").remove_window(dv.controller.taskbar_id);
         }
         window.close();
     }
@@ -66,9 +70,9 @@ dv.open = {
             iframe.src = window_url + "&embed=true";
             window.top.dv.init.window(list_window);
             list_window.onminimize = (_window=list_window, _title=title) => {
-                document.querySelector("app-taskbar").new_window(title, (_id, __window=_window) => {
+                window.top.document.querySelector("app-taskbar").new_window(title, (_id, __window=_window) => {
                     __window.removeAttribute("minimized");
-                    document.querySelector("app-taskbar").remove_window(_id);
+                    window.top.document.querySelector("app-taskbar").remove_window(_id);
                 });
             }
             list_window.append(iframe);            

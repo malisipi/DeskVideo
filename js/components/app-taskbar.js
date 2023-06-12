@@ -28,10 +28,11 @@ class extends HTMLElement {
     	button.className = "window w"+id;
     	button.innerText = title;
     	this.#windows.append(button);
+        return id;
     }
 
     remove_window = (id) => {
-    	this.#windows.querySelector(".window.w"+id).remove();
+    	this.#windows.querySelector(".window.w"+id)?.remove();
     }
 
     constructor() {
