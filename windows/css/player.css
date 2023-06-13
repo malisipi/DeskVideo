@@ -10,6 +10,7 @@ body {
         z-index: -1;
         display: block;
         object-fit: contain;
+        border-radius: 10px;
 
         &::cue {
             background: var(--accent-color);
