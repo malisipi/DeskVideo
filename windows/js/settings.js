@@ -82,6 +82,7 @@ var dv = {
 		}
 	},
 	init: async () => {
+		dv.apply_styles();
 		let response = await fetch("../config.json");
 		let conf = JSON.parse(await response.text());
 		let topics = Object.keys(conf);

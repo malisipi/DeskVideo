@@ -11,6 +11,7 @@ dv.__parse_time = (the_time) => {
     return parsed_time;
 };
 dv.apply_styles = async () => {
+    document.body.style.setProperty("--accent-color", await dv.storage.conf.get("accent-color"));
     if(dv.type == "main"){
         if(await dv.storage.conf.get("custom-background")==1){
             let params = await dv.storage.conf.get("custom-background-data");

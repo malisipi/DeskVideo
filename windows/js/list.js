@@ -54,5 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     dv.controller.init();
     dv.embed = url_parameters.get("embed")=="true";
+    dv.apply_styles();
     dv.init();
 });

@@ -416,6 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if(!dv.embed) document.body.setAttribute("seperate", true);
+    dv.apply_styles();
     
     // Video loading (from backend or local)
     
