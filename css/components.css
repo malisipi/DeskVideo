@@ -101,6 +101,11 @@ input, button, select {
     &[type="color"] {
         padding: 3px;
     }
+
+    &[type="checkbox"] {
+        min-width: unset;
+        width: 30px;
+    }
 	
 	&:is(input):not([type]) { /* if text */
 		width: 200px;

@@ -1,6 +1,7 @@
 body {
     background: #111;
     overscroll-behavior: contain;
+    color-scheme: dark;
 }
 
 * {

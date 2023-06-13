@@ -90,7 +90,7 @@ dv.open = {
             }
             list_window.append(iframe);            
         } else {
-            if ('documentPictureInPicture' in window) {
+            if (await dv.storage.conf.get("floating-list") == 1 && 'documentPictureInPicture' in window) {
                 const pip_window = await documentPictureInPicture.requestWindow({width: 300, height: 800});
                 pip_window.document.write((await (await fetch("list.html")).text()));
                 pip_window.document.write("<window_id>" + window_id + "</window-id>");
