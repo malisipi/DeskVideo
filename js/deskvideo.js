@@ -38,7 +38,7 @@ var dv = {
 	},
 	render: {
 		trends: async () => {
-			let trends = document.querySelector(".dt-trends");
+			let trends = document.querySelector(".dv-trends");
 			let api = await dv.backend.get_trending_videos();
 			trends.innerHTML = "";
 			api.forEach(video => {
@@ -60,7 +60,7 @@ var dv = {
 			});
 		},
 		search: async () => {
-			let videos = document.querySelector(".dt-search").querySelector(".videos");
+			let videos = document.querySelector(".dv-search").querySelector(".videos");
 			let api = await dv.backend.search_videos(document.querySelector("input.search").value, dv.network_saving);
 			videos.innerHTML = "";
 			api.forEach(video => {
@@ -83,7 +83,7 @@ var dv = {
 		},
 		liked: async (render) => {
 			if(!render) return;
-			let videos = document.querySelector(".dt-liked").querySelector(".videos");
+			let videos = document.querySelector(".dv-liked").querySelector(".videos");
 			videos.innerHTML = "";
 			let liked_videos = await dv.storage.like.list();
 			for(let video_index in liked_videos){
@@ -101,7 +101,7 @@ var dv = {
 			}
 		},
 		liked_filter: async () => {
-			let dt_liked = document.querySelector(".dt-liked");
+			let dt_liked = document.querySelector(".dv-liked");
 			let search = dt_liked.querySelector(".search");
 			let videos = dt_liked.querySelector(".videos");
 			videos.childNodes.forEach((element, index, list, search_value=search.value.toLocaleLowerCase().toLowerCase()) => {
@@ -147,19 +147,22 @@ var dv = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+	dv.conf.init();
 	dv.backend.network_saving = dv.network_saving;
 	
 	dv.broadcast.init();
 	dv.init.taskbar();
 	dv.render.trends();
 
-	let dt_search = document.querySelector(".dt-search");
-	let dt_search_search = dt_search.querySelector("input.search");
-	dt_search_search.addEventListener("change", dv.render.search);
-	dt_search.querySelector("button").addEventListener("click", dv.render.search);
+	let dv_search = document.querySelector(".dv-search");
+	let dv_search_search = dv_search.querySelector("input.search");
+	dv_search_search.addEventListener("change", dv.render.search);
+	dv_search.querySelector("button").addEventListener("click", dv.render.search);
 
-	let dt_liked = document.querySelector(".dt-liked");
-	let dt_liked_search = dt_liked.querySelector("input.search");
-	dt_liked_search.addEventListener("keypress", dv.render.liked_filter);
-	dt_liked.querySelector("button").addEventListener("click", dv.render.liked_filter);
+	let dv_liked = document.querySelector(".dv-liked");
+	let dv_liked_search = dv_liked.querySelector("input.search");
+	dv_liked_search.addEventListener("keypress", dv.render.liked_filter);
+	dv_liked.querySelector("button").addEventListener("click", dv.render.liked_filter);
+
+	
 });

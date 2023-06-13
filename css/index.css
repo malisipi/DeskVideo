@@ -15,7 +15,11 @@
     }
 }
 
-.dt-trends, .dt-search, .dt-liked {
+body {
+	background-image: var(--background-url);
+}
+
+.dv-trends, .dv-search, .dv-liked {
     position: fixed;
     top: var(--taskbar-height);
     left: 0;
@@ -39,11 +43,11 @@
     }
 }
 
-body[search] .dt-search, body[liked] .dt-liked {
+body[search] .dv-search, body[liked] .dv-liked {
     display: block;
 }
 
-body[trends] .dt-trends, body[search] .dt-search .videos, body[liked] .dt-liked .videos {
+body[trends] .dv-trends, body[search] .dv-search .videos, body[liked] .dv-liked .videos {
     display: grid;
     grid-template-columns: auto;
     justify-items: center;

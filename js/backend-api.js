@@ -189,5 +189,8 @@ dv.backend = {
             console.error(tp_resource.status);
  	    }
  	    return video_list;
+    },
+    get_random_image: (width, height, topics) => {
+    	return "https://source.unsplash.com/" + width + "x" + height + "/?" + topics;
     }
 }

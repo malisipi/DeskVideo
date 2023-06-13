@@ -2,7 +2,8 @@
 
 dv.storage = {
     keys: {
-        likes: "dv|likes"
+        likes: "dv|likes",
+        conf: "dv|conf"
     },
     like: {
         get: async (id, only_state = false, c = true) => {
@@ -30,5 +31,26 @@ dv.storage = {
         list: async () => {
             return Object.keys(await idbKeyval.get(dv.storage.keys.likes));
         }
+    },
+    conf: {
+    	get: async (id) => {
+    		try {
+    			let conf = await idbKeyval.get(dv.storage.keys.conf);
+    			return conf[id];
+    		} catch {
+    		    await idbKeyval.set(dv.storage.keys.conf, {});
+    			return dv.storage.conf.get(id);
+    		}
+    	},
+    	set: async (id, value) => {
+    		try {
+    			let conf = await idbKeyval.get(dv.storage.keys.conf);
+    			conf[id] = value;
+    			await idbKeyval.set(dv.storage.keys.conf, conf);
+    		} catch {
+    		    await idbKeyval.set(dv.storage.keys.conf, {});
+    			return dv.storage.conf.set(id, value);
+    		}
+    	}
     }
 };

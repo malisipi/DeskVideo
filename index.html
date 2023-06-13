@@ -21,20 +21,21 @@
     <script src="./js/thirdparty/image-to-base64.js"></script>
     <script src="./js/thirdparty/idb-keyval.js"></script>
     <script src="./js/storage.js"></script>
+    <script src="./js/conf.js"></script>
     <link rel="stylesheet" href="./css/extension.css">
     <script src="./js/extension.js"></script>
 </head>
 <body trends>
 	<app-taskbar position="top" start="./assets/fluent-icons/video_16_regular.svg" search="./assets/fluent-icons/search_16_regular.svg" onstart="dv.toggle.trends" onsearch="dv.toggle.search"></app-taskbar>
-	<div class="dt-trends"><span style="color: white;">Loading...</span></div>
-    <div class="dt-search">
+	<div class="dv-trends"><span style="color: white;">Loading...</span></div>
+    <div class="dv-search">
         <div class="search-container">
             <input class="search" placeholder="Search Videos" enterkeyhint="search" />
             <button appearance="accent">Search</button>
         </div>
         <div class="videos"></div>
     </div>
-    <div class="dt-liked">
+    <div class="dv-liked">
         <div class="search-container">
             <input class="search" placeholder="Filter Videos" enterkeyhint="search" />
             <button appearance="accent">Filter</button>
