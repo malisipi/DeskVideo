@@ -18,6 +18,7 @@
             display: flex;
             height: env(titlebar-area-height, 0);
             width: env(titlebar-area-width, 100%);
+            left: env(titlebar-area-x, 0);
         }
     }
 }
