@@ -125,9 +125,16 @@ var dv = {
 			image.src = "./assets/fluent-icons/thumb_like_16_regular.svg";
 			button.append(image);
 		},
-		window: (_window) => {
-			if (navigator.userAgentData?.platform == "macOS" || navigator.userAgent.includes("Mac") || navigator?.windowControlsOverlay?.getTitlebarAreaRect()?.x > 0){
-				_window.setAttribute("titlebar-style", "macos");
+		window: async (_window) => {
+			if (navigator.userAgentData?.platform == "macOS"
+				|| navigator.userAgent.includes("Mac")
+				|| navigator?.windowControlsOverlay?.getTitlebarAreaRect()?.x > 0
+				|| await dv.storage.conf.get("left-win-controls") > 0){
+					if(await dv.storage.conf.get("left-win-controls")!=-1){
+						_window.setAttribute("titlebar-style", "macos");
+					} else {
+						_window.setAttribute("titlebar-style", "linux");
+					}
 			} else if(navigator.userAgentData?.platform == "Linux" || navigator.userAgent.includes("Linux")){
 				_window.setAttribute("titlebar-style", "linux");
 			};
@@ -149,7 +156,8 @@ var dv = {
 document.addEventListener("DOMContentLoaded", () => {
 	dv.conf.init();
 	dv.backend.network_saving = dv.network_saving;
-	
+	dv.apply_styles();
+
 	dv.broadcast.init();
 	dv.init.taskbar();
 	dv.render.trends();
@@ -162,7 +170,5 @@ document.addEventListener("DOMContentLoaded", () => {
 	let dv_liked = document.querySelector(".dv-liked");
 	let dv_liked_search = dv_liked.querySelector("input.search");
 	dv_liked_search.addEventListener("keypress", dv.render.liked_filter);
-	dv_liked.querySelector("button").addEventListener("click", dv.render.liked_filter);
-
-	
+	dv_liked.querySelector("button").addEventListener("click", dv.render.liked_filter);	
 });

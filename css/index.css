@@ -19,6 +19,16 @@ body {
 	background-image: var(--background-url);
 }
 
+img.background {
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .dv-trends, .dv-search, .dv-liked {
     position: fixed;
     top: var(--taskbar-height);
@@ -32,6 +42,10 @@ body {
     z-index: 9999999999999999;
     background: inherit;
 
+    [custom-background] & {
+        background: transparent;
+    }
+
     .search-container {
         display: flex;
         position: sticky;
@@ -41,6 +55,10 @@ body {
         gap: 4px;
         justify-content: center;
     }
+}
+
+body[custom-background]:is([trends], [search], [liked]) img.background{
+    z-index: 9999999999999998;
 }
 
 body[search] .dv-search, body[liked] .dv-liked {

@@ -95,10 +95,12 @@ input, button, select {
 	border-radius: 4px;
 	transition: 75ms;
 	accent-color: var(--accent-color);
+	background: #222;
+    box-sizing: border-box;
 
-	&:not([type="color"]){
-		background: #222;
-	}
+    &[type="color"] {
+        padding: 3px;
+    }
 	
 	&:is(input):not([type]) { /* if text */
 		width: 200px;

@@ -10,6 +10,18 @@ dv.__parse_time = (the_time) => {
     parsed_time += Number(seconds) + (Number(mseconds) / 1000);
     return parsed_time;
 };
+dv.apply_styles = async () => {
+    if(dv.type == "main"){
+        if(await dv.storage.conf.get("custom-background")==1){
+            let params = await dv.storage.conf.get("custom-background-data");
+            document.body.setAttribute("custom-background", true);
+            document.body.querySelector("img.background").src = dv.backend.get_random_image(
+                Math.round(window.devicePixelRatio * screen.width),
+                Math.round(window.devicePixelRatio * screen.height),
+                "wolves");
+        }
+    }
+};
 dv.controller = {
     titlebar: null,
     taskbar_id: NaN,

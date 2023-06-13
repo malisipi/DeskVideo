@@ -2,7 +2,7 @@
 
 dv.conf = {
 	init: async () => {
-	    let response = await fetch("../config.json");
+	    let response = await fetch("./config.json");
 	    let conf = JSON.parse(await response.text());
 	    let topics = Object.keys(conf);
 	    for(let topic_index in topics){

@@ -78,7 +78,7 @@
 		},
 		{
 			"type": "bool",
-			"default": false,
+			"default": -1,
 			"conf": "custom-background",
 			"title": "Custom Background",
 			"description": "Use custom background for DeskVideo background"
