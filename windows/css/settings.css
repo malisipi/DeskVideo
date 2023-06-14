@@ -4,6 +4,7 @@
 
 .title {
 	font-size: 50px;
+	margin: 15px 0;
 
 	&:first-letter {
 		text-transform: uppercase;

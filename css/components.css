@@ -61,11 +61,18 @@ app-window {
         left: calc(100% - 300px);
         width: 300px;
         top: var(--taskbar-height);
-        height: calc(100% - var(--taskbar-height));
+        height: calc(100% - calc(var(--taskbar-height) + 30px));
 
         @media (max-width: 300px) {
             width: 100%;
         }
+    }
+
+    &.settings {
+        left: 30px;
+        top: calc(var(--taskbar-height) + 30px);
+        height: calc(100% - calc(var(--taskbar-height) + 60px));
+        width: calc(100% - 60px);
     }
 }
 

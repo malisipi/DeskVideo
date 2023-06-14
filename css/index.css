@@ -59,6 +59,7 @@ img.background {
 
 body[custom-background]:is([trends], [search], [liked]) img.background{
     z-index: 9999999999999998;
+    filter: blur(4px);
 }
 
 body[search] .dv-search, body[liked] .dv-liked {

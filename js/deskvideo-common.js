@@ -42,18 +42,18 @@ dv.controller = {
         if (!!dv.controller.titlebar) {
             dv.controller.titlebar.querySelector(".app-titlebar--close").click();
         }
-        if(!!dv.controller.taskbar_id >= 0){
+        /*if(!!dv.controller.taskbar_id >= 0){
             window.top.document.querySelector("app-taskbar").remove_window(dv.controller.taskbar_id);
-        }
+        }*/
         window.close();
     }
 };
 dv.open = {
-    video: async (id, title = "", popup = false) => {
+    video: async (id, title = "") => {
         let window_id = Date.now();
         let window_url = "./windows/player.html?wid="+window_id+"&id="+id+"&title="+encodeURIComponent(title);
 
-        if(!popup && !dv.force_window){
+        if(!dv.force_window){
             dv.hide_all();
             let video_window = document.createElement("app-window");
             video_window.title = title;
@@ -103,6 +103,32 @@ dv.open = {
             }
         }
     },
+    settings: (title = "Settings") => {
+        window.top.document.querySelector("app-window.settings")?.querySelector("iframe")?.contentWindow?.dv?.controller?.close(); // Close previously created settings window
+
+        let window_id = Date.now();
+        let window_url = "./windows/settings.html?wid="+window_id;
+
+        if(!dv.force_window){
+            window.top.dv.hide_all();
+            let settings_window = document.createElement("app-window");
+            settings_window.title = title;
+            settings_window.className = "settings";
+            window.top.document.body.append(settings_window);
+            let iframe = document.createElement("iframe");
+            iframe.src = window_url + "&embed=true";
+            window.top.dv.init.window(settings_window);
+            settings_window.onminimize = (_window=settings_window, _title=title) => {
+                document.querySelector("app-taskbar").new_window(title, (_id, __window=_window) => {
+                    __window.removeAttribute("minimized");
+                    document.querySelector("app-taskbar").remove_window(_id);
+                });
+            }
+            settings_window.append(iframe);
+        } else {
+            window.open(window_url + "&embed=false", "_blank", "popup=yes");
+        }
+    }
 }
 
 dv.broadcast = {

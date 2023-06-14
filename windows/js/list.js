@@ -1,6 +1,6 @@
 "use strict";
 
-let dv = {
+var dv = {
     type: "list",
     embed: false,
     window_id: -1,

@@ -1,44 +1,4 @@
-.titlebar {
-    position: fixed;
-    display: none;
-    top: 0;
-    left: 0;
-    height: 0;
+.videos > video-preview {
     width: 100%;
-    user-select: none;
-    app-region: drag;
-    background: #222;
-    color: #fff;
-    box-sizing: border-box;
-    align-items: center;
-    padding: 0 4px;
-    
-    [seperate] > & {
-        @media (display-mode: window-controls-overlay) { 
-            display: flex;
-            height: env(titlebar-area-height, 0);
-            width: env(titlebar-area-width, 100%);
-            left: env(titlebar-area-x, 0);
-        }
-    }
-}
-
-.videos {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow-y: auto;
-    padding: 5px;
-    color: #fff;
-
-    & > video-preview {
-        width: 100%;
-        margin-bottom: 5px;
-    }
-
-    @media (display-mode: window-controls-overlay) { 
-        top: env(titlebar-area-height, 0);
-    }
+    margin-bottom: 5px;
 }

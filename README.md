@@ -7,7 +7,7 @@ Desktop styled video-stream platform front-end
 ## Thirdparty APIs
 
 - [Piped](https://piped.video/) is the privacy-centered video provider backend.
-- [Unsplash](https://unsplash.com) is the image sharing platform. The api __*will*__ be used to use random wallpapers for DeskVideo.
+- [Unsplash](https://unsplash.com) is the image sharing platform. The api is used to use random wallpapers for DeskVideo.
 
 ## Web APIs
 

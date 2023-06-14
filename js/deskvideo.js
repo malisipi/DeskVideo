@@ -117,13 +117,17 @@ var dv = {
 	},
 	init:{
 		taskbar: () => {
-			let button = document.createElement("button");
-			button.addEventListener("click", dv.toggle.liked);
-			document.querySelector("app-taskbar").shadowRoot.querySelector(".root").append(button);
+			let new_button = (fn, img) => {
+				let button = document.createElement("button");
+				button.addEventListener("click", fn);
+				let image = document.createElement("img");
+				image.src = img;
+				button.append(image);
+				document.querySelector("app-taskbar").shadowRoot.querySelector(".root").append(button);
+			}
 
-			let image = document.createElement("img");
-			image.src = "./assets/fluent-icons/thumb_like_16_regular.svg";
-			button.append(image);
+			new_button(dv.toggle.liked, "./assets/fluent-icons/thumb_like_16_regular.svg");
+			new_button(() => { dv.open.settings(); }, "./assets/fluent-icons/settings_16_regular.svg");
 		},
 		window: async (_window) => {
 			if (navigator.userAgentData?.platform == "macOS"

@@ -1,10 +1,11 @@
 "use strict";
 
 var dv = {
+	settings_list: null,
 	__input_element: (data) => {
 		let container = document.createElement("div");
 		container.className = "container";
-		document.body.append(container);
+		dv.settings_list.append(container);
 		let title = document.createElement("div");
 		title.innerText = data.title;
 		title.title = data.description;
@@ -66,10 +67,10 @@ var dv = {
 	add: async (data) => {
 		switch (data.type) {
 			case "title": {
-				let title = document.createElement("p");
+				let title = document.createElement("div");
 				title.className = "title";
 				title.innerText = data.title;
-				document.body.append(title);
+				dv.settings_list.append(title);
 				break;
 			}
 			case "text": {
@@ -94,7 +95,20 @@ var dv = {
 		}
 	},
 	init: async () => {
+		let url_parameters = new URLSearchParams(window.location.search);
+		dv.window_id = url_parameters.get("wid");
+		if(dv.window_id == -1){
+			window.close();
+		};
+		dv.controller.init();
+		dv.embed = url_parameters.get("embed")=="true";
+
+		if(!dv.embed){
+            document.body.setAttribute("seperate", true);
+		}
+
 		dv.apply_styles();
+		dv.settings_list = document.querySelector(".settings");
 		let response = await fetch("../config.json");
 		let conf = JSON.parse(await response.text());
 		let topics = Object.keys(conf);
