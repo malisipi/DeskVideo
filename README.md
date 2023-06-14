@@ -16,6 +16,7 @@ Desktop styled video-stream platform front-end
 | [Document Picture-in-Picture API][dpip]               | 111 <sup>1</sup> | x  | x   | x    | x                    |
 | [Nested CSS][css-nesting]                             | 112              |112 | 98  | 16.5 | Nightly <sup>2</sup> |
 | [Window Controls Overlay][window-control-overlay]     | 105              |105 | 91  | x    | x                    |
+| [Window Management API][window-management]            | 100              | ?  | ?   | x    | x                    |
 | [MediaSession][media-session]                         | 73               | 79 | 60  | 15   | 82                   |
 | [Launch Queue][launch-queue]                          | 102              |102 | 88  | x    | x                    |
 | [Web Components][web-components]                      | 53               | 79 | 40  | 10   | 63                   |
@@ -48,6 +49,7 @@ The DeskVideo icon is based Twemoji and licensed by CC-BY-SA 4.0. (https://githu
 [dpip]: https://developer.chrome.com/docs/web-platform/document-picture-in-picture/
 [css-nesting]: https://developer.chrome.com/articles/css-nesting/
 [window-control-overlay]: https://developer.mozilla.org/en-US/docs/Web/API/Window_Controls_Overlay_API
+[window-management]: https://developer.chrome.com/articles/window-management/
 [media-session]: https://developer.mozilla.org/en-US/docs/Web/API/MediaSession
 [launch-queue]: https://developer.mozilla.org/en-US/docs/Web/API/LaunchQueue
 [web-components]: https://developer.mozilla.org/en-US/docs/Web/API/Web_components
