@@ -154,7 +154,7 @@ var dv = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-	dv.conf.init();
+	dv.storage.conf.init();
 	dv.backend.network_saving = dv.network_saving;
 	dv.apply_styles();
 

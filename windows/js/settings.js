@@ -74,7 +74,7 @@ var dv = {
 			}
 			case "text": {
 				let input = dv.__input_element(data);
-				input.value = await dv.storage.conf.get(data.conf) || data.default; // dv.conf.get
+				input.value = await dv.storage.conf.get(data.conf) || data.default;
 				break;
 			}
 			case "bool": {
