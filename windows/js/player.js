@@ -71,7 +71,7 @@ var dv = {
                     } else {
                         dv.audio.currentTime = dv.video.currentTime;
                     }
-                }
+                };
             },
             update_duration: () => {
                 document.querySelector("input.time").max = dv.video.duration;
@@ -295,6 +295,93 @@ var dv = {
                         });
                     }
                 }, 50);
+            }
+        },
+        splited_playing: {
+            screens: null,
+            view_area: {
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: 0,
+                height: 0
+            },
+            screen: {},
+            is_using: false,
+            windows: [],
+            init: async () => {
+                if(dv.features.splited_playing.screens == undefined) {
+                    dv.features.splited_playing.screens = (await window.getScreenDetails()).screens;
+                }
+
+                for(let the_screen_index = 0; the_screen_index < dv.features.splited_playing.screens.length; the_screen_index++){
+                    let the_screen = dv.features.splited_playing.screens[the_screen_index];
+                    if(the_screen_index == 0){
+                        dv.features.splited_playing.screen = {
+                            top: the_screen.top,
+                            left: the_screen.left,
+                            width: the_screen.width,
+                            height: the_screen.height
+                        };
+                    }
+                    if(the_screen.left < dv.features.splited_playing.view_area.left){
+                        dv.features.splited_playing.view_area.left = the_screen.left;
+                    }
+                    if(the_screen.top < dv.features.splited_playing.view_area.top){
+                        dv.features.splited_playing.view_area.top = the_screen.top
+                    }
+                    if(the_screen.left + the_screen.width > dv.features.splited_playing.view_area.right){
+                        dv.features.splited_playing.view_area.right = the_screen.left + the_screen.width;
+                        console.log(the_screen.left + the_screen.width);
+                    }
+                    if(the_screen.top + the_screen.height > dv.features.splited_playing.view_area.bottom){
+                        dv.features.splited_playing.view_area.bottom = the_screen.top + the_screen.height;
+                    }
+                    dv.features.splited_playing.view_area.height = 
+                        dv.features.splited_playing.view_area.bottom - dv.features.splited_playing.view_area.top;
+                    dv.features.splited_playing.view_area.width = 
+                        dv.features.splited_playing.view_area.right - dv.features.splited_playing.view_area.left;
+                };
+
+                for(let the_screen_index = 0; the_screen_index < dv.features.splited_playing.screens.length; the_screen_index++){
+                    let the_screen = dv.features.splited_playing.screens[the_screen_index];
+                    if(the_screen_index == 0){
+                        dv.features.splited_playing.windows = [...dv.features.splited_playing.windows, window];
+                    } else {
+                        dv.features.splited_playing.windows = [...dv.features.splited_playing.windows, 
+                            window.open("./splited_player.html?view="+the_screen_index, "_blank", "popup=yes")
+                        ];
+                    }
+                };
+
+                document.body.setAttribute("splited_playing", true);
+                dv.features.splited_playing.is_using = true;
+                let canvas = document.querySelector("canvas");
+                canvas.width = dv.features.splited_playing.screen.width;
+                canvas.height = dv.features.splited_playing.screen.height;
+                dv.features.splited_playing.canvas_ctx = canvas.getContext('2d');
+                setInterval(()=>{
+                    if(dv.features.splited_playing.is_using){
+                        dv.features.splited_playing.draw_scene();
+                    }
+                }, 1000/15);
+            },
+            canvas_ctx: null,
+            draw_scene: () => {
+                dv.features.splited_playing.windows.forEach(the_window => {
+                    the_window.dv.features.splited_playing.canvas_ctx.drawImage(
+                        dv.video,
+                        dv.video.videoWidth / dv.features.splited_playing.view_area.width * (the_window.dv.features.splited_playing.screen.left - dv.features.splited_playing.view_area.left),
+                        dv.video.videoHeight / dv.features.splited_playing.view_area.height * (the_window.dv.features.splited_playing.screen.top - dv.features.splited_playing.view_area.top),
+                        dv.video.videoWidth / dv.features.splited_playing.view_area.width * the_window.dv.features.splited_playing.screen.width,
+                        dv.video.videoHeight / dv.features.splited_playing.view_area.height * the_window.dv.features.splited_playing.screen.height,
+                        0,
+                        0,
+                        the_window.dv.features.splited_playing.screen.width,
+                        the_window.dv.features.splited_playing.screen.height
+                    );
+                });
             }
         }
     },

@@ -1,5 +1,5 @@
 body {
-    & video, &[audio_only] img.thumbnail {
+    & video, &[audio_only] img.thumbnail, &[splited_playing] canvas {
         position: fixed;
         top: 0;
         left: 0;
@@ -17,6 +17,10 @@ body {
             opacity: 0.8;
             color: #ffffff;
         }
+    }
+
+    &[splited_playing] video, &:not([splited_playing]) canvas {
+        display: none;
     }
 
     & img.thumbnail{
