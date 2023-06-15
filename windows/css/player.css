@@ -166,7 +166,7 @@ body {
         filter: invert(1);
     }
 
-    &[embed]:not(:fullscreen) {
+    &[embed]:not(:is(:fullscreen, [splited_playing])) {
         & video, img.thumbnail {
             height: calc(100% - 80px);
         }

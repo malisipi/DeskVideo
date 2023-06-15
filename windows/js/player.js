@@ -367,14 +367,14 @@ var dv = {
                 canvas.width = dv.features.splited_playing.screen.width;
                 canvas.height = dv.features.splited_playing.screen.height;
                 dv.features.splited_playing.canvas_ctx = canvas.getContext('2d');
-                setInterval(()=>{
+                setInterval(async ()=>{
                     if(dv.features.splited_playing.is_using){
                         dv.features.splited_playing.draw_scene();
                     }
                 }, 1000 / await dv.storage.conf.get("splited-player-fps"));
             },
             canvas_ctx: null,
-            draw_scene: () => {
+            draw_scene: async () => {
                 dv.features.splited_playing.windows.forEach(the_window => {
                     the_window.dv.features.splited_playing.canvas_ctx.drawImage(
                         dv.video,
