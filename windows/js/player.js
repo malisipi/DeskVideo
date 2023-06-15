@@ -312,7 +312,13 @@ var dv = {
             windows: [],
             init: async () => {
                 if(dv.features.splited_playing.screens == undefined) {
-                    dv.features.splited_playing.screens = (await window.getScreenDetails()).screens;
+                    if(await dv.storage.conf.get("use-custom-screen-config") == -1 
+                        && "getScreenDetails" in window){
+                            dv.features.splited_playing.screens = (await window.getScreenDetails()).screens;
+                    } else {
+                        let screen_conf = await dv.storage.conf.get("screen-config");
+                        dv.features.splited_playing.screens = JSON.parse(screen_conf);
+                    }
                 }
 
                 for(let the_screen_index = 0; the_screen_index < dv.features.splited_playing.screens.length; the_screen_index++){
@@ -365,7 +371,7 @@ var dv = {
                     if(dv.features.splited_playing.is_using){
                         dv.features.splited_playing.draw_scene();
                     }
-                }, 1000/15);
+                }, 1000 / await dv.storage.conf.get("splited-player-fps"));
             },
             canvas_ctx: null,
             draw_scene: () => {

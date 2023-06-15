@@ -22,6 +22,27 @@
 			"conf": "volume-boost-300",
 			"title": "Volume Boost (300%)",
 			"description": "Allow to boosting volume up to 300%. (It can be harm your ears and speakers)"
+		},
+		{
+			"type": "bool",
+			"default": -1,
+			"conf": "use-custom-screen-config",
+			"title": "Force to use Custom Screen Config",
+			"description": "Custom screen configuration will be applied instead of Window Management API"
+		},
+		{
+			"type": "text",
+			"default": "[]",
+			"conf": "screen-config",
+			"title": "Screen Configuration",
+			"description": "Screen configuration for splited player"
+		},
+		{
+			"type": "text",
+			"default": 15,
+			"conf": "splited-player-fps",
+			"title": "Splited Player FPS",
+			"description": "Use custom fps to sync splited players"
 		}
 	],
 	"appearance": [

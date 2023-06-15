@@ -5,34 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Splited Player</title>
+    <script src="../js/thirdparty/idb-keyval.js"></script>
+    <script src="./js/splited-player.js"></script>
+    <script src="../js/storage.js"></script>
+    <link rel="stylesheet" href="./css/splited-player.css">
 </head>
 <body>
     <canvas></canvas>
-    <script>
-var dv = {
-    features: {
-        splited_playing: {
-
-        }
-    }
-};
-(async () => {
-    dv.features.splited_playing.screens = (await window.getScreenDetails()).screens;
-    dv.features.splited_playing.screen = (await window.getScreenDetails()).screens[1];
-    let canvas = document.querySelector("canvas");
-    canvas.width = dv.features.splited_playing.screen.width;
-    canvas.height = dv.features.splited_playing.screen.height;
-    dv.features.splited_playing.canvas_ctx = canvas.getContext("2d");
-})();
-    </script>
-    <style>
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
 </body>
 </html>
