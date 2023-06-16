@@ -432,7 +432,6 @@ var dv = {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    
     let url_parameters = new URLSearchParams(window.location.search);
     dv.external_file = url_parameters.get("external_file") == "true"
     dv.window_id = url_parameters.get("wid");
@@ -447,6 +446,8 @@ document.addEventListener("DOMContentLoaded", () => {
     	dv.embed = true;
     	document.body.setAttribute("embed", true);
     };
+
+    document.body.setAttribute("mobile", dv.mobile);
 
     dv.broadcast.init();
     dv.visibility.register();
@@ -496,6 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("input.time").addEventListener("mousedown", dv.controls.time.update_current_time);
     document.querySelector("input.time").addEventListener("touchstart", dv.controls.time.update_current_time);
     controls.querySelector(".fullscreen").addEventListener("click", dv.controls.fullscreen);
+    controls.querySelector(".splited-playing").addEventListener("click", dv.features.splited_playing.init);
     controls.querySelector(".playrate").addEventListener("change", dv.controls.playrate);
     controls.querySelector(".audio-only").addEventListener("click", dv.controls.audio_only);
     controls.querySelector(".subtitles").addEventListener("click", () => {

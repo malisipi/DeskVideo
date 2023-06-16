@@ -110,6 +110,11 @@ body {
         [external_file="true"] & :is(.subtitles, .audio-only) {
             display: none;
         }
+
+
+        [mobile="true"] & .splited-playing {
+            display: none;
+        }
     }
 
     & .extended-controls {

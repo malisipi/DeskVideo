@@ -17,7 +17,7 @@
 		<video autoplay></video>
 		<canvas></canvas>
 		<audio autoplay hidden></audio>
-		<img class="thumbnail" />
+		<img draggable="false" class="thumbnail" />
 		<div class="info">
 			<div class="name"></div>
 			<div class="author"></div>
@@ -25,11 +25,13 @@
 		</div>
 		<div class="controls">
 			<button class="play">
-				<img class="fi true" src="../assets/fluent-icons/pause_16_regular.svg"/>
-				<img class="fi false" src="../assets/fluent-icons/play_16_regular.svg"/>
+				<img draggable="false" class="fi true" src="../assets/fluent-icons/pause_16_regular.svg"/>
+				<img draggable="false" class="fi false" src="../assets/fluent-icons/play_16_regular.svg"/>
 			</button>
 			<input type="range" class="time" min="0" max="1" value="0" step="1"></fluent-slider>
-			<button class="volume"><img class="fi" src="../assets/fluent-icons/speaker_2_16_regular.svg"/></button>
+			<button class="volume">
+				<img draggable="false" class="fi" src="../assets/fluent-icons/speaker_2_16_regular.svg"/>
+			</button>
 			<input type="range" class="volume" min="0" max="100" value="100" step="1"></fluent-slider>
 			<select class="playrate">
 				<option value="0.25">0.25</fluent-option>
@@ -40,29 +42,39 @@
 				<option value="3">3</fluent-option>
 			</select>
 			<button class="subtitles">
-				<img class="fi" src="../assets/fluent-icons/subtitles_16_regular.svg" />
+				<img draggable="false" class="fi" src="../assets/fluent-icons/subtitles_16_regular.svg" />
 			</button>
 			<button class="audio-only">
-				<img class="fi true" src="../assets/fluent-icons/video_16_regular.svg"/>
-				<img class="fi false" src="../assets/fluent-icons/headset_16_regular.svg"/>
+				<img draggable="false" class="fi true" src="../assets/fluent-icons/video_16_regular.svg"/>
+				<img draggable="false" class="fi false" src="../assets/fluent-icons/headset_16_regular.svg"/>
 			</button>
 			<button class="pip">
-				<img class="fi false" src="../assets/fluent-icons/picture_in_picture_enter_16_regular.svg"/>
-				<img class="fi true" src="../assets/fluent-icons/picture_in_picture_exit_16_regular.svg"/>
+				<img draggable="false" class="fi false" src="../assets/fluent-icons/picture_in_picture_enter_16_regular.svg"/>
+				<img draggable="false" class="fi true" src="../assets/fluent-icons/picture_in_picture_exit_16_regular.svg"/>
+			</button>
+			<button class="splited-playing">
+				<img draggable="false" class="fi false" src="../assets/fluent-icons/tv_16_regular.svg"/>
+				<img draggable="false" class="fi true" src="../assets/fluent-icons/share_screen_stop_16_regular.svg"/>
 			</button>
 			<button class="fullscreen">
-				<img class="fi false" src="../assets/fluent-icons/full_screen_maximize_16_regular.svg"/>
-				<img class="fi true" src="../assets/fluent-icons/full_screen_minimize_16_regular.svg"/>
+				<img draggable="false" class="fi false" src="../assets/fluent-icons/full_screen_maximize_16_regular.svg"/>
+				<img draggable="false" class="fi true" src="../assets/fluent-icons/full_screen_minimize_16_regular.svg"/>
 			</button>
 		</div>
 		<div class="extended-controls">
 			<button class="like">
-				<img class="fi false" src="../assets/fluent-icons/thumb_like_16_regular.svg"/>
-				<img class="fi true" src="../assets/fluent-icons/thumb_like_16_filled.svg"/>
+				<img draggable="false" class="fi false" src="../assets/fluent-icons/thumb_like_16_regular.svg"/>
+				<img draggable="false" class="fi true" src="../assets/fluent-icons/thumb_like_16_filled.svg"/>
 			</button>
-			<button class="list"><img class="fi" src="../assets/fluent-icons/list_16_regular.svg"/></button>
-			<button class="comment"><img class="fi" src="../assets/fluent-icons/comment_16_regular.svg"/></button>
-			<button class="share"><img class="fi" src="../assets/fluent-icons/share_16_regular.svg"/></button>
+			<button class="list">
+				<img draggable="false" class="fi" src="../assets/fluent-icons/list_16_regular.svg"/>
+			</button>
+			<button class="comment">
+				<img draggable="false" class="fi" src="../assets/fluent-icons/comment_16_regular.svg"/>
+			</button>
+			<button class="share">
+				<img draggable="false" class="fi" src="../assets/fluent-icons/share_16_regular.svg"/>
+			</button>
 		</div>
 	</body>
 </html>
