@@ -210,7 +210,7 @@ var dv = {
                 dv.controller.title(file_title);
                 document.querySelector(".info .name").innerText = file_title;
                 document.querySelector(".info div.author").innerText = "Unknown";
-                document.querySelector(".info img.author").src = "../node_modules/@fluentui/svg-icons/icons/person_16_regular.svg";
+                document.querySelector(".info img.author").src = "../assets/fluent-icons/person_16_regular.svg";
                 document.querySelector(".info img.author").style.filter="invert(1)";
                 dv.features.media_session.metadata.title = file_title;
                 dv.features.media_session.metadata.artist = "Unknown";

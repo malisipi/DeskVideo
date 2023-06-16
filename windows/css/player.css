@@ -102,8 +102,8 @@ body {
             box-sizing: border-box;
             transform: translate(0, 8px);
     
-            &.volume {
-                max-width: 100px;
+            & .volume {
+                max-width: 75px;
             }
         }
     }
