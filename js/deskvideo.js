@@ -115,6 +115,30 @@ var dv = {
 			});
 		}
 	},
+	file: {
+		input: null,
+		open: (file) => {
+			dv.open.video(null, file.name.split(".")[0], true, {
+				getFile: async (_file=file) => {
+					return _file;
+				},
+				name: file.name
+			});
+		},
+		load: () => {
+			if(dv.file.input == null) {
+				dv.file.input = document.createElement("input");
+				dv.file.input.type = "file";
+				dv.file.input.accept = "video/*";
+				dv.file.input.addEventListener("change", event => {
+					if(event.target.files.length > 0){
+						dv.file.open(event.target.files[0]);
+					};
+				});
+			};
+			dv.file.input.click();
+		}
+	},
 	init:{
 		taskbar: () => {
 			let new_button = (fn, img) => {
@@ -126,6 +150,7 @@ var dv = {
 				document.querySelector("app-taskbar").shadowRoot.querySelector(".root").append(button);
 			}
 
+			new_button(dv.file.load, "./assets/fluent-icons/folder_open_16_regular.svg");
 			new_button(dv.toggle.liked, "./assets/fluent-icons/thumb_like_16_regular.svg");
 			new_button(() => { dv.open.settings(); }, "./assets/fluent-icons/settings_16_regular.svg");
 		},
@@ -178,12 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.body.addEventListener("drop", async event => {
 		event.preventDefault();
 		let file = event.dataTransfer.files[0];
-		let window_core = dv.open.video(null, file.name.split(".")[0], true, {
-			getFile: async (_file=file) => {
-				return _file;
-			},
-			name: file.name
-		});
+		dv.file.open(file);
 	}, false);
 	document.body.addEventListener("dragover", event => {
 		event.preventDefault();
