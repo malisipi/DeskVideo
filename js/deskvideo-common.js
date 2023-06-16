@@ -49,9 +49,16 @@ dv.controller = {
     }
 };
 dv.open = {
-    video: async (id, title = "") => {
+    video: async (id, title = "", external_file = false, file = null) => {
         let window_id = Date.now();
-        let window_url = "./windows/player.html?wid="+window_id+"&id="+id+"&title="+encodeURIComponent(title);
+        let window_url = "./windows/player.html?wid=" + window_id + "&title=" + encodeURIComponent(title);
+
+        let window_core = null;
+        if(external_file){
+            window_url += "&external_file=true";
+        } else {
+            window_url += "&id=" + id;
+        }
 
         if(!dv.force_window){
             dv.hide_all();
@@ -59,8 +66,8 @@ dv.open = {
             video_window.title = title;
             video_window.className = "video";
             document.body.append(video_window);
-            let iframe = document.createElement("iframe");
-            iframe.src = window_url + "&embed=true";
+            window_core = document.createElement("iframe");
+            window_core.src = window_url + "&embed=true";
             dv.init.window(video_window);
             video_window.onminimize = (_window=video_window, _title=title) => {
                 document.querySelector("app-taskbar").new_window(title, (_id, __window=_window) => {
@@ -68,9 +75,19 @@ dv.open = {
                     document.querySelector("app-taskbar").remove_window(_id);
                 });
             }
-            video_window.append(iframe);
+            video_window.append(window_core);
         } else {
-            window.open(window_url + "&embed=false", "_blank", "popup=yes");
+            window_core = window.open(window_url + "&embed=false", "_blank", "popup=yes");
+        }
+
+        if(external_file){
+            if(window_core.tagName?.toLowerCase() == "iframe"){
+                window_core = window_core.contentWindow;
+            }
+
+            window_core.addEventListener("DOMContentLoaded", (event, _window_core = window_core, _file = file) => {
+                _window_core.dv.render.player(_file);
+            });
         }
     },
     list: async (window_id = dv.window_id, title = "Playlist") => {

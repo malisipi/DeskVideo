@@ -106,6 +106,10 @@ body {
                 max-width: 75px;
             }
         }
+
+        [external_file="true"] & :is(.subtitles, .audio-only) {
+            display: none;
+        }
     }
 
     & .extended-controls {

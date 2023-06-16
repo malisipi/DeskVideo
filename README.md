@@ -31,6 +31,7 @@ Desktop styled video-stream platform front-end
 | [Fetch API][fetch-api]                                | 42               | 14 | 29  | 10.1 | 40                   |
 | [Web Share API][web-share]                            | 89               | 81 | x   | 12.1 | 79 <sup>3</sup>      |
 | [Clipboard API][clipboard]                            | 66               | 79 | 53  | 13.1 | 63                   |
+| [Drag and Drop API][drag_n_drop]                      | 4                | 12 | 12.1| 3.1  | 3.5                  |
 | Browser Extension                                     | Yes              |Yes | Yes | x    | Yes                  |
 | \\- [General Side Panel][g-side-panel]                | x                | x  | Yes | x    | Yes                  |
 | \\- [Chrome Side Panel][chrome-side-panel]            | 104              | x  | x   | x    | x                    |
@@ -64,5 +65,6 @@ The DeskVideo icon is based Twemoji and licensed by CC-BY-SA 4.0. (https://githu
 [fetch-api]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 [web-share]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
 [clipboard]: https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
+[drag-n-drop]: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
 [g-side-panel]: https://dev.opera.com/extensions/sidebar-action-manual/
 [chrome-side-panel]: https://developer.chrome.com/docs/extensions/reference/sidePanel/

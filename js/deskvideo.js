@@ -146,10 +146,19 @@ var dv = {
 			if(!dv.mobile) {
 				_window.extra = "./assets/fluent-icons/window_new_16_regular.svg";
 				_window.onextra = (__window) => {
+					let iframe = __window.querySelector("iframe").contentWindow;
 					if(__window.classList[0] == "video"){
-						__window.querySelector("iframe").contentWindow.dv.trigger_close = false;
+						iframe.dv.trigger_close = false;
 					}
-					window.open(__window.querySelector("iframe").src.replace("&embed=true","&embed=false"), "_blank", "popup=yes");
+					let separate_window = window.open(iframe.location.href.replace("&embed=true","&embed=false"), "_blank", "popup=yes");
+					if(__window.classList[0] == "video"){
+						if(iframe.dv.file_pointer != null){
+							let fp = iframe.dv.file_pointer;
+							separate_window.addEventListener("DOMContentLoaded", (e, _fp = fp) => {
+								separate_window.dv.render.player(_fp);
+							});
+						}
+					}
 					__window.remove();
 				};
 			}
@@ -165,6 +174,20 @@ document.addEventListener("DOMContentLoaded", () => {
 	dv.broadcast.init();
 	dv.init.taskbar();
 	dv.render.trends();
+
+	document.body.addEventListener("drop", async event => {
+		event.preventDefault();
+		let file = event.dataTransfer.files[0];
+		let window_core = dv.open.video(null, file.name.split(".")[0], true, {
+			getFile: async (_file=file) => {
+				return _file;
+			},
+			name: file.name
+		});
+	}, false);
+	document.body.addEventListener("dragover", event => {
+		event.preventDefault();
+	}, false);
 
 	let dv_search = document.querySelector(".dv-search");
 	let dv_search_search = dv_search.querySelector("input.search");

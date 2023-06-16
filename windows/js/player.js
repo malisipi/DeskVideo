@@ -7,6 +7,7 @@ var dv = {
     audio: null,
     audio_only: false,
     embed: false,
+    file_pointer: null,
     external_file: false,
     window_id: -1,
     trigger_close: true,
@@ -120,7 +121,7 @@ var dv = {
             }
         },
         share: async () => {
-            let share_url = location.href.replace("embed=true","embed=false");
+            let share_url = location.href.replace("&embed=true", "&embed=false");
             if("share" in navigator){
                 await navigator.share({title:document.title, url:share_url})
             } else {
@@ -147,7 +148,8 @@ var dv = {
         player: async (id, reload=false) => {
             dv.subtitles.close();
 
-            if(typeof(id)=="string"){ // if video backend
+            if(typeof(id) == "string"){ // if video backend
+                document.body.setAttribute("external_file", false);
                 dv.response = await dv.backend.get_video(id, reload);
                 
                 dv.controller.title(dv.response.title);
@@ -200,10 +202,13 @@ var dv = {
             } else { // if local
 
                 // Create blob URL
-                let file=await id.getFile()
-                let file_arraybuffer = await file.arrayBuffer()
+                document.body.setAttribute("external_file", true);
+                dv.file_pointer = id;
+                let file = await id.getFile();
+                let file_arraybuffer = await file.arrayBuffer();
                 let file_blob = new Blob([file_arraybuffer], { type: 'application/octet-stream' });
                 let file_url = URL.createObjectURL(file_blob);
+                history.pushState({}, document.title, location.href+"&url="+file_url)
 
                 dv.video.src = file_url; // blob
                 let file_title = id.name.split(".")[0];
@@ -529,6 +534,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     dv.render.player(handler.files[0]);
                 }
             );
-        }
-    }
+        }; // else { load from the main (parent) window; };
+    };
 });
