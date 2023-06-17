@@ -66,7 +66,7 @@ var dv = {
             update: () => {
                 dv.controls.time.ignore_change_event = true;
                 document.querySelector("input.time").value = dv.video.currentTime;
-                if(!dv.audio_only && dv.audio.getAttribute("src") != "" && Math.abs(dv.audio.currentTime-dv.video.currentTime) > 0.2){
+                if(!dv.audio_only && !!dv.audio.getAttribute("src") && Math.abs(dv.audio.currentTime-dv.video.currentTime) > 0.2){
                     if(navigator.userAgent.includes("Firefox")){
                         dv.video.currentTime = dv.audio.currentTime;
                     } else {
@@ -149,7 +149,6 @@ var dv = {
             dv.subtitles.close();
 
             if(typeof(id) == "string"){ // if video backend
-                document.body.setAttribute("external_file", false);
                 dv.response = await dv.backend.get_video(id, reload);
                 
                 dv.controller.title(dv.response.title);
@@ -447,7 +446,9 @@ document.addEventListener("DOMContentLoaded", () => {
     	document.body.setAttribute("embed", true);
     };
 
-    document.body.setAttribute("mobile", dv.mobile);
+    if(dv.mobile) {
+        document.body.setAttribute("mobile", true);
+    }
 
     dv.broadcast.init();
     dv.visibility.register();

@@ -135,12 +135,14 @@ class extends HTMLElement {
     }
     
     connectedCallback() {
-        let start_image = document.createElement("img")
+        let start_image = document.createElement("img");
+        start_image.setAttribute("draggable", false);
         start_image.src = this.getAttribute("start");
     	this.#start_button.append(start_image);
     	this.removeAttribute("start");
 
-    	let search_image = document.createElement("img")
+    	let search_image = document.createElement("img");
+        search_image.setAttribute("draggable", false);
         search_image.src = this.getAttribute("search");
     	this.#search_button.append(search_image);
     	this.removeAttribute("search");

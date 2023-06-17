@@ -107,12 +107,16 @@ body {
             }
         }
 
-        [external_file="true"] & :is(.subtitles, .audio-only) {
+        [external_file] & :is(.subtitles, .audio-only) {
             display: none;
         }
 
 
-        [mobile="true"] & .splited-playing {
+        [mobile] & .splited-playing {
+            display: none;
+        }
+
+        [splited_playing] & :is(.pip, .subtitles, .audio-only){
             display: none;
         }
     }
