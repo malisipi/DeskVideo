@@ -29,6 +29,13 @@ var dv = {
         canvas.width = dv.features.splited_playing.screen.width;
         canvas.height = dv.features.splited_playing.screen.height;
         dv.features.splited_playing.canvas_ctx = canvas.getContext("2d");
+        document.body.addEventListener("click", () => {
+            document.body.requestFullscreen()
+        });
+        document.body.addEventListener("contextmenu", event => {
+            event.preventDefault();
+            return false
+        });
     }
 };
 

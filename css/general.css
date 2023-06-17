@@ -11,3 +11,20 @@ body {
 img:not([src]), img[src=''] {
     visibility: hidden;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+
+    &:hover {
+        background: #888;
+    }
+}

@@ -14,8 +14,8 @@ var dv = {
 				video.title = rs_video.title;
 				video.author = rs_video.author;
                 video.thumbnail = rs_video.thumbnail;
-				video.live = rs_video.length == 0;
-				video.time = rs_video.length;
+				video.live = rs_video.duration == 0;
+				video.duration = rs_video.duration;
 				video.onvideo = (id = rs_video.id) => {
 					dv.broadcast.post({
                         type: "player_next",

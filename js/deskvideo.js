@@ -47,7 +47,7 @@ var dv = {
 				vt.title = video.title;
 				vt.author = video.author;
 				vt.live = video.live;
-				vt.time = video.length;
+				vt.duration = video.duration;
 				vt.author_verified = video.author_verified;
 				vt.published = video.published;
 				vt.onvideo = (id = video.id, title = video.title) => {
@@ -69,7 +69,7 @@ var dv = {
 				vt.title = video.title;
 				vt.author = video.author;
 				vt.live = video.live;
-				vt.time = video.length;
+				vt.duration = video.duration;
 				vt.author_verified = video.author_verified;
 				vt.published = video.published;
 				vt.onvideo = (id = video.id, title = video.title) => {

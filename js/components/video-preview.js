@@ -10,7 +10,7 @@ class extends HTMLElement {
     #onvideo;
     #onauthor;
     #live;
-    #time;
+    #duration;
     #published;
   
     set title(source) {
@@ -51,16 +51,16 @@ class extends HTMLElement {
         this.#published.innerText = publish_date.toDateString();
     }
 
-    set time(source) {
+    set duration(source) {
         if(source <= 0) return;
-        this.#time.setAttribute("valid",true);
+        this.#duration.setAttribute("valid",true);
         let hour = Math.round(Math.round(source/60)/60);
         let min = Math.round(source/60)%60;
         let sec = String(source%60).padStart(2,"0");
         if(hour == 0) {
-            this.#time.innerText = min+":"+sec;
+            this.#duration.innerText = min+":"+sec;
         } else {
-            this.#time.innerText = hour+":"+String(min).padStart(2,"0")+":"+sec;
+            this.#duration.innerText = hour+":"+String(min).padStart(2,"0")+":"+sec;
         }
     }
 
@@ -95,10 +95,10 @@ class extends HTMLElement {
         this.#live.innerText = "Live";
         this.#root.append(this.#live);
 
-        this.#time = document.createElement("div");
-        this.#time.className = "time";
-        this.#time.innerText = "0:00";
-        this.#root.append(this.#time);
+        this.#duration = document.createElement("div");
+        this.#duration.className = "time";
+        this.#duration.innerText = "0:00";
+        this.#root.append(this.#duration);
 
         this.#published = document.createElement("div");
         this.#published.className = "published";

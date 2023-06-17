@@ -10,7 +10,10 @@ body {
         z-index: -1;
         display: block;
         object-fit: contain;
-        border-radius: 10px;
+
+        [embed]:not(:fullscreen) & {
+            border-radius: 10px;
+        }
 
         &::cue {
             background: var(--accent-color);
@@ -28,17 +31,19 @@ body {
     }
     
     & .info {
-        --overlay-x: 0px;
+        --overlay-left: 0px;
+        --overlay-right: 0px;
 
         [seperate] > & {
             @media (display-mode: window-controls-overlay) { 
-                --overlay-x: env(titlebar-area-x, 0px);
+                --overlay-left: env(titlebar-area-x, 0px);
+                --overlay-right: calc(100% - calc(env(titlebar-area-x, 0px) + env(titlebar-area-width, 0px)));
             }
         }
 
         & > * {
             position: fixed;
-            left: calc(50px + var(--overlay-x));
+            left: calc(50px + var(--overlay-left));
             color: #ffffff;
             filter: drop-shadow(0px 0px 2px #000a);
         }
@@ -57,67 +62,84 @@ body {
         & div.author {
             top: 28px;
             font-size: 10px;
+
+            &[verified]::after {
+                content: "✅";
+                transform: translate(4px, 0);
+            }
         }
 
         & img.author {
             top: 8px;
-            left: calc(10px + var(--overlay-x));
+            left: calc(10px + var(--overlay-left));
             width: 30px;
             border-radius: 50%;
         }
+
+        & img.description {
+            filter: invert(1);
+            width: 24px;
+            height: 24px;
+            right: calc(8px + var(--overlay-right));
+            top: 8px;
+            left: unset;
+            app-region: no-drag;
+        }
+
     }
     
     & .controls {
         position: fixed;
-        bottom: 10px;
-        left: 0;
-        width: 100%;
+        bottom: 5px;
+        left: 5px;
+        width: calc(100% - 10px);
         height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        column-gap: 4px;
-        padding: 0 14px;
         box-sizing: border-box;
         app-region: no-drag;
-    
-        & .playrate {
-            min-width: 80px;
-        }
-        
-        & .time {
-            flex: 0px;
-        }
+        overflow-x: auto;
+        overflow-y: hidden;
 
-        [audio_only] & :is(.pip, .fullscreen) {
-            display: none;
-        }
-
-        [no_subtitles] & .subtitles {
-            display: none;
-        }
-        
-        & fluent-slider {
-            padding: 0 2px;
+        & .scroll-region {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            column-gap: 4px;
+            padding: 0 14px;
+            width: max(800px, 100%);
             box-sizing: border-box;
-            transform: translate(0, 8px);
-    
-            & .volume {
+        
+            & .playrate {
+                min-width: 80px;
+            }
+            
+            & .time {
+                flex: 0px;
+            }
+
+            [audio_only] & :is(.pip, .fullscreen) {
+                display: none;
+            }
+
+            [no_subtitles] & .subtitles {
+                display: none;
+            }
+            
+            & input[type="range"].volume {
                 max-width: 75px;
             }
-        }
 
-        [external_file] & :is(.subtitles, .audio-only) {
-            display: none;
-        }
+            [external_file] & :is(.subtitles, .audio-only) {
+                display: none;
+            }
 
 
-        [mobile] & .splited-playing {
-            display: none;
-        }
+            [mobile] & .splited-playing {
+                display: none;
+            }
 
-        [splited_playing] & :is(.pip, .subtitles, .audio-only){
-            display: none;
+            [splited_playing] & :is(.pip, .subtitles, .audio-only){
+                display: none;
+            }
         }
     }
 
@@ -138,7 +160,7 @@ body {
     }
 
     & .controls, & .extended-controls {
-        & > * {
+        & * {
             & img.true {
                 display: none;
             }
