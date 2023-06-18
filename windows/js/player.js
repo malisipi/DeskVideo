@@ -180,10 +180,10 @@ var dv = {
                         dv.video.src = dv.response.sources.audio.reverse()[0].url;
                         if(!document.body.hasAttribute("audio_only")){
                             document.body.setAttribute("audio_only", true);
-                        }
-                    }
-                }
-                document.querySelector(".info .name").innerText = dv.response.title;
+                        };
+                    };
+                };
+                document.querySelector(".info div.name").innerText = dv.response.title;
                 let div_author = document.querySelector(".info div.author");
                 div_author.innerText = dv.response.author;
                 if(dv.response.author_verified){
@@ -192,8 +192,9 @@ var dv = {
                     if (div_author.hasAttribute("verified")){
                         div_author.removeAttribute("verified");
                     };
-                }
+                };
                 document.querySelector(".info img.author").src = dv.response.author_thumbnail;
+                document.querySelector(".info div.followers").innerText = dv.response.author_followers + " Followers";
                 dv.extended_controls.update.like(id);
                 dv.features.media_session.metadata.title = dv.response.title;
                 dv.features.media_session.metadata.artist = dv.response.author;
@@ -513,7 +514,9 @@ document.addEventListener("DOMContentLoaded", () => {
         dv.subtitles.load.ttml();
     });
     document.querySelector(".info img.description").addEventListener("click", () => {
-        alert(dv.response.description);
+        dv.dialog.alert(new DOMParser()
+                .parseFromString(dv.response.description.replaceAll("<br>", "\n").replace(">", ">&nbsp;"), "text/html")
+                    .documentElement.textContent);
     });
 
     dv.features.use_video_ratio.register();

@@ -1,5 +1,5 @@
 body {
-    & video, &[audio_only] img.thumbnail, &[splited_playing] canvas {
+    & > video, &[audio_only] > img.thumbnail, &[splited_playing] > canvas {
         position: fixed;
         top: 0;
         left: 0;
@@ -11,7 +11,7 @@ body {
         display: block;
         object-fit: contain;
 
-        [embed]:not(:fullscreen) & {
+        [embed]:is(body):not(:fullscreen) & {
             border-radius: 10px;
         }
 
@@ -22,19 +22,19 @@ body {
         }
     }
 
-    &[splited_playing] video, &:not([splited_playing]) canvas {
+    &[splited_playing] > video, &:not([splited_playing]) > canvas {
         display: none;
     }
 
-    & img.thumbnail{
+    & > img.thumbnail{
         display: none;
     }
     
-    & .info {
+    & > .info {
         --overlay-left: 0px;
         --overlay-right: 0px;
 
-        [seperate] > & {
+        [seperate]:is(body) > & {
             @media (display-mode: window-controls-overlay) { 
                 --overlay-left: env(titlebar-area-x, 0px);
                 --overlay-right: calc(100% - calc(env(titlebar-area-x, 0px) + env(titlebar-area-width, 0px)));
@@ -59,7 +59,7 @@ body {
             width: calc(100% - 60px);
         }
 
-        & div.author {
+        & div.author, & div.followers {
             top: 28px;
             font-size: 10px;
 
@@ -84,11 +84,18 @@ body {
             top: 8px;
             left: unset;
             app-region: no-drag;
+
+            [external_file]:is(body) & {
+                display: none;
+            }
         }
 
+        & div.followers {
+            display: none;
+        }
     }
     
-    & .controls {
+    & > .controls {
         position: fixed;
         bottom: 5px;
         left: 5px;
@@ -105,7 +112,7 @@ body {
             justify-content: center;
             column-gap: 4px;
             padding: 0 14px;
-            width: max(800px, 100%);
+            width: max(650px, 100%);
             box-sizing: border-box;
         
             & .playrate {
@@ -116,11 +123,11 @@ body {
                 flex: 0px;
             }
 
-            [audio_only] & :is(.pip, .fullscreen) {
+            [audio_only]:is(body) & :is(.pip, .fullscreen) {
                 display: none;
             }
 
-            [no_subtitles] & .subtitles {
+            [no_subtitles]:is(body) & .subtitles {
                 display: none;
             }
             
@@ -128,22 +135,22 @@ body {
                 max-width: 75px;
             }
 
-            [external_file] & :is(.subtitles, .audio-only) {
+            [external_file]:is(body) & :is(.subtitles, .audio-only) {
                 display: none;
             }
 
 
-            [mobile] & .splited-playing {
+            [mobile]:is(body) & .splited-playing {
                 display: none;
             }
 
-            [splited_playing] & :is(.pip, .subtitles, .audio-only){
+            [splited_playing]:is(body) & :is(.pip, .subtitles, .audio-only){
                 display: none;
             }
         }
     }
 
-    & .extended-controls {
+    & > .extended-controls {
         position: fixed;
         display: flex;
         right: 10px;
@@ -159,7 +166,7 @@ body {
         }
     }
 
-    & .controls, & .extended-controls {
+    & > .controls, & > .extended-controls {
         & * {
             & img.true {
                 display: none;
@@ -181,19 +188,27 @@ body {
         }
     }
 
-    &:is(:fullscreen) .controls {
-        & .fullscreen img {
-            &.true {
-                display: block;
+    &:is(body):is(:fullscreen) {
+        & > .controls {
+            & .fullscreen img {
+                &.true {
+                    display: block;
+                }
+
+                &.false {
+                    display: none;
+                }
             }
 
-            &.false {
+            & .audio-only {
                 display: none;
             }
         }
 
-        & .audio-only {
-            display: none;
+        & > .info {
+            & div.followers {
+                display: none;
+            }
         }
     }
 
@@ -201,43 +216,48 @@ body {
         filter: invert(1);
     }
 
-    &[embed]:not(:is(:fullscreen, [splited_playing])) {
-        & video, img.thumbnail {
-            height: calc(100% - 80px);
+    &[embed]:is(body):not(:is(:fullscreen, [splited_playing])) {
+        & > video, img.thumbnail {
+            height: calc(100% - 70px);
         }
 
-        & .info {
+        & > .info {
             & > * {
                 top: unset !important;
             }
 
             & .name {
-                bottom: 50px;
+                bottom: 39px;
             }
 
             & div.author {
-                bottom: 38px;
+                bottom: 27px;
             }
 
             & img.author {
                 top: unset;
-                bottom: 40px;
+                bottom: 29px;
             }
 
             & .name, & div.author {
                 width: calc(100% - 235px);
             }
+
+            :not([external_file]):is(body) & div.followers {
+                display: block;
+                bottom: 13px;
+            }    
         }
 
-        & .extended-controls {
+        & > .extended-controls {
             flex-direction: row;
-            bottom: 40px;
+            bottom: 30px;
             top: unset;
             height: unset;
         }
 
-        & .controls {
-            bottom: 90px;
+        & > .controls {
+            bottom: 80px;
         }
     }
 }

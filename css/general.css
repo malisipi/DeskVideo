@@ -18,13 +18,9 @@ img:not([src]), img[src=''] {
 }
 
 ::-webkit-scrollbar-track {
-    background: #111;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #555;
-
-    &:hover {
-        background: #888;
-    }
+    background: #222;
 }

@@ -148,6 +148,37 @@ dv.open = {
     }
 }
 
+dv.dialog = {
+    elements: {
+        host: null,
+        text: null
+    },
+    close: () => {
+        dv.dialog.elements.host.close()
+    },
+    init: () => {
+        if (dv.dialog.elements.host == null) {
+            dv.dialog.elements.host = document.createElement("dialog");
+            dv.dialog.elements.text = document.createElement("div");
+            dv.dialog.elements.text.className = "content";
+            dv.dialog.elements.host.append(dv.dialog.elements.text);
+            let controls = document.createElement("div");
+            controls.className = "controls";
+            dv.dialog.elements.host.append(controls);
+            let ok_button = document.createElement("button");
+            ok_button.addEventListener("click", dv.dialog.close)
+            ok_button.innerText = "OK";
+            controls.append(ok_button);
+            document.body.append(dv.dialog.elements.host);
+        }
+    },
+    alert: (text) => {
+        dv.dialog.init();
+        dv.dialog.elements.text.innerText = text;
+        dv.dialog.elements.host.show();
+    }
+}
+
 dv.broadcast = {
     channel: new BroadcastChannel("deskvideo"),
     listener: (e) => {

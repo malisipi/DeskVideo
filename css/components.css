@@ -127,3 +127,40 @@ input, button, select {
 		background: var(--accent-color);
 	}
 }
+
+dialog {
+    position: fixed;
+    border-radius: 10px;
+    border: none;
+    height: min(400px, 70%);
+    overflow: hidden;
+    width: min(400px, 80%);
+    box-shadow: 4px 4px 6px black;
+
+    .content {
+        width: 100%;
+        height: calc(100% - 50px);
+        overflow-x: hidden;
+        overflow-y: auto;
+        margin: 0px 0px 15px 0px;
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: row-reverse;
+
+        & > button {
+            min-width: 60px;
+        }
+    }
+
+    &::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+}
