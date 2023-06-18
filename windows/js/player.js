@@ -207,6 +207,7 @@ var dv = {
                 }
 
                 dv.render.list();
+                dv.render.comments();
             } else { // if local
 
                 // Create blob URL
@@ -235,6 +236,13 @@ var dv = {
                 type: "list_update",
                 wid: dv.window_id,
                 list: dv.response.next_videos
+            });
+        },
+        comments: () => {
+            dv.broadcast.post({
+                type: "comments_update",
+                wid: dv.window_id,
+                id: dv.response.id
             });
         }
     },
@@ -514,9 +522,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dv.subtitles.load.ttml();
     });
     document.querySelector(".info img.description").addEventListener("click", () => {
-        dv.dialog.alert(new DOMParser()
-                .parseFromString(dv.response.description.replaceAll("<br>", "\n").replace(">", ">&nbsp;"), "text/html")
-                    .documentElement.textContent);
+        dv.dialog.alert(dv.__get_text_content(dv.response.description));
     });
 
     dv.features.use_video_ratio.register();
@@ -541,6 +547,7 @@ document.addEventListener("DOMContentLoaded", () => {
         extended_controls.querySelector(".like").addEventListener("click", dv.extended_controls.like);
         extended_controls.querySelector(".share").addEventListener("click", dv.extended_controls.share);
         extended_controls.querySelector(".list").addEventListener("click", () => { dv.open.list(); });
+        extended_controls.querySelector(".comment").addEventListener("click", () => { dv.open.comments(); });
         
         dv.render.player(url_parameters.get("id"));
     } else {

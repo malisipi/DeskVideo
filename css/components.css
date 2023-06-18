@@ -5,6 +5,14 @@ body {
     @media (display-mode: window-controls-overlay) { 
         --taskbar-height: env(titlebar-area-height, 30px);
     }
+
+    &:not(:has(app-window.comments)) app-window.video {
+        height: calc(100% - var(--taskbar-height));
+    }
+
+    &:not(:has(app-window.list)) app-window:is(.video, .comments) {
+        width: 100%;
+    }
 }
 
 app-taskbar {
@@ -61,7 +69,7 @@ app-window {
         left: calc(100% - 300px);
         width: 300px;
         top: var(--taskbar-height);
-        height: calc(100% - calc(var(--taskbar-height) + 30px));
+        height: calc(100% - var(--taskbar-height));
 
         @media (max-width: 300px) {
             width: 100%;
@@ -73,6 +81,13 @@ app-window {
         top: calc(var(--taskbar-height) + 30px);
         height: calc(100% - calc(var(--taskbar-height) + 60px));
         width: calc(100% - 60px);
+    }
+
+    &.comments {
+        left: 0;
+        top: calc(calc(100% - 300px));
+        height: 300px;
+        width: calc(100% - 300px);
     }
 }
 

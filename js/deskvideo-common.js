@@ -10,6 +10,11 @@ dv.__parse_time = (the_time) => {
     parsed_time += Number(seconds) + (Number(mseconds) / 1000);
     return parsed_time;
 };
+dv.__get_text_content = (html) => {
+    return new DOMParser()
+            .parseFromString(html.replaceAll("<br>", "\n").replace(">", ">&nbsp;"), "text/html")
+                .documentElement.textContent;
+}
 dv.apply_styles = async () => {
     let accent_color = await dv.storage.conf.get("accent-color");
     if(!!accent_color){
@@ -120,6 +125,29 @@ dv.open = {
             }
         }
     },
+    comments: async (window_id = dv.window_id, title = "Comments") => {
+        let window_url = "./windows/comments.html?wid="+window_id;
+
+        if(dv.embed){
+            window.top.dv.hide_all();
+            let comment_window = document.createElement("app-window");
+            comment_window.title = title;
+            comment_window.className = "comments";
+            window.top.document.body.append(comment_window);
+            let iframe = document.createElement("iframe");
+            iframe.src = window_url + "&embed=true";
+            window.top.dv.init.window(comment_window);
+            comment_window.onminimize = (_window=comment_window, _title=title) => {
+                window.top.document.querySelector("app-taskbar").new_window(title, (_id, __window=_window) => {
+                    __window.removeAttribute("minimized");
+                    window.top.document.querySelector("app-taskbar").remove_window(_id);
+                });
+            }
+            comment_window.append(iframe);            
+        } else {
+            window.open(window_url.replace("./windows/", "") + "&embed=false", "_blank", "popup=yes");
+        }
+    },
     settings: (title = "Settings") => {
         window.top.document.querySelector("app-window.settings")?.querySelector("iframe")?.contentWindow?.dv?.controller?.close(); // Close previously created settings window
 
@@ -188,7 +216,7 @@ dv.broadcast = {
         switch (e.data.type){
             case "player_close": {
                 if(dv.window_id == e.data.wid){
-                    if(dv.type == "list") {
+                    if(dv.type == "list" || dv.type == "comments") {
                         dv.controller.close();
                     }
                 }
@@ -206,9 +234,9 @@ dv.broadcast = {
                 if(dv.window_id == e.data.wid){
                     if(dv.type == "list"){
                         dv.render.list(e.data.list);
-                        break;
                     }
                 }
+                break;
             }
             case "list_init": {
                 if(dv.window_id == e.data.wid){
@@ -216,6 +244,24 @@ dv.broadcast = {
                         dv.controller.close();
                     } else if (dv.type == "player"){
                         dv.render.list();
+                    };
+                };
+                break;
+            }
+            case "comments_update": {
+                if(dv.window_id == e.data.wid){
+                    if(dv.type == "comments"){
+                        dv.load(e.data.id);
+                    }
+                }
+                break;
+            }
+            case "comments_init": {
+                if(dv.window_id == e.data.wid){
+                    if(dv.type == "comments") {
+                        dv.controller.close();
+                    } else if (dv.type == "player"){
+                        dv.render.comments();
                     };
                 };
             }

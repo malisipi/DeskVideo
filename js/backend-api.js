@@ -20,8 +20,12 @@ dv.backend = {
             let tp_video_list = await tp_resource.json();
             for(let video_index in tp_video_list){
                 let tp_video = tp_video_list[video_index];
+                if(tp_video.type != "stream") continue;
+
                 let video = {
                     author: tp_video.uploaderName,
+                    author_id: tp_video.uploaderUrl.replace("/channel/"),
+                    author_thumbnail: tp_video.uploaderAvatar,
                     author_verified: tp_video.uploaderVerified,
                     description: tp_video.shortDescription,
                     duration: tp_video.duration,
@@ -132,39 +136,39 @@ dv.backend = {
         return video;
     },
     get_video_comments: async (id, continuation=null) => {
-        /*
-    	let tp_resource = await fetch(dv.backend.__host+"/api/v1/comments/"+id, { cache: "force-cache" });
+    	let tp_resource = await fetch(
+                                    dv.backend.__host + 
+                                        ((continuation == null) ? "" : "/nextpage") +
+                                            "/comments/" + id +
+                                                ((continuation == null) ? "" : "?nextpage=" + encodeURIComponent(continuation)),
+            { cache: "force-cache" });
     	let comments = {};
     	if(tp_resource.status == 200){
     		let tp_comments = await tp_resource.json();
     		comments = {
-    			count: tp_comments.commentCount,
     			list: [],
-    			continuation: tp_comments.connuation,
-    			id: tp_comments.videoId 
+    			continuation: tp_comments.nextpage,
+    			disabled: tp_comments.disabled 
     		}
     		let tp_list = tp_comments.comments
     		for(let comment_index in tp_list){
     		let comment = tp_list[comment_index];
     			comments.list.push({
     				author: comment.author,
-    				author_id: comment.authorId,
-    				author_thumbnail: comment.authorThumbnails[0].url,
+    				author_id: comment.commentorUrl.replace("/channel/",""),
+    				author_thumbnail: comment.thumbnail,
     				author_verified: comment.verified,
-    				edited: comment.isEdited,
-    				content: comment.content,
-    				pinned: comment.isPinned,
-    				sponsor: comment.isSponsor,
-    				published: comment.published,
+    				content: comment.commentText,
+                    continuation: comment.repliesPage,
+    				hearted: comment.hearted,
+    				pinned: comment.pinned,
     				likes: comment.likeCount,
-    				owner: comment.authorIsChannelOwner
     			});
     		}
     	} else {
     		console.error(tp_resource.status);
     	}
     	return comments;
-        */
     },
     search_videos: async (query) => {
     	let tp_resource = await fetch(dv.backend.__host+"/search?q="+encodeURIComponent(query)+"&filter=videos", { cache: "force-cache" });
@@ -174,12 +178,13 @@ dv.backend = {
  	        for(let video_index=0; video_index < tp_video_list.length; video_index+=1){
                 let video = tp_video_list[video_index];
                 if(video.type != "stream") continue;
-                if(video.premium) continue;
                 video_list.push({
                     author: video.uploaderName,
                     author_id: video.uploaderUrl.replace("/channel/", ""),
+                    author_thumbnail: video.uploaderAvatar,
                     author_verified: video.uploaderVerified,
                     duration: video.duration,
+                    description: video.description,
                     live: video.duration == -1 && video.uploaded == -1,
                     title: video.title,
                     id: video.url.replace("/watch?v=", ""),
