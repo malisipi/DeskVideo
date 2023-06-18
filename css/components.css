@@ -136,6 +136,7 @@ dialog {
     overflow: hidden;
     width: min(400px, 80%);
     box-shadow: 4px 4px 6px black;
+    app-region: no-drag;
 
     .content {
         width: 100%;
@@ -163,4 +164,9 @@ dialog {
         height: 100%;
         z-index: -1;
     }
+}
+
+::selection {
+    background: #ffffff;
+    color: var(--accent-color);
 }
