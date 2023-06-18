@@ -172,6 +172,11 @@ class extends HTMLElement {
             --maximized-top: 0px;
             z-index: attr(zindex);
         }
+        
+        :host([titlebar-style="none"]) {
+            resize: none;
+            box-shadow: none;
+        }
 
         .root {
             position: absolute;
@@ -188,16 +193,19 @@ class extends HTMLElement {
             border-radius: 5px 5px 0 0;
             box-sizing: border-box;
             display: flex;
-            box-sizing: border-box;
             padding: 0 0 0 8px;
             justify-content: space-between;
             position: absolute;
             user-select: none;
             color: var(--titlebar-controls-color);
 
-            :host([titlebar-style="macos"]) &{
+            :host([titlebar-style="macos"]) & {
                 padding: 0 8px 0 0;
                 flex-direction: row-reverse;
+            }
+
+            :host([titlebar-style="none"]) & {
+                display: none;
             }
         }
 
@@ -224,11 +232,11 @@ class extends HTMLElement {
             height: 16px;
             width: 50px;
 
-            :host([titlebar-style="linux"]) &{
+            :host([titlebar-style="linux"]) & {
                 width: 30px;
             }
 
-            :host([titlebar-style="macos"]) &{
+            :host([titlebar-style="macos"]) & {
                 width: 30px;
             }
         }
@@ -246,7 +254,12 @@ class extends HTMLElement {
             top: 30px;
             left: 0px;
             width: 100%;
-            height: 100%;
+            height: calc(100% - 30px);
+
+            :host([titlebar-style="none"]) & {
+                top: 0px;
+                height: 100%;
+            }
         }
 
         :host([maximized]){
@@ -257,7 +270,7 @@ class extends HTMLElement {
             border-radius: 0px;
         }
 
-        :host([maximized]) .app-titlebar {
+        :host([maximized]) .app-titlebar, :host([titlebar-style="none"]) {
             border-radius: 0px;
         }
 

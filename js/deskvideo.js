@@ -159,7 +159,15 @@ var dv = {
 				|| navigator.userAgent.includes("Mac")
 				|| navigator?.windowControlsOverlay?.getTitlebarAreaRect()?.x > 0
 				|| await dv.storage.conf.get("left-win-controls") > 0){
-					if(await dv.storage.conf.get("left-win-controls")!=-1){
+					if(await dv.storage.conf.get("disable-windowed-mode") == 1) {
+						if(_window.classList[0] == "video"){
+							let old_video_window = document.querySelector("app-window.video");
+							if(old_video_window != _window){
+								old_video_window.remove();
+							}
+						}
+						_window.setAttribute("titlebar-style", "none");
+					} else if(await dv.storage.conf.get("left-win-controls") != -1){
 						_window.setAttribute("titlebar-style", "macos");
 					} else {
 						_window.setAttribute("titlebar-style", "linux");

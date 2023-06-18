@@ -47,6 +47,13 @@
 	],
 	"appearance": [
 		{
+			"type": "bool",
+			"default": -1,
+			"conf": "disable-windowed-mode",
+			"title": "Disable Windowed Mode (Really!?!)",
+			"description": "Disable windowed mode while MAIN GOAL OF CONCEPT DESIGN IS WINDOWED MODE?!?!?!"
+		},
+		{
 			"type": "color",
 			"default": "#d02727",
 			"conf": "accent-color",

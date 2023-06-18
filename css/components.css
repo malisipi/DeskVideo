@@ -45,7 +45,7 @@ app-window {
         top: 0;
         left: 0;
         width: 100%;
-        height: calc(100% - 30px);
+        height: 100%;
         border: none;
         box-sizing: border-box;
     }
@@ -57,11 +57,15 @@ app-window {
         height: calc(calc(100% - 300px) - var(--taskbar-height));
     
         @media (max-width: 850px) {
-            width: 100%;
+            &:not([titlebar-style="none"]){
+                width: 100%;
+            }
         }
     
         @media (max-height: 750px) {
-            height: calc(100% - var(--taskbar-height));
+            &:not([titlebar-style="none"]){
+                height: calc(100% - var(--taskbar-height));
+            }
         }
     }
 
@@ -81,6 +85,13 @@ app-window {
         top: calc(var(--taskbar-height) + 30px);
         height: calc(100% - calc(var(--taskbar-height) + 60px));
         width: calc(100% - 60px);
+
+        &[titlebar-style="none"] {
+            left: 0px;
+            top: var(--taskbar-height);
+            height: calc(100% - var(--taskbar-height));
+            width: 100%;
+        }
     }
 
     &.comments {

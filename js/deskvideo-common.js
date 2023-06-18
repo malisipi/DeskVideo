@@ -148,8 +148,16 @@ dv.open = {
             window.open(window_url.replace("./windows/", "") + "&embed=false", "_blank", "popup=yes");
         }
     },
-    settings: (title = "Settings") => {
-        window.top.document.querySelector("app-window.settings")?.querySelector("iframe")?.contentWindow?.dv?.controller?.close(); // Close previously created settings window
+    settings: async (title = "Settings") => {
+        let old_settings_controller = window.top.document.querySelector("app-window.settings")?.querySelector("iframe")?.contentWindow?.dv?.controller;
+        if(await dv.storage.conf.get("disable-windowed-mode") == 1) {
+            if(old_settings_controller != undefined){
+                old_settings_controller?.close();
+                return;
+            };
+        } else {
+            old_settings_controller?.close();
+        };
 
         let window_id = Date.now();
         let window_url = "./windows/settings.html?wid="+window_id;
