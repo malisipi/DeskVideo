@@ -167,6 +167,6 @@ dialog {
 }
 
 ::selection {
-    background: #ffffff;
-    color: var(--accent-color);
+    background: var(--accent-color);
+    color: #ffffff;
 }
