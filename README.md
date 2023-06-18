@@ -31,7 +31,7 @@ Desktop styled video-stream platform front-end
 | [Fetch API][fetch-api]                                | 42               | 14 | 29  | 10.1 | 40                   |
 | [Web Share API][web-share]                            | 89               | 81 | x   | 12.1 | 79 <sup>3</sup>      |
 | [Clipboard API][clipboard]                            | 66               | 79 | 53  | 13.1 | 63                   |
-| [Drag and Drop API][drag_n_drop]                      | 4                | 12 | 12.1| 3.1  | 3.5                  |
+| [Drag and Drop API][drag-n-drop]                      | 4                | 12 | 12.1| 3.1  | 3.5                  |
 | Browser Extension                                     | Yes              |Yes | Yes | x    | Yes                  |
 | \\- [General Side Panel][g-side-panel]                | x                | x  | Yes | x    | Yes                  |
 | \\- [Chrome Side Panel][chrome-side-panel]            | 104              | x  | x   | x    | x                    |
