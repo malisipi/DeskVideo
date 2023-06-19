@@ -11,6 +11,7 @@ var dv = {
     external_file: false,
     window_id: -1,
     trigger_close: true,
+    history: [],
     controls: {
         play: () => {
             if(dv.video.paused){
@@ -30,6 +31,12 @@ var dv = {
                 if ("mediaSession" in navigator) {
                     navigator.mediaSession.playbackState = 'paused';
                 }
+            }
+        },
+        previous: () => {
+            if(dv.history.length > 1) {
+                let videos = dv.history.splice(-2);
+                dv.render.player(videos[0]);
             }
         },
         next: () => {
@@ -148,6 +155,10 @@ var dv = {
         player: async (id, reload=false) => {
             dv.subtitles.close();
 
+            if(dv.response?.id != id) {
+                dv.history = [...dv.history, id];
+            };
+
             if(typeof(id) == "string"){ // if video backend
                 dv.response = await dv.backend.get_video(id, reload);
                 
@@ -193,6 +204,20 @@ var dv = {
                         div_author.removeAttribute("verified");
                     };
                 };
+                if(dv.response.next_videos.length > 0){
+                    document.body.setAttribute("can_next", true);
+                } else {
+                    if (document.body.hasAttribute("can_next")){
+                        document.body.removeAttribute("can_next");
+                    };
+                };
+                if(dv.history.length > 1){
+                    document.body.setAttribute("can_previous", true);
+                } else {
+                    if (document.body.hasAttribute("can_previous")){
+                        document.body.removeAttribute("can_previous");
+                    };
+                };
                 document.querySelector(".info img.author").src = dv.response.author_thumbnail;
                 document.querySelector(".info div.followers").innerText = dv.response.author_followers + " Followers";
                 dv.extended_controls.update.like(id);
@@ -204,7 +229,7 @@ var dv = {
                     }
                 } else {
                     document.body.setAttribute("no_subtitles", true);
-                }
+                };
 
                 dv.render.list();
                 dv.render.comments();
@@ -299,6 +324,7 @@ var dv = {
                 if ("mediaSession" in navigator) {
                     navigator.mediaSession.setActionHandler("play", dv.controls.play);
                     navigator.mediaSession.setActionHandler("pause", dv.controls.play);
+                    navigator.mediaSession.setActionHandler('previoustrack', dv.controls.previous);
                     navigator.mediaSession.setActionHandler('nexttrack', dv.controls.next);
                 }
             },
@@ -518,6 +544,8 @@ document.addEventListener("DOMContentLoaded", () => {
     controls.querySelector(".splited-playing").addEventListener("click", dv.features.splited_playing.init);
     controls.querySelector(".playrate").addEventListener("change", dv.controls.playrate);
     controls.querySelector(".audio-only").addEventListener("click", dv.controls.audio_only);
+    controls.querySelector(".previous").addEventListener("click", dv.controls.previous);
+    controls.querySelector(".next").addEventListener("click", dv.controls.next);
     controls.querySelector(".subtitles").addEventListener("click", () => {
         dv.subtitles.load.ttml();
     });

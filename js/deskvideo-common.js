@@ -202,8 +202,9 @@ dv.dialog = {
             controls.className = "controls";
             dv.dialog.elements.host.append(controls);
             let ok_button = document.createElement("button");
-            ok_button.addEventListener("click", dv.dialog.close)
+            ok_button.addEventListener("click", dv.dialog.close);
             ok_button.innerText = "OK";
+            ok_button.setAttribute("appearance", "accent");
             controls.append(ok_button);
             document.body.append(dv.dialog.elements.host);
         }

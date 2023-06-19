@@ -112,7 +112,7 @@ body {
             justify-content: center;
             column-gap: 4px;
             padding: 0 14px;
-            width: max(650px, 100%);
+            width: max(800px, 100%);
             box-sizing: border-box;
         
             & .playrate {
@@ -139,6 +139,17 @@ body {
                 display: none;
             }
 
+            & :is(.previous, .next) {
+                display: none;
+            }
+
+            [can_previous]:is(body) & .previous {
+                display: block;
+            }
+
+            [can_next]:is(body) & .next {
+                display: block;
+            }
 
             [mobile]:is(body) & .splited-playing {
                 display: none;
