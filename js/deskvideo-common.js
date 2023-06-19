@@ -27,7 +27,7 @@ dv.apply_styles = async () => {
             document.body.querySelector("img.background").src = dv.backend.get_random_image(
                 Math.round(window.devicePixelRatio * screen.width),
                 Math.round(window.devicePixelRatio * screen.height),
-                "wolves");
+                params);
         }
     }
 };
