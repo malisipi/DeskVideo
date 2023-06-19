@@ -114,11 +114,7 @@ body {
             padding: 0 14px;
             width: max(800px, 100%);
             box-sizing: border-box;
-        
-            & .playrate {
-                min-width: 80px;
-            }
-            
+                    
             & .time {
                 flex: 0px;
             }
@@ -129,6 +125,14 @@ body {
 
             [no_subtitles]:is(body) & .subtitles {
                 display: none;
+            }
+
+            > * > select {
+                position: absolute;
+                width: 40px;
+                height: 30px;
+                opacity: 0;
+                padding: 0;
             }
             
             & input[type="range"].volume {

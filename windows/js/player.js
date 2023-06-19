@@ -102,6 +102,13 @@ var dv = {
                 dv.video.requestPictureInPicture();
             }
         },
+        subtitle: async event => {
+            if(event.target.value == -1){
+                await dv.subtitles.close();
+            } else {
+                await dv.subtitles.load.ttml(dv.response.subtitles[event.target.value].url);
+            }
+        },
         fullscreen: () => {
             if(document.fullscreenElement){
                 document.exitFullscreen();
@@ -274,6 +281,20 @@ var dv = {
                 if(dv.response.subtitles.length > 0) {
                     if(document.body.hasAttribute("no_subtitles")){
                         document.body.removeAttribute("no_subtitles");
+                    };
+                    let subtitle_controller = document.querySelector(".subtitles").querySelector("select");
+                    subtitle_controller.innerHTML = "";
+                    let option = document.createElement("option");
+                    option.value = -1;
+                    option.selected = true;
+                    option.innerText = "None";
+                    subtitle_controller.append(option);
+                    let subtitle_list = dv.response.subtitles.map((element)=>{return element.name + " #"+ element.language_code.toUpperCase()});
+                    for(let subtitle_index in subtitle_list){
+                        let option = document.createElement("option");
+                        option.value = subtitle_index;
+                        option.innerText = subtitle_list[subtitle_index];
+                        subtitle_controller.append(option);
                     }
                 } else {
                     document.body.setAttribute("no_subtitles", true);
@@ -595,13 +616,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("button.volume").addEventListener("click", dv.controls.volume);
     controls.querySelector(".fullscreen").addEventListener("click", dv.controls.fullscreen);
     controls.querySelector(".splited-playing").addEventListener("click", dv.features.splited_playing.init);
-    controls.querySelector(".playrate").addEventListener("change", dv.controls.playrate);
+    controls.querySelector(".playrate").querySelector("select").addEventListener("change", dv.controls.playrate);
+    controls.querySelector(".subtitles").querySelector("select").addEventListener("change", dv.controls.subtitle);
     controls.querySelector(".audio-only").addEventListener("click", dv.controls.audio_only);
     controls.querySelector(".previous").addEventListener("click", dv.controls.previous);
     controls.querySelector(".next").addEventListener("click", dv.controls.next);
-    controls.querySelector(".subtitles").addEventListener("click", () => {
-        dv.subtitles.load.ttml();
-    });
     document.querySelector(".info img.description").addEventListener("click", () => {
         dv.dialog.alert(dv.__get_text_content(dv.response.description));
     });
