@@ -14,9 +14,9 @@
 		<link rel="stylesheet" href="../css/components.css">
 	</head>
 	<body>
-		<video autoplay></video>
+		<video crossorigin="anonymous" autoplay></video>
 		<canvas></canvas>
-		<audio autoplay hidden></audio>
+		<audio crossorigin="anonymous" autoplay hidden></audio>
 		<img draggable="false" class="thumbnail" />
 		<div class="info">
 			<div class="name"></div>
@@ -39,7 +39,8 @@
 				</button>
 				<input type="range" class="time" min="0" max="1" value="0" step="1"></fluent-slider>
 				<button class="volume">
-					<img draggable="false" class="fi" src="../assets/fluent-icons/speaker_2_16_regular.svg"/>
+					<img draggable="false" class="fi true" src="../assets/fluent-icons/speaker_mute_16_regular.svg"/>
+					<img draggable="false" class="fi false" src="../assets/fluent-icons/speaker_2_16_regular.svg"/>
 				</button>
 				<input type="range" class="volume" min="0" max="100" value="100" step="1"></fluent-slider>
 				<select class="playrate">

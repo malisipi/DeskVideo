@@ -6,6 +6,41 @@ var dv = {
     video: null,
     audio: null,
     audio_only: false,
+    volume_management: {
+        gain_node: {
+            video: null,
+            audio: null
+        },
+        init: async() => {
+            if(await dv.storage.conf.get("volume-boost-300") == 1) {
+                document.querySelector("input.volume").setAttribute("max", 300);
+            };
+
+            let elements = ["video", "audio"];
+            for(let element_index in elements){ 
+                let type = elements[element_index];
+                let audio_ctx = new AudioContext();
+                let source = audio_ctx.createMediaElementSource(dv[type]);
+            
+                dv.volume_management.gain_node[type] = audio_ctx.createGain();
+                dv.volume_management.gain_node[type].gain.value = 1;
+                source.connect(dv.volume_management.gain_node[type]);
+            
+                dv.volume_management.gain_node[type].connect(audio_ctx.destination);
+            }
+        },
+        set: (volume=100) => {
+            dv.volume_management.gain_node["audio"].gain.value = volume / 100;
+            dv.volume_management.gain_node["video"].gain.value = volume / 100;
+            let volume_button = document.querySelector("button.volume");
+            if(volume > 0 && volume_button.hasAttribute("true")) {
+                volume_button.removeAttribute("true");
+            };
+        },
+        get: () => {
+            return dv.volume_management.gain_node["audio"].gain.value * 100;
+        }
+    },
     embed: false,
     file_pointer: null,
     external_file: false,
@@ -46,6 +81,19 @@ var dv = {
                 )
             ].id;
             dv.render.player(next_video_id);
+        },
+        update_volume: event => {
+            dv.volume_management.set(event.target.value);
+        },
+        volume: event => {
+            if(!event.target.hasAttribute("true")){
+                event.target.setAttribute("true", true);
+                event.target.setAttribute("old_value", dv.volume_management.get());
+                dv.volume_management.set(0);
+            } else {
+                event.target.removeAttribute("true", true);
+                dv.volume_management.set(event.target.getAttribute("old_value"));
+            };
         },
         pip: () => {
             if(document.pictureInPictureElement){
@@ -509,6 +557,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    dv.volume_management.init();
     let controls = document.querySelector(".controls");
     
     // Play/Pause Button
@@ -540,6 +589,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("input.time").addEventListener("input", dv.controls.time.update_current_time);
     document.querySelector("input.time").addEventListener("mousedown", dv.controls.time.update_current_time);
     document.querySelector("input.time").addEventListener("touchstart", dv.controls.time.update_current_time);
+    document.querySelector("input.volume").addEventListener("input", dv.controls.update_volume);
+    document.querySelector("input.volume").addEventListener("mousedown", dv.controls.update_volume);
+    document.querySelector("input.volume").addEventListener("touchstart", dv.controls.update_volume);
+    document.querySelector("button.volume").addEventListener("click", dv.controls.volume);
     controls.querySelector(".fullscreen").addEventListener("click", dv.controls.fullscreen);
     controls.querySelector(".splited-playing").addEventListener("click", dv.features.splited_playing.init);
     controls.querySelector(".playrate").addEventListener("change", dv.controls.playrate);

@@ -133,6 +133,10 @@ body {
             
             & input[type="range"].volume {
                 max-width: 75px;
+
+                &[max="300"] {
+                    max-width: 225px;
+                }
             }
 
             [external_file]:is(body) & :is(.subtitles, .audio-only) {
