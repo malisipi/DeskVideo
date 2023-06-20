@@ -258,14 +258,16 @@ var dv = {
                         });
                     }
                 } else {
+                    let the_video_sources = dv.response.sources.video.map(element => element.quality+"@"+element.fps+" ("+element.codec+")");
+                    let the_audio_sources = dv.response.sources.audio.map(
+                        element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
+                    );
                     if(!dv.audio_only) {
                         dv.video.volume = 0;
                         dv.video.src = dv.response.sources.video[0].url;
                         dv.audio.src = dv.response.sources.audio[0].url;
-                        __add_option(dv.response.sources.video.map(element => element.quality+"@"+element.fps+" ("+element.codec+")"), document.querySelector(".videos").querySelector("select"), true, 0);
-                        __add_option(dv.response.sources.audio.map(
-                            element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
-                            ), document.querySelector(".audios").querySelector("select"), true, 0);
+                        __add_option(the_video_sources, document.querySelector(".videos").querySelector("select"), true, the_video_sources.indexOf(the_video_sources.filter(e=>e.match(/[0-9]+/g)[0]<=720)[0]) || 0);
+                        __add_option(the_audio_sources, document.querySelector(".audios").querySelector("select"), true, the_audio_sources.indexOf(the_audio_sources.filter(e=>e.match(/[0-9]+/g)[0]<=70)[0]) || 0);
                         if(document.body.hasAttribute("audio_only")){
                             document.body.removeAttribute("audio_only");
                         }
@@ -273,9 +275,7 @@ var dv = {
                         dv.video.volume = 1;
                         dv.video.src = dv.response.sources.audio[0].url;
                         __add_option([], document.querySelector(".videos").querySelector("select"), true);
-                        __add_option(dv.response.sources.audio.map(
-                            element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
-                            ), document.querySelector(".audios").querySelector("select"), true, 0);
+                        __add_option(the_audio_sources, document.querySelector(".audios").querySelector("select"), true, the_audio_sources.indexOf(the_audio_sources.filter(e=>e.match(/[0-9]+/g)[0]<=70)[0]) || 0);
                         if(!document.body.hasAttribute("audio_only")){
                             document.body.setAttribute("audio_only", true);
                         };
