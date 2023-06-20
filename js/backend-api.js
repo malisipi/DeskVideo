@@ -81,7 +81,7 @@ dv.backend = {
             };
             
             let asrcs = tp_video.audioStreams;
-            let vsrcs = tp_video.videoStreams;
+            let vsrcs = tp_video.videoStreams.filter(video => video.videoOnly);
             let subtitles = tp_video.subtitles;
             
             for (let src_index in asrcs){
@@ -89,7 +89,10 @@ dv.backend = {
 
             	video.sources.audio.push({
             		url: src.url,
-            		quality: src.quality
+            		quality: src.quality,
+                    codec: src.codec,
+                    bitrate: src.bitrate,
+                    language_code: src.audioTrackLocale
             	});
             }
 
@@ -98,7 +101,10 @@ dv.backend = {
 
             	video.sources.video.push({
             		url: src.url,
-            		quality: src.quality
+            		quality: src.quality,
+                    codec: src.codec,
+                    bitrate: src.bitrate,
+                    fps: src.fps
             	});
             }
 

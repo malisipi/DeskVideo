@@ -109,6 +109,17 @@ var dv = {
                 await dv.subtitles.load.ttml(dv.response.subtitles[event.target.value].url);
             }
         },
+        videos: async event => {
+            let old_time = dv.video.currentTime;
+            dv.video.src = dv.response.sources.video[event.target.value].url;
+            dv.video.currentTime = old_time;
+        },
+        audios: async event => {
+            let player = dv[["video","audio"][Number(!dv.audio_only)]];
+            let old_time = player.currentTime;
+            player.src = dv.response.sources.audio[event.target.value].url;
+            player.currentTime = old_time;
+        },
         fullscreen: () => {
             if(document.fullscreenElement){
                 document.exitFullscreen();
@@ -222,6 +233,19 @@ var dv = {
                 dv.audio.src = "";
                 document.querySelector("img.thumbnail").src = dv.response.thumbnail;
 
+                let __add_option = (the_list, the_controller, clear = false, index) => {
+                    if(clear){
+                        the_controller.innerHTML = "";
+                    }
+                    for(let the_index in the_list){
+                        let option = document.createElement("option");
+                        option.selected = index == the_index;
+                        option.value = the_index;
+                        option.innerText = the_list[the_index];
+                        the_controller.append(option);
+                    };
+                };
+
                 if(dv.response.live){
                     dv.video.volume = 1;
                     if(Hls.isSupported()) {
@@ -236,14 +260,22 @@ var dv = {
                 } else {
                     if(!dv.audio_only) {
                         dv.video.volume = 0;
-                        dv.video.src = dv.response.sources.video.reverse()[0].url;
-                        dv.audio.src = dv.response.sources.audio.reverse()[0].url;
+                        dv.video.src = dv.response.sources.video[0].url;
+                        dv.audio.src = dv.response.sources.audio[0].url;
+                        __add_option(dv.response.sources.video.map(element => element.quality+"@"+element.fps+" ("+element.codec+")"), document.querySelector(".videos").querySelector("select"), true, 0);
+                        __add_option(dv.response.sources.audio.map(
+                            element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
+                            ), document.querySelector(".audios").querySelector("select"), true, 0);
                         if(document.body.hasAttribute("audio_only")){
                             document.body.removeAttribute("audio_only");
                         }
                     } else {
                         dv.video.volume = 1;
-                        dv.video.src = dv.response.sources.audio.reverse()[0].url;
+                        dv.video.src = dv.response.sources.audio[0].url;
+                        __add_option([], document.querySelector(".videos").querySelector("select"), true);
+                        __add_option(dv.response.sources.audio.map(
+                            element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
+                            ), document.querySelector(".audios").querySelector("select"), true, 0);
                         if(!document.body.hasAttribute("audio_only")){
                             document.body.setAttribute("audio_only", true);
                         };
@@ -289,13 +321,8 @@ var dv = {
                     option.selected = true;
                     option.innerText = "None";
                     subtitle_controller.append(option);
-                    let subtitle_list = dv.response.subtitles.map((element)=>{return element.name + " #"+ element.language_code.toUpperCase()});
-                    for(let subtitle_index in subtitle_list){
-                        let option = document.createElement("option");
-                        option.value = subtitle_index;
-                        option.innerText = subtitle_list[subtitle_index];
-                        subtitle_controller.append(option);
-                    }
+                    let the_list = dv.response.subtitles.map((element)=>{return element.name + " #"+ element.language_code.toUpperCase()});
+                    __add_option(the_list, subtitle_controller);
                 } else {
                     document.body.setAttribute("no_subtitles", true);
                 };
@@ -618,6 +645,8 @@ document.addEventListener("DOMContentLoaded", () => {
     controls.querySelector(".splited-playing").addEventListener("click", dv.features.splited_playing.init);
     controls.querySelector(".playrate").querySelector("select").addEventListener("change", dv.controls.playrate);
     controls.querySelector(".subtitles").querySelector("select").addEventListener("change", dv.controls.subtitle);
+    controls.querySelector(".videos").querySelector("select").addEventListener("change", dv.controls.videos);
+    controls.querySelector(".audios").querySelector("select").addEventListener("change", dv.controls.audios);
     controls.querySelector(".audio-only").addEventListener("click", dv.controls.audio_only);
     controls.querySelector(".previous").addEventListener("click", dv.controls.previous);
     controls.querySelector(".next").addEventListener("click", dv.controls.next);

@@ -21,6 +21,8 @@ Desktop styled video-stream platform front-end
 | [Launch Queue][launch-queue]                          | 102              |102 | 88  | x    | x                    |
 | [Web Components][web-components]                      | 53               | 79 | 40  | 10   | 63                   |
 | [Broadcast Channel API][broadcast-channel]            | 54               | 79 | 41  | 15.4 | 38                   |
+| [Web Audio API][web-audio]                            | 54               | 79 | 41  | 15.4 | 38                   |
+| [CSS :has() Selector][has-selector]                   | 105              | 105| 91  | 15.4 | 103 <sup>3</sup>     |
 | [IndexedDB API][indexeddb]                            | 24               | 79 | 15  | 10   | 16                   |
 | [Picture-in-Picture API][pip]                         | 69               | 79 | 56  | 13.1 | x                    |
 | [TextTrack][text-track]                               | 23               | 12 | 12.1| 6    | 31                   |
@@ -29,10 +31,10 @@ Desktop styled video-stream platform front-end
 | [Screen Orientation API][screen-orientation]          | 38               | 79 | 25  | 16.4 | 43                   |
 | [URL API][url-api]                                    | 32               | 12 | 19  | 7    | 19                   |
 | [Fetch API][fetch-api]                                | 42               | 14 | 29  | 10.1 | 40                   |
-| [Web Share API][web-share]                            | 89               | 81 | x   | 12.1 | 79 <sup>3</sup>      |
+| [Web Share API][web-share]                            | 89               | 81 | x   | 12.1 | 79 <sup>4</sup>      |
 | [Clipboard API][clipboard]                            | 66               | 79 | 53  | 13.1 | 63                   |
 | [Drag and Drop API][drag-n-drop]                      | 4                | 12 | 12.1| 3.1  | 3.5                  |
-| Browser Extension                                     | Yes              |Yes | Yes | x    | Yes                  |
+| Browser Extension                                     | Yes              |Yes | Yes | ?    | Yes                  |
 | \\- [General Side Panel][g-side-panel]                | x                | x  | Yes | x    | Yes                  |
 | \\- [Chrome Side Panel][chrome-side-panel]            | 104              | x  | x   | x    | x                    |
 
@@ -40,7 +42,9 @@ Desktop styled video-stream platform front-end
 
 <sup>2</sup>: Firefox Nightly is supported when `layout.css.nesting.enabled` flag enabled
 
-<sup>3</sup>: Only Firefox for Mobile supports by default. Firefox (Desktop) is supported when `dom.webshare.enabled` flag enabled.
+<sup>3</sup>: Firefox is supported when `layout.css.has-selector.enabled` flag enabled.
+
+<sup>4</sup>: Only Firefox for Mobile supports by default. Firefox (Desktop) is supported when `dom.webshare.enabled` flag enabled.
 
 ## License
 
@@ -60,8 +64,10 @@ The DeskVideo icon is based Twemoji and licensed by CC-BY-SA 4.0. (https://githu
 [text-track]: https://developer.mozilla.org/en-US/docs/Web/API/TextTrack
 [page-visibility]: https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
 [fullscreen]: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
+[has-selector]: https://developer.mozilla.org/en-US/docs/Web/CSS/:has
 [screen-orientation]: https://developer.mozilla.org/en-US/docs/Web/API/Screen_Orientation_API
 [url-api]: https://developer.mozilla.org/en-US/docs/Web/API/URL_API
+[web-audio]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
 [fetch-api]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 [web-share]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
 [clipboard]: https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
