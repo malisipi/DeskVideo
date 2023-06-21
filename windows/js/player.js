@@ -273,6 +273,9 @@ var dv = {
                     }
                 } else {
                     let the_video_sources = dv.response.sources.video.map(element => element.quality+"@"+element.fps+" ("+element.codec+")");
+                    if(!reload) {
+                        dv.__check_resource(dv.response.sources.video[0].url, (_id=id)=>{dv.video.render(_id, true);});
+                    }
                     let the_audio_sources = dv.response.sources.audio.map(
                         element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
                     );
@@ -615,11 +618,6 @@ document.addEventListener("DOMContentLoaded", () => {
     dv.video.addEventListener("canplay", dv.features.media_session.update);
     dv.video.addEventListener("loadedmetadata", dv.controls.time.update_duration);
     dv.video.addEventListener("ended", dv.features.next_video);
-    dv.video.addEventListener('error', function() { 
-        if(!dv.response.latest){
-            dv.render.player(dv.response.id, true);
-        }
-    });
 
     dv.volume_management.init();
     let controls = document.querySelector(".controls");

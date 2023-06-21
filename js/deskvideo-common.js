@@ -10,6 +10,19 @@ dv.__parse_time = (the_time) => {
     parsed_time += Number(seconds) + (Number(mseconds) / 1000);
     return parsed_time;
 };
+dv.__check_resource = (url, err_handler) => {
+    dv.__xml_http_request = new XMLHttpRequest();
+    dv.__xml_http_request.open("HEAD", url, true);
+    dv.__xml_http_request.err_handler = err_handler;
+    dv.__xml_http_request.onreadystatechange = function(e) {
+        if (dv.__xml_http_request.readyState==4) {
+            if(dv.__xml_http_request.status==403){
+                dv.__xml_http_request.err_handler();
+            }
+        };
+    };
+    dv.__xml_http_request.send();
+}
 dv.__get_text_content = (html) => {
     return new DOMParser()
             .parseFromString(html.replaceAll("<br>", "\n").replace(">", ">&nbsp;"), "text/html")
