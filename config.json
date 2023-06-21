@@ -10,6 +10,34 @@
 	],
 	"playing": [
 		{
+			"type": "text",
+			"default": 720,
+			"conf": "video-quality-limit",
+			"title": "Video Quality Limit",
+			"description": "Limit the quality of video"
+		},
+		{
+			"type": "text",
+			"default": 240,
+			"conf": "video-quality-limit-network-saving",
+			"title": "Video Quality Limit (Network Saving)",
+			"description": "Limit the quality of video"
+		},
+		{
+			"type": "text",
+			"default": 150,
+			"conf": "audio-quality-limit",
+			"title": "Video Quality Limit",
+			"description": "Limit the quality of audio"
+		},
+		{
+			"type": "text",
+			"default": 70,
+			"conf": "audio-quality-limit-network-saving",
+			"title": "Audio Quality Limit (Network Saving)",
+			"description": "Limit the quality of audio"
+		},
+		{
 			"type": "bool",
 			"default": -1,
 			"conf": "force-using-hsl",
