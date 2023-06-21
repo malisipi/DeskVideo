@@ -274,7 +274,7 @@ var dv = {
                 } else {
                     let the_video_sources = dv.response.sources.video.map(element => element.quality+"@"+element.fps+" ("+element.codec+")");
                     if(!reload) {
-                        dv.__check_resource(dv.response.sources.video[0].url, (_id=id)=>{dv.video.render(_id, true);});
+                        dv.__check_resource(dv.response.sources.video[0].url, (_id=id)=>{dv.render.player(_id, true);});
                     }
                     let the_audio_sources = dv.response.sources.audio.map(
                         element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
