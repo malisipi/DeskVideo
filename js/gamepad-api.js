@@ -107,8 +107,59 @@ dv.gamepad = {
         dv.gamepad.cursor.obj.src = "./assets/cursor.svg";
         document.body.append(dv.gamepad.cursor.obj);
     },
+    maps: {
+        ps4: {
+            buttons: [
+                ["button", 0],
+                ["button", 1],
+                ["button", 3],
+                ["button", 2],
+                ["button", 4],
+                ["button", 5],
+                ["button", 6],
+                ["button", 7],
+                ["button", 8],
+                ["button", 9],
+                ["button", 11],
+                ["button", 12],
+                ["axis", 7, -1],
+                ["axis", 7, 1],
+                ["axis", 6, -1],
+                ["axis", 6, 1],
+                ["button", 10]
+            ]
+        }
+    },
+    remap: () => {
+        let unmapped_gamepad = dv.gamepad.gamepad;
+        dv.gamepad.gamepad = {
+            index: unmapped_gamepad.index,
+            mapping: "default",
+            buttons: []
+        };
+
+        let unmapped_buttons = unmapped_gamepad.buttons;
+        let unmapped_axes = unmapped_gamepad.axes;
+        let button_map = dv.gamepad.maps.ps4.buttons;
+
+        let __get_press_state = (button, button_map, unmapped_buttons, unmapped_axes) => {
+            let instruction = button_map[button];
+            if (instruction[0] == "button"){
+                return unmapped_buttons[instruction[1]].pressed;
+            } else { //axis
+                return Math.round(unmapped_axes[instruction[1]]) == instruction[2];
+            }
+        }
+
+        for(let button in button_map){
+            dv.gamepad.gamepad.buttons = [...dv.gamepad.gamepad.buttons, {pressed: __get_press_state(button, button_map, unmapped_buttons, unmapped_axes)}]
+        }
+    },
     updater: () => {
         dv.gamepad.gamepad = navigator.getGamepads()[dv.gamepad.gamepad.index];
+        if(dv.gamepad.gamepad.mapping != "default"){
+            dv.gamepad.remap();
+        };
         for(let button in dv.gamepad.gamepad.buttons){
             if(dv.gamepad.gamepad.buttons[button].pressed){
                 switch(button){
