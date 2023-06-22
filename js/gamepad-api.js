@@ -94,6 +94,19 @@ dv.gamepad = {
                     dv.gamepad.cursor.scroll(way, object?.getRootNode()?.host);
                 };
             };
+        },
+        speech: () => {
+            let recognition = new webkitSpeechRecognition();
+            recognition.lang = navigator.language;
+            recognition.onresult = e => {
+                if(document.activeElement.value != null && typeof(document.activeElement.value) == "string"){
+                    document.activeElement.value += e.results[0][0].transcript;
+                };
+            };
+            recognition.onerror = e => {
+                console.error(e);
+            };
+            recognition.start();
         }
     },
     initialized: false,
@@ -170,6 +183,10 @@ dv.gamepad = {
                                 dv.gamepad.cursor.clickable = true;
                             }, 300);
                         }
+                        break;
+                    };
+                    case "3": {
+                        dv.gamepad.cursor.speech();
                         break;
                     };
                     case "6": {
