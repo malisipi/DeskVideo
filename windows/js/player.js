@@ -121,12 +121,22 @@ var dv = {
             player.currentTime = old_time;
         },
         fullscreen: () => {
-            if(document.fullscreenElement){
-                document.exitFullscreen();
-                screen.orientation.unlock();
+            if(!window.top.dv.gamepad.initialized) {
+                if(document.fullscreenElement){
+                    document.exitFullscreen();
+                    screen.orientation.unlock();
+                } else {
+                    document.body.requestFullscreen();
+                    screen.orientation.lock('landscape');
+                };
             } else {
-                document.body.requestFullscreen();
-                screen.orientation.lock('landscape');
+                if(document.body.hasAttribute("embed-fullscreen")){
+                    document.body.removeAttribute("embed-fullscreen");
+                    dv.controller.leave_fullscreen();
+                } else {
+                    document.body.setAttribute("embed-fullscreen", true);
+                    dv.controller.enter_fullscreen();
+                }
             }
         },
         playrate: (e) => {
@@ -224,6 +234,10 @@ var dv = {
             if(dv.response?.id != id) {
                 dv.history = [...dv.history, id];
             };
+
+            if(window.top.dv?.gamepad?.initialized){
+                document.body.setAttribute("gamepad", true);
+            }
 
             if(typeof(id) == "string"){ // if video backend
                 dv.response = await dv.backend.get_video(id, reload);

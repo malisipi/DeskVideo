@@ -21,7 +21,6 @@ dv.gamepad = {
         clickable: true,
         get_object: (x = dv.gamepad.cursor.x, y = dv.gamepad.cursor.y, doc = document) => {
             let object = doc.elementFromPoint(x, y);
-            console.log(object);
             if(object.tagName.toLowerCase()=="iframe"){
                 let cr = object.getBoundingClientRect();
                 x = x - cr.x;

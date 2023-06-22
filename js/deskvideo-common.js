@@ -45,10 +45,12 @@ dv.apply_styles = async () => {
     }
 };
 dv.controller = {
+    window: null,
     titlebar: null,
     taskbar_id: NaN,
     init: () => {
-        dv.controller.titlebar = parent.document.querySelector("iframe[src*=\""+document.location.pathname?.split("/")?.at(-1)+"\"][src*=\""+dv.window_id+"\"]")?.parentElement?.shadowRoot?.querySelector(".app-titlebar");
+        dv.controller.window = parent.document.querySelector("iframe[src*=\""+document.location.pathname?.split("/")?.at(-1)+"\"][src*=\""+dv.window_id+"\"]")?.parentElement;
+        dv.controller.titlebar = dv.controller.window?.shadowRoot?.querySelector(".app-titlebar");
     },
     title: (title) => {
         if (!!dv.controller.titlebar) {
@@ -64,6 +66,14 @@ dv.controller = {
             window.top.document.querySelector("app-taskbar").remove_window(dv.controller.taskbar_id);
         }*/
         window.close();
+    },
+    enter_fullscreen: () => {
+        dv.controller.window.setAttribute("embed-fullscreen", true);
+        window.top.document.body.requestFullscreen();
+    },
+    leave_fullscreen: () => {
+        dv.controller.window.removeAttribute("embed-fullscreen");
+        window.top.document.exitFullscreen();
     }
 };
 dv.open = {

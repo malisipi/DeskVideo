@@ -7,7 +7,7 @@
         background-color: #f00;
         color: #fff;
         content: "Nested CSS is not supported! This website will not work properly. Please use latest Chromium or Webkit based browser or Firefox Nightly with layout.css.nesting.enabled flag";
-        z-index: 99999999999999999999999999999;
+        z-index: 1000005;
         display: flex;
         padding: 10px;
         box-sizing: border-box;
@@ -47,7 +47,7 @@ img.background {
     overflow: auto;
     padding: 10px;
     box-sizing: border-box;
-    z-index: 9999999999999999;
+    z-index: 1000004;
     background: inherit;
 
     [custom-background] & {
@@ -66,7 +66,7 @@ img.background {
 }
 
 body[custom-background]:is([trends], [search], [liked]) img.background{
-    z-index: 9999999999999998;
+    z-index: 1000003;
     filter: blur(4px);
 }
 

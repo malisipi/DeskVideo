@@ -137,7 +137,7 @@ body {
                 &[multiple] {
                     position: fixed;
                     width: 200px;
-                    height: 200px;
+                    height: 100px;
                     opacity: 1;
                     transform: translate(0, calc(-50% - 25px));
                 }
@@ -171,7 +171,7 @@ body {
                 display: block;
             }
 
-            [mobile]:is(body) & .splited-playing {
+            :is([mobile], [gamepad]):is(body) & .splited-playing {
                 display: none;
             }
 
@@ -219,7 +219,7 @@ body {
         }
     }
 
-    &:is(body):is(:fullscreen) {
+    &:is(body):is(:fullscreen, [embed-fullscreen]) {
         & > .controls {
             & .fullscreen img {
                 &.true {
@@ -247,7 +247,7 @@ body {
         filter: invert(1);
     }
 
-    &[embed]:is(body):not(:is(:fullscreen, [splited_playing])) {
+    &[embed]:is(body):not(:is(:fullscreen, [splited_playing], [embed-fullscreen])) {
         & > video, img.thumbnail {
             height: calc(100% - 70px);
         }

@@ -17,7 +17,7 @@ body {
 
 app-taskbar {
     background: #222;
-    z-index: 9999999999999999;
+    z-index: 999999;
     --color: #eee;
     --dark-images: 1;
     height: var(--taskbar-height);
@@ -48,6 +48,14 @@ app-window {
         height: 100%;
         border: none;
         box-sizing: border-box;
+    }
+
+    &[embed-fullscreen] {
+        top: 0px !important;
+        left: 0px !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 1000000 !important;
     }
 
     &.video {
@@ -119,7 +127,7 @@ img.cursor {
     position: fixed;
     top: 200px;
     left: 200px;
-    z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
+    z-index: 1000010;
     width: 32px;
     transition-duration: 30ms;
     pointer-events: none;
