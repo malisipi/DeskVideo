@@ -88,7 +88,7 @@ class extends HTMLElement {
         this.#root.append(this.#thumbnail);
 
         this.#title = document.createElement("div");
-        this.#title.className = "title";
+        this.#title.className = "title gamepad-noscroll";
         this.#root.append(this.#title);
 
         this.#live = document.createElement("div");

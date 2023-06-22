@@ -1,0 +1,53 @@
+body {
+    --scroll-x: 0px;
+    --author-width: calc(100px - clamp(0px, calc(var(--scroll-x) - 50px), 50px));
+}
+
+img.banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(200px - clamp(0px, calc(var(--scroll-x) - 50px), 100px));
+    object-fit: cover;
+    z-index: -1;
+}
+
+img.author {
+    position: fixed;
+    left: 20px;
+    width: var(--author-width);
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    top: calc(200px - calc(clamp(0px, calc(var(--scroll-x) - 50px), 150px) + calc(var(--author-width) / 2)));
+}
+
+div.author {
+    position: fixed;
+    top: calc(calc(200px - calc(clamp(0px, calc(var(--scroll-x) - 50px), 150px)) * 1.2) + 5px);
+    left: calc(var(--author-width) + 35px);
+    color: #ffffff;
+    font-size: 25px;
+
+    &[verified]::after {
+        content: "✅";
+        transform: translate(4px, 0);
+    }
+}
+
+div.followers {
+    position: fixed;
+    top: calc(calc(200px - calc(clamp(0px, calc(var(--scroll-x) - 50px), 150px)) * 1.2) + 35px);
+    left: calc(var(--author-width) + 35px);
+    color: #ffffff;
+    font-size: 15px;
+}
+
+div.videos {
+    position: absolute;
+    width: 100%;
+    top: calc(250px + var(--scroll-x) - clamp(0px, calc(var(--scroll-x) - 50px), 150px));
+    left: 0px;
+    z-index: -1;
+    background: #888;
+}

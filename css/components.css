@@ -115,6 +115,16 @@ body[dragging] app-window iframe {
     pointer-events: none;
 }
 
+img.cursor {
+    position: fixed;
+    top: 200px;
+    left: 200px;
+    z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
+    width: 32px;
+    transition-duration: 30ms;
+    pointer-events: none;
+}
+
 input, button, select {
 	display: flex;
 	justify-content: center;
@@ -123,13 +133,16 @@ input, button, select {
 	min-width: 40px;
 	border: none;
 	color: #fff;
-	padding: 8px;
 	box-sizing: border-box;
 	border-radius: 4px;
 	transition: 75ms;
 	accent-color: var(--accent-color);
 	background: #222;
     box-sizing: border-box;
+
+    &:not([type="range"]) {
+    	padding: 8px;
+    }
 
     &[type="color"] {
         padding: 3px;

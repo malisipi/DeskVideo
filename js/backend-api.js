@@ -205,6 +205,43 @@ dv.backend = {
  	    }
  	    return video_list;
     },
+    get_author: async (query) => {
+        let tp_resource = await fetch(dv.backend.__host+"/channel/"+encodeURIComponent(query), { cache: "force-cache" });
+        let the_author = {};
+        if(tp_resource.status == 200){
+            let tp_author = await tp_resource.json();
+            the_author = {
+                name: tp_author.name,
+                thumbnail: tp_author.avatarUrl,
+                banner: tp_author.bannerUrl,
+                description: tp_author.description,
+                followers: tp_author.subscriberCount,
+                verified: tp_author.verified,
+                videos: []
+            };
+
+            let their_videos = tp_author.relatedStreams;
+            for(let the_video_index in their_videos){
+                let the_video = their_videos[the_video_index];
+                if(the_video.type != "stream") continue;
+                the_author.videos.push({
+                    author: the_video.uploaderName,
+                    author_thumbnail: the_video.uploaderAvatar,
+                    author_verified: the_video.uploaderVerified,
+                    author_id: the_video.uploaderUrl.replace("/channel/", ""),
+                    duration: the_video.duration,
+                    published: the_video.uploadDate,
+                    title: the_video.title,
+                    id: the_video.url.replace("/watch?v=", ""),
+                    views: the_video.views,
+                    thumbnail: the_video.thumbnail
+                });
+            };
+        } else {
+            console.error(tp_resource.status);
+        };
+        return the_author;
+    },
     get_random_image: (width, height, topics) => {
     	return "https://source.unsplash.com/" + width + "x" + height + "/?" + topics;
     }

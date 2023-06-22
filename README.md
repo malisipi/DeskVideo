@@ -49,7 +49,8 @@ Desktop styled video-stream platform front-end
 ## License
 
 The DeskVideo icon is based Twemoji and licensed by CC-BY-SA 4.0. (https://github.com/twitter/twemoji/blob/master/assets/svg/1f4fa.svg)
-
+The cursor is licensed by CC-BY-SA-4.0 (Author: phisch on GitHub
+) (https://github.com/phisch/phinger-cursors/blob/master/assets/svg/32/light/left_ptr.svg)
 
 [dpip]: https://developer.chrome.com/docs/web-platform/document-picture-in-picture/
 [css-nesting]: https://developer.chrome.com/articles/css-nesting/

@@ -163,7 +163,7 @@ dv.open = {
     },
     settings: async (title = "Settings") => {
         let old_settings_controller = window.top.document.querySelector("app-window.settings")?.querySelector("iframe")?.contentWindow?.dv?.controller;
-        if(await dv.storage.conf.get("disable-windowed-mode") == 1) {
+        if(await dv.storage.conf.get("disable-windowed-mode") == 1 || dv.gamepad.initialized) {
             if(old_settings_controller != undefined){
                 old_settings_controller?.close();
                 return;
