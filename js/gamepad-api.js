@@ -134,7 +134,7 @@ dv.gamepad = {
         let unmapped_gamepad = dv.gamepad.gamepad;
         dv.gamepad.gamepad = {
             index: unmapped_gamepad.index,
-            mapping: "default",
+            mapping: "standard",
             buttons: []
         };
 
@@ -157,7 +157,7 @@ dv.gamepad = {
     },
     updater: () => {
         dv.gamepad.gamepad = navigator.getGamepads()[dv.gamepad.gamepad.index];
-        if(dv.gamepad.gamepad.mapping != "default"){
+        if(dv.gamepad.gamepad.mapping != "standard"){
             dv.gamepad.remap();
         };
         for(let button in dv.gamepad.gamepad.buttons){
