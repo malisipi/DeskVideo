@@ -161,7 +161,15 @@ var dv = {
 					if(old_video_window != _window){
 						old_video_window.remove();
 					}
-				}
+				};
+				if(_window.classList[0] == "list" || _window.classList[0] == "comments"){
+					let old_list_window = document.querySelector("app-window." + _window.classList[0]);
+					if(old_list_window != _window){
+						old_list_window.remove();
+						_window.remove();
+						return;
+					}
+				};
 				_window.setAttribute("titlebar-style", "none");
 			} else if (navigator.userAgentData?.platform == "macOS"
 				|| navigator.userAgent.includes("Mac")

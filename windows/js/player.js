@@ -678,7 +678,7 @@ document.addEventListener("DOMContentLoaded", () => {
     controls.querySelector(".audio-only").addEventListener("click", dv.controls.audio_only);
     controls.querySelector(".previous").addEventListener("click", dv.controls.previous);
     controls.querySelector(".next").addEventListener("click", dv.controls.next);
-    document.querySelector(".info img.description").addEventListener("click", () => {
+    document.querySelector(".info button.description").addEventListener("click", () => {
         dv.dialog.alert(dv.__get_text_content(dv.response.description));
     });
 

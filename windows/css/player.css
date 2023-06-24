@@ -76,10 +76,7 @@ body {
             border-radius: 50%;
         }
 
-        & img.description {
-            filter: invert(1);
-            width: 24px;
-            height: 24px;
+        & button.description {
             right: calc(8px + var(--overlay-right));
             top: 8px;
             left: unset;
@@ -186,7 +183,7 @@ body {
         display: flex;
         right: 10px;
         height: calc(100% - 120px);
-        top: 20px;
+        top: 50px;
         flex-direction: column;
         justify-content: center;
         app-region: no-drag;
