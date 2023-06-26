@@ -10,7 +10,7 @@ img.banner {
     width: 100%;
     height: calc(200px - clamp(0px, calc(var(--scroll-x) - 50px), 100px));
     object-fit: cover;
-    z-index: -1;
+    z-index: 0;
 }
 
 img.author {
@@ -20,6 +20,7 @@ img.author {
     aspect-ratio: 1/1;
     border-radius: 100%;
     top: calc(200px - calc(clamp(0px, calc(var(--scroll-x) - 50px), 150px) + calc(var(--author-width) / 2)));
+    z-index: 1;
 }
 
 div.author {
@@ -28,6 +29,7 @@ div.author {
     left: calc(var(--author-width) + 35px);
     color: #ffffff;
     font-size: 25px;
+    z-index: 1;
 
     &[verified]::after {
         content: "✅";
@@ -46,8 +48,27 @@ div.followers {
 div.videos {
     position: absolute;
     width: 100%;
-    top: calc(250px + var(--scroll-x) - clamp(0px, calc(var(--scroll-x) - 50px), 150px));
+    top: clamp(0px, calc(var(--scroll-x) + 250px), 300px);
     left: 0px;
     z-index: -1;
-    background: #888;
+    padding: 10px;
+    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+    grid-gap: 20px;
+
+    @media (min-width: 650px) {
+        grid-template-columns: auto auto;
+    }
+
+    @media (min-width: 1000px) {
+        grid-template-columns: auto auto auto;
+    }
+
+    @media (min-width: 1350px) {
+        grid-template-columns: auto auto auto auto;
+    }
+
 }

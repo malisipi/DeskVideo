@@ -19,6 +19,7 @@ dv.gamepad = {
             dv.gamepad.cursor.obj.style.top = dv.gamepad.cursor.y + "px";
         },
         clickable: true,
+        writable: true,
         get_object: (x = dv.gamepad.cursor.x, y = dv.gamepad.cursor.y, doc = document) => {
             let object = doc.elementFromPoint(x, y);
             if(object.tagName.toLowerCase()=="iframe"){
@@ -73,12 +74,13 @@ dv.gamepad = {
                     "value": object.value
                 }));
             } else {
-                object.dispatchEvent(new Event("click", {
-                    "bubbles": true,
-                    "cancelable": true,
-                    "x": x,
-                    "y": y
-                }));
+                object.click();
+            };
+        },
+        backspace: () => {
+            if(document.activeElement.value != null && typeof(document.activeElement.value) == "string"){
+                let old_value = document.activeElement.value;
+                document.activeElement.value = old_value.substring(0, old_value.length - 1);
             };
         },
         scroll: (way = 1, object) => {
@@ -185,8 +187,24 @@ dv.gamepad = {
                         }
                         break;
                     };
+                    case "2": {
+                        if(dv.gamepad.cursor.writable) {
+                            dv.gamepad.cursor.backspace();
+                            dv.gamepad.cursor.writable = false;
+                            setTimeout(() => {
+                                dv.gamepad.cursor.writable = true;
+                            }, 150);
+                        }
+                        break;
+                    };
                     case "3": {
-                        dv.gamepad.cursor.speech();
+                        if(dv.gamepad.cursor.writable) {
+                            dv.gamepad.cursor.speech();
+                            dv.gamepad.cursor.writable = false;
+                            setTimeout(() => {
+                                dv.gamepad.cursor.writable = true;
+                            }, 300);
+                        }
                         break;
                     };
                     case "6": {

@@ -235,5 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	dv_liked_search.addEventListener("keypress", dv.render.liked_filter);
 	dv_liked.querySelector("button").addEventListener("click", dv.render.liked_filter);	
 
-	dv.gamepad.register();
+	(async () => {
+		if(await dv.storage.conf.get("gamepad-support") == 1){
+			dv.gamepad.register();
+		};
+	})();
 });

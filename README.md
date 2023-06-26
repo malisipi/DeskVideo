@@ -21,6 +21,7 @@ Desktop styled video-stream platform front-end
 | [Launch Queue][launch-queue]                          | 102              |102 | 88  | x    | x                    |
 | [Web Components][web-components]                      | 53               | 79 | 40  | 10   | 63                   |
 | [Broadcast Channel API][broadcast-channel]            | 54               | 79 | 41  | 15.4 | 38                   |
+| [Keyboard Lock API][keyboard-lock]                    | 68               | 79 | 55  | x    | x                    |
 | [Web Audio API][web-audio]                            | 54               | 79 | 41  | 15.4 | 38                   |
 | [CSS :has() Selector][has-selector]                   | 105              | 105| 91  | 15.4 | 103 <sup>3</sup>     |
 | [IndexedDB API][indexeddb]                            | 24               | 79 | 15  | 10   | 16                   |
@@ -63,6 +64,7 @@ The cursor is licensed by CC-BY-SA-4.0 (Author: phisch on GitHub
 [indexeddb]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
 [pip]: https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API
 [text-track]: https://developer.mozilla.org/en-US/docs/Web/API/TextTrack
+[keyboard-lock]: https://developer.chrome.com/articles/keyboard-lock/
 [page-visibility]: https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
 [fullscreen]: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
 [has-selector]: https://developer.mozilla.org/en-US/docs/Web/CSS/:has

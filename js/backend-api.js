@@ -226,11 +226,11 @@ dv.backend = {
                 if(the_video.type != "stream") continue;
                 the_author.videos.push({
                     author: the_video.uploaderName,
-                    author_thumbnail: the_video.uploaderAvatar,
+                    author_thumbnail: the_video.uploaderAvatar || tp_author.avatarUrl,
                     author_verified: the_video.uploaderVerified,
                     author_id: the_video.uploaderUrl.replace("/channel/", ""),
                     duration: the_video.duration,
-                    published: the_video.uploadDate,
+                    published: the_video.uploaded / 1000,
                     title: the_video.title,
                     id: the_video.url.replace("/watch?v=", ""),
                     views: the_video.views,

@@ -53,6 +53,20 @@
 		},
 		{
 			"type": "bool",
+			"default": 1,
+			"conf": "better-fullscreen",
+			"title": "Better Fullscreen",
+			"description": "Disable ESC key to prevent accidentally exits (You can still use ESC to exit, however you need to press and hold)"
+		},
+		{
+			"type": "bool",
+			"default": 1,
+			"conf": "gamepad-support",
+			"title": "Gamepad Support",
+			"description": "Control the website with a gamepad."
+		},
+		{
+			"type": "bool",
 			"default": -1,
 			"conf": "use-custom-screen-config",
 			"title": "Force to use Custom Screen Config",

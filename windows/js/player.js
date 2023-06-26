@@ -420,6 +420,17 @@ var dv = {
         }
     },
     features: {
+        better_fullscreen: () => {
+            if (!!navigator.keyboard?.lock) {
+                document.addEventListener('fullscreenchange', async () => {
+                    if (document.fullscreenElement) {
+                        await window.top.navigator.keyboard.lock(['Escape']);
+                    } else {
+                        await window.top.navigator.keyboard.unlock();
+                    };
+                });
+            }
+        },
         use_video_ratio: {
             timer: null,
             old_size: [0,0],
@@ -463,13 +474,13 @@ var dv = {
             },
             update: () => {
                 setTimeout(() => {
-                    navigator.mediaSession.metadata = new MediaMetadata({});
                     if ("mediaSession" in navigator) {
+                        navigator.mediaSession.metadata = new MediaMetadata({});
                         navigator.mediaSession.metadata = new MediaMetadata({
                             title: dv.features.media_session.metadata.title,
                             artist: dv.features.media_session.metadata.artist
                         });
-                    }
+                    };
                 }, 50);
             }
         },
@@ -681,6 +692,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".info button.description").addEventListener("click", () => {
         dv.dialog.alert(dv.__get_text_content(dv.response.description));
     });
+
+    (async () => {
+        if(await dv.storage.conf.get("better-fullscreen") == 1){
+            dv.features.better_fullscreen();
+        }
+    })();
 
     dv.features.use_video_ratio.register();
 

@@ -7,14 +7,29 @@ var dv = {
     author: "",
     response: {},
     render: async (author) => {
-        dv.resource = await dv.backend.get_author(author);
-        document.querySelector("img.banner").src = dv.resource.banner;
-        document.querySelector("img.author").src = dv.resource.thumbnail;
-        document.querySelector("div.author").innerText = dv.resource.name;
-        if(dv.resource.verified) {
+        dv.response = await dv.backend.get_author(author);
+        document.querySelector("img.banner").src = dv.response.banner;
+        document.querySelector("img.author").src = dv.response.thumbnail;
+        document.querySelector("div.author").innerText = dv.response.name;
+        if(dv.response.verified) {
             document.querySelector("div.author").setAttribute("verified", true);
         };
-        document.querySelector("div.followers").innerText = dv.resource.followers + " Follower";
+        document.querySelector("div.followers").innerText = dv.response.followers + " Followers";
+
+        let videos = dv.response.videos;
+        let div_videos = document.querySelector("div.videos");
+        for(let video_index in videos){
+            let video = videos[video_index];
+            console.log(video);
+            let video_tag = document.createElement("video-preview");
+            video_tag.title = video.title;
+            video_tag.duration = video.duration;
+            video_tag.thumbnail = video.thumbnail;
+            video_tag.author_verified = video.author_verified;
+            video_tag.author = video.author;
+            video_tag.published = video.published;
+        div_videos.append(video_tag);
+        };
     }
 }
 
