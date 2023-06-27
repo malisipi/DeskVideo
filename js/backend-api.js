@@ -11,6 +11,10 @@ dv.backend = {
     __get_region: () => {
         return navigator.language.slice(-2).toUpperCase();
     },
+    __get_unproxied_playback_url: (old_url) => {
+        let url_object=new URL(old_url);
+        return old_url.replace(url_object.host, url_object.searchParams.get("host"));
+    },
     network_saving: false,
     get_trending_videos: async (reload = false) => {
         let tp_resource = await fetch(dv.backend.__host+"/trending?region="+dv.backend.__get_region(), { cache: dv.backend.__get_fetch_policy(reload) });
@@ -88,7 +92,7 @@ dv.backend = {
             	let src = asrcs[src_index];
 
             	video.sources.audio.push({
-            		url: src.url,
+            		url: dv.backend.__get_unproxied_playback_url(src.url),
             		quality: src.quality,
                     codec: src.codec,
                     bitrate: src.bitrate,
@@ -100,7 +104,7 @@ dv.backend = {
             	let src = vsrcs[src_index];
 
             	video.sources.video.push({
-            		url: src.url,
+            		url: dv.backend.__get_unproxied_playback_url(src.url),
             		quality: src.quality,
                     codec: src.codec,
                     bitrate: src.bitrate,

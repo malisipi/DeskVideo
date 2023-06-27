@@ -7,38 +7,16 @@ var dv = {
     audio: null,
     audio_only: false,
     volume_management: {
-        gain_node: {
-            video: null,
-            audio: null
-        },
-        init: async() => {
-            if(await dv.storage.conf.get("volume-boost-300") == 1) {
-                document.querySelector("input.volume").setAttribute("max", 300);
-            };
-
-            let elements = ["video", "audio"];
-            for(let element_index in elements){ 
-                let type = elements[element_index];
-                let audio_ctx = new AudioContext();
-                let source = audio_ctx.createMediaElementSource(dv[type]);
-            
-                dv.volume_management.gain_node[type] = audio_ctx.createGain();
-                dv.volume_management.gain_node[type].gain.value = 1;
-                source.connect(dv.volume_management.gain_node[type]);
-            
-                dv.volume_management.gain_node[type].connect(audio_ctx.destination);
-            }
-        },
         set: (volume=100) => {
-            dv.volume_management.gain_node["audio"].gain.value = volume / 100;
-            dv.volume_management.gain_node["video"].gain.value = volume / 100;
+            dv.audio.volume = volume / 100;
+            dv.video.volume = volume / 100;
             let volume_button = document.querySelector("button.volume");
             if(volume > 0 && volume_button.hasAttribute("true")) {
                 volume_button.removeAttribute("true");
             };
         },
         get: () => {
-            return dv.volume_management.gain_node["audio"].gain.value * 100;
+            return dv.audio.volume * 100;
         }
     },
     embed: false,
@@ -644,7 +622,6 @@ document.addEventListener("DOMContentLoaded", () => {
     dv.video.addEventListener("loadedmetadata", dv.controls.time.update_duration);
     dv.video.addEventListener("ended", dv.features.next_video);
 
-    dv.volume_management.init();
     let controls = document.querySelector(".controls");
     
     // Play/Pause Button

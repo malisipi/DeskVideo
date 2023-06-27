@@ -46,13 +46,6 @@
 		},
 		{
 			"type": "bool",
-			"default": -1,
-			"conf": "volume-boost-300",
-			"title": "Volume Boost (300%)",
-			"description": "Allow to boosting volume up to 300%. (It can be harm your ears and speakers)"
-		},
-		{
-			"type": "bool",
 			"default": 1,
 			"conf": "better-fullscreen",
 			"title": "Better Fullscreen",
