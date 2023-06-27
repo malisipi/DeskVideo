@@ -206,7 +206,7 @@ var dv = {
         }
     },
     render:{
-        player: async (id, reload=false) => {
+        player: async (id) => {
             dv.subtitles.close();
 
             if(dv.response?.id != id) {
@@ -218,7 +218,7 @@ var dv = {
             }
 
             if(typeof(id) == "string"){ // if video backend
-                dv.response = await dv.backend.get_video(id, reload);
+                dv.response = await dv.backend.get_video(id);
                 
                 dv.controller.title(dv.response.title);
                 dv.video.src = "";
@@ -265,9 +265,6 @@ var dv = {
                     }
                 } else {
                     let the_video_sources = dv.response.sources.video.map(element => element.quality+"@"+element.fps+" ("+element.codec+")");
-                    if(!reload) {
-                        dv.__check_resource(dv.response.sources.video[0].url, (_id=id)=>{dv.render.player(_id, true);});
-                    }
                     let the_audio_sources = dv.response.sources.audio.map(
                         element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
                     );

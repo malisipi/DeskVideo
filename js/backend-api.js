@@ -48,7 +48,7 @@ dv.backend = {
         return video_list;
     },
     get_video: async (id, reload = false) => {
-        let tp_resource = await fetch(dv.backend.__host+"/streams/"+id, { cache: dv.backend.__get_fetch_policy(reload) });
+        let tp_resource = await fetch(dv.backend.__host+"/streams/"+id);
         let video = {error:"#000"};
         if(tp_resource.status == 200){
             let tp_video = await tp_resource.json();
