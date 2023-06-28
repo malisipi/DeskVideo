@@ -1,7 +1,12 @@
 "use strict";
 
 dv.backend = {
-    __host: "https://pipedapi.kavin.rocks",
+    __host: undefined,
+    __host_init: async () => {
+        if(!dv.backend.__host){
+            dv.backend.__host = (await dv.storage.conf.get("video-host")) || "https://pipedapi.kavin.rocks";
+        };
+    },
     __get_fetch_policy: (reload) => {
         if(reload){
             return "reload";
@@ -17,6 +22,7 @@ dv.backend = {
     },
     network_saving: false,
     get_trending_videos: async (reload = false) => {
+        await dv.backend.__host_init();
         let tp_resource = await fetch(dv.backend.__host+"/trending?region="+dv.backend.__get_region(), { cache: dv.backend.__get_fetch_policy(reload) });
         console.log(tp_resource);
         let video_list = [];
@@ -48,6 +54,7 @@ dv.backend = {
         return video_list;
     },
     get_video: async (id, reload = false) => {
+        await dv.backend.__host_init();
         let tp_resource = await fetch(dv.backend.__host+"/streams/"+id);
         let video = {error:"#000"};
         if(tp_resource.status == 200){
@@ -146,6 +153,7 @@ dv.backend = {
         return video;
     },
     get_video_comments: async (id, continuation=null) => {
+        await dv.backend.__host_init();
     	let tp_resource = await fetch(
                                     dv.backend.__host + 
                                         ((continuation == null) ? "" : "/nextpage") +
@@ -181,6 +189,7 @@ dv.backend = {
     	return comments;
     },
     search_videos: async (query) => {
+        await dv.backend.__host_init();
     	let tp_resource = await fetch(dv.backend.__host+"/search?q="+encodeURIComponent(query)+"&filter=videos", { cache: "force-cache" });
  	    let video_list = [];
  	    if(tp_resource.status == 200){
@@ -210,6 +219,7 @@ dv.backend = {
  	    return video_list;
     },
     get_author: async (query) => {
+        await dv.backend.__host_init();
         let tp_resource = await fetch(dv.backend.__host+"/channel/"+encodeURIComponent(query), { cache: "force-cache" });
         let the_author = {};
         if(tp_resource.status == 200){

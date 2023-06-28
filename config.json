@@ -39,13 +39,6 @@
 		},
 		{
 			"type": "bool",
-			"default": -1,
-			"conf": "force-using-hsl",
-			"title": "Always use HSL",
-			"description": "Use HSL if it is available in streams"
-		},
-		{
-			"type": "bool",
 			"default": 1,
 			"conf": "better-fullscreen",
 			"title": "Better Fullscreen",
