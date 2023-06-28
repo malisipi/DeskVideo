@@ -380,12 +380,12 @@ var dv = {
             if(dv.audio_only) return;
             if(document.hidden){
                 console.log("STATE: HIDDEN");
-                dv.video.pause();
+                //dv.video.pause();
                 dv.controls.time.stop_timer();
             } else {
                 console.log("STATE: SHOW");
-                dv.video.currentTime = dv.audio.currentTime;
-                dv.video.play();
+                //dv.video.currentTime = dv.audio.currentTime;
+                //dv.video.play();
                 dv.controls.time.start_timer();
             }
         },
@@ -569,12 +569,27 @@ var dv = {
 
                 for(let text_index = 0; text_index < texts.length; text_index++){
                     let text = texts[text_index];
+                    let nodes = text.childNodes;
+                    let caption_text = "";
+                    for(let node_index in nodes){
+                        let the_node = nodes[node_index];
+                        switch(the_node.nodeName){
+                            case "#text":{
+                                caption_text += the_node.nodeValue;
+                                break;
+                            } case "br": {
+                                caption_text += "\n";
+                                break;
+                            }
+                        }
+                    }
+
                     let cue = new VTTCue(
                         dv.__parse_time(text.getAttribute("begin")),
                         dv.__parse_time(text.getAttribute("end")),
-                        text.innerHTML
+                        caption_text
                     );
-                    cue.line = -3;
+                    cue.line = -4;
                     track.addCue(cue);
                 };
 
