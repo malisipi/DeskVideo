@@ -266,7 +266,7 @@ var dv = {
                 } else {
                     let the_video_sources = dv.response.sources.video.map(element => element.quality+"@"+element.fps+" ("+element.codec+")");
                     let the_audio_sources = dv.response.sources.audio.map(
-                        element => element.quality + ((element.language_code == null) ? "" : "#" + element.language_code) + " ("+element.codec+")"
+                        element => element.quality + ((element.language_code == null) ? "" : " - " + dv.__get_language_from_code(element.language_code)) + " ("+element.codec+")"
                     );
                     let the_video_source_index = await __get_video_quality(the_video_sources);
                     let the_audio_source_index = await __get_audio_quality(the_audio_sources);
@@ -329,7 +329,7 @@ var dv = {
                     option.selected = true;
                     option.innerText = "None";
                     subtitle_controller.append(option);
-                    let the_list = dv.response.subtitles.map((element)=>{return element.name + " #"+ element.language_code.toUpperCase()});
+                    let the_list = dv.response.subtitles.map((element)=>{return element.name});
                     __add_option(the_list, subtitle_controller);
                 } else {
                     document.body.setAttribute("no_subtitles", true);

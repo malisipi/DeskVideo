@@ -2,6 +2,9 @@
 
 dv.mobile = !!navigator.userAgentData?.mobile || navigator.userAgent.includes("Mobile");
 dv.network_saving = navigator.connection?.type == "cellular";
+dv.__get_language_from_code = (code) => {
+    return new Intl.DisplayNames(navigator.language, {type: 'language'}).of(code);
+}
 dv.__parse_time = (the_time) => {
     let splited_time = the_time.split(":");
     let parsed_time = Number(splited_time[0]) * 60;
