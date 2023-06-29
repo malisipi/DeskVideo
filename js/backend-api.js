@@ -95,29 +95,51 @@ dv.backend = {
             let vsrcs = tp_video.videoStreams.filter(video => video.videoOnly);
             let subtitles = tp_video.subtitles;
             
+
+
+            dv.backend.__audio = new Audio();
+            dv.backend.__audio.addEventListener("error", e => {
+                console.warn("Loading with proxy (It can not be loaded without proxy)")
+                dv.backend.__audio.resolve(false);
+            });
+            dv.backend.__audio.addEventListener("canplay", e => {
+                dv.backend.__audio.resolve(true);
+            });
+            let res_check = new Promise((resolve)=>{
+                dv.backend.__audio.resolve = resolve;
+            });
+            dv.backend.__audio.src = dv.backend.__get_unproxied_playback_url(asrcs[0].url);
+
+            let get_unproxied_playback_url = dv.backend.__get_unproxied_playback_url;
+            if(!await res_check){
+                get_unproxied_playback_url = e => e;
+            }
+            dv.backend.__audio.remove();
+
+
             for (let src_index in asrcs){
             	let src = asrcs[src_index];
 
             	video.sources.audio.push({
-            		url: dv.backend.__get_unproxied_playback_url(src.url),
+            		url: get_unproxied_playback_url(src.url),
             		quality: src.quality,
                     codec: src.codec,
                     bitrate: src.bitrate,
                     language_code: src.audioTrackLocale
             	});
-            }
+            };
 
             for (let src_index in vsrcs){
             	let src = vsrcs[src_index];
 
             	video.sources.video.push({
-            		url: dv.backend.__get_unproxied_playback_url(src.url),
+            		url: get_unproxied_playback_url(src.url),
             		quality: src.quality,
                     codec: src.codec,
                     bitrate: src.bitrate,
                     fps: src.fps
             	});
-            }
+            };
 
             for (let subtitle_index in subtitles){
             	let subtitle = subtitles[subtitle_index];
