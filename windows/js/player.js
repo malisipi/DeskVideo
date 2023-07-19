@@ -99,7 +99,7 @@ var dv = {
             player.currentTime = old_time;
         },
         fullscreen: () => {
-            if(!window.top.dv.gamepad.initialized) {
+            if(!window.top.dv.gamepad?.initialized) {
                 if(document.fullscreenElement){
                     document.exitFullscreen();
                     screen.orientation.unlock();
