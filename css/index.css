@@ -66,7 +66,7 @@ img.background {
 }
 
 body[custom-background]:is([trends], [search], [liked]) img.background{
-    z-index: 1000003;
+    z-index: 999999;
     filter: blur(4px);
 }
 
