@@ -238,6 +238,7 @@ body {
 
     & button img.fi{
         filter: invert(1);
+        pointer-events: none;
     }
 
     &[embed]:is(body):not(:is(:fullscreen, [splited_playing], [embed-fullscreen])) {
