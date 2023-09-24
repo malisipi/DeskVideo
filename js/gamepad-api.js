@@ -114,6 +114,9 @@ dv.gamepad = {
     initialized: false,
     gamepad: null,
     init: () => {
+        (async ()=>{
+            dv.gamepad.pref_button_map = (await dv.storage.conf.get("gamepad-mapping")) || "ps4";
+        })();
         setInterval(dv.gamepad.updater, 30);
         dv.gamepad.initialized = true;
         dv.gamepad.cursor.obj = document.createElement("img");
@@ -142,8 +145,30 @@ dv.gamepad = {
                 ["axis", 6, 1],
                 ["button", 10]
             ]
+        },
+        sg103: {
+            buttons: [
+                ["button", 2],
+                ["button", 1],
+                ["button", 3],
+                ["button", 0],
+                ["button", 6],
+                ["button", 7],
+                ["button", 4],
+                ["button", 5],
+                ["button", 8],
+                ["button", 9],
+                ["-"],
+                ["-"],
+                ["axis", 1, -1],
+                ["axis", 1, 1],
+                ["axis", 0, -1],
+                ["axis", 0, 1],
+                ["-"]
+            ]
         }
     },
+    pref_button_map: "ps4",
     remap: () => {
         let unmapped_gamepad = dv.gamepad.gamepad;
         dv.gamepad.gamepad = {
@@ -154,13 +179,14 @@ dv.gamepad = {
 
         let unmapped_buttons = unmapped_gamepad.buttons;
         let unmapped_axes = unmapped_gamepad.axes;
-        let button_map = dv.gamepad.maps.ps4.buttons;
+
+        let button_map = dv.gamepad.maps[dv.gamepad.pref_button_map].buttons;
 
         let __get_press_state = (button, button_map, unmapped_buttons, unmapped_axes) => {
             let instruction = button_map[button];
             if (instruction[0] == "button"){
                 return unmapped_buttons[instruction[1]].pressed;
-            } else { //axis
+            } else if(instruction[0] == "axis") {
                 return Math.round(unmapped_axes[instruction[1]]) == instruction[2];
             }
         }
@@ -177,7 +203,7 @@ dv.gamepad = {
         for(let button in dv.gamepad.gamepad.buttons){
             if(dv.gamepad.gamepad.buttons[button].pressed){
                 switch(button){
-                    case "0": {
+                    case "0": { // X
                         if(dv.gamepad.cursor.clickable) {
                             dv.gamepad.cursor.click();
                             dv.gamepad.cursor.clickable = false;
@@ -187,7 +213,7 @@ dv.gamepad = {
                         }
                         break;
                     };
-                    case "2": {
+                    case "2": { // Square
                         if(dv.gamepad.cursor.writable) {
                             dv.gamepad.cursor.backspace();
                             dv.gamepad.cursor.writable = false;
@@ -197,7 +223,7 @@ dv.gamepad = {
                         }
                         break;
                     };
-                    case "3": {
+                    case "3": { // Triangle
                         if(dv.gamepad.cursor.writable) {
                             dv.gamepad.cursor.speech();
                             dv.gamepad.cursor.writable = false;
@@ -215,19 +241,19 @@ dv.gamepad = {
                         dv.gamepad.cursor.scroll(1);
                         break;
                     };
-                    case "12": {
+                    case "12": { // Up
                         dv.gamepad.cursor.y -= 5 + (++dv.gamepad.cursor.acceleration.y);
                         break;
                     }
-                    case "13": {
+                    case "13": { // Down
                         dv.gamepad.cursor.y += 5 + (++dv.gamepad.cursor.acceleration.y)
                         break;
                     }
-                    case "14": {
+                    case "14": { // Left
                         dv.gamepad.cursor.x -= 5 + (++dv.gamepad.cursor.acceleration.x)
                         break;
                     }
-                    case "15": {
+                    case "15": { // Right
                         dv.gamepad.cursor.x += 5 + (++dv.gamepad.cursor.acceleration.x)
                         break;
                     }

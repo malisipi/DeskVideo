@@ -52,6 +52,13 @@
 			"description": "Control the website with a gamepad."
 		},
 		{
+			"type": "text",
+			"default": "ps4",
+			"conf": "gamepad-mapping",
+			"title": "Gamepad Mapping",
+			"description": "Use custom mapping for your unstandard gamepad. (Available values: ps4, sg103)"
+		},
+		{
 			"type": "bool",
 			"default": -1,
 			"conf": "use-custom-screen-config",
