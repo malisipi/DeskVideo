@@ -1,4 +1,5 @@
-> This project is not stable atm. Please do not forget somethings is broken or behaves wrongly. If you find a bug, please report it.
+> [!IMPORTANT]
+> This project is archived, still can be used for custom projects by adapting the backend `./js/backend-api.js`. The repo will not be updated in future. If you considering using the repo in your project, you should know that you are on your own. I will no longer support the project.
 
 # DeskVideo
 
